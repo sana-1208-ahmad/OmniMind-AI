@@ -1,6 +1,25 @@
 import React, { useState } from 'react';
 import { ActiveView } from '../components/Navigation/Sidebar';
 import { AudioBriefingModal } from '../components/Modals/AudioBriefingModal';
+import {
+  Sun,
+  Play,
+  SlidersHorizontal,
+  Check,
+  TrendingUp,
+  AlertCircle,
+  FileText,
+  Mail,
+  Hash,
+  ArrowRight,
+  Headphones,
+  Sparkles,
+  CheckCircle2,
+  Clock,
+  HardDrive,
+  Box as BoxIcon,
+  Bot,
+} from 'lucide-react';
 
 interface MorningBriefingViewProps {
   onNavigate: (view: ActiveView) => void;
@@ -16,410 +35,323 @@ export const MorningBriefingView: React.FC<MorningBriefingViewProps> = ({
   const [digestTime, setDigestTime] = useState('08:30 AM PST');
 
   return (
-    <div className="flex flex-col w-full min-h-full pb-12">
+    <div className="flex flex-col w-full min-h-full pb-12 text-zinc-100">
       <AudioBriefingModal isOpen={audioModalOpen} onClose={() => setAudioModalOpen(false)} />
 
       {/* Top Banner / Editorial Header */}
-      <div className="px-4 sm:px-6 md:px-8 pt-6 pb-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 max-w-7xl mx-auto w-full">
+      <div className="px-4 sm:px-6 md:px-8 pt-6 pb-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 max-w-7xl mx-auto w-full border-b border-[#27272A]">
         <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2 font-mono text-on-surface-variant uppercase tracking-wider text-xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Synced • {digestTime}</span>
-            <span className="text-outline">/</span>
-            <span>ID #9924-A</span>
+          <div className="flex items-center gap-2 font-mono text-zinc-400 text-xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Swytchcode Overnight Sync • {digestTime}</span>
+            <span className="text-zinc-600">/</span>
+            <span>Batch #9924-A</span>
           </div>
-          <h1 className="font-headline-lg text-primary text-2xl sm:text-3xl font-bold tracking-tight">
-            Morning Briefing
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            Morning Executive Briefing
           </h1>
-          <p className="text-xs sm:text-sm text-on-surface-variant">
-            Automated intelligence &amp; overnight activity across connected tools
+          <p className="text-xs sm:text-sm text-zinc-400">
+            Autonomous intelligence and overnight activity across Slack, Drive, Notion, Box, and Gmail
           </p>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <div className="flex items-center gap-2.5 flex-wrap">
           <button
             onClick={() => setCustomizingDigest(!customizingDigest)}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-bright transition-all text-xs sm:text-sm font-medium border border-[#27272A]"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#18181B] text-zinc-300 hover:text-white hover:bg-zinc-800 transition text-xs font-medium border border-[#27272A]"
           >
-            <span className="material-symbols-outlined text-[18px]">tune</span>
-            <span>{customizingDigest ? 'Done' : 'Preferences'}</span>
+            <SlidersHorizontal className="w-3.5 h-3.5 text-zinc-400" />
+            <span>{customizingDigest ? 'Close Preferences' : 'Preferences'}</span>
           </button>
           <button
             onClick={() => setAudioModalOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary text-[#131315] hover:bg-primary-fixed-dim transition-all text-xs sm:text-sm font-bold shadow-md cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white text-zinc-950 hover:bg-zinc-200 transition text-xs font-medium shadow-md"
           >
-            <span className="material-symbols-outlined text-[18px]">play_arrow</span>
-            <span>Listen (3 min)</span>
+            <Headphones className="w-3.5 h-3.5 text-zinc-950" />
+            <span>Listen Audio Brief (3 min)</span>
           </button>
         </div>
       </div>
 
       {customizingDigest && (
-        <div className="mx-4 sm:mx-6 md:mx-8 mb-6 p-4 bg-surface-container rounded-2xl border border-[#27272A] grid grid-cols-1 md:grid-cols-3 gap-4 animate-in fade-in duration-150 max-w-7xl">
+        <div className="mx-4 sm:mx-6 md:px-8 mt-4 p-4 bg-[#18181B] rounded-xl border border-[#27272A] grid grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl">
           <div>
-            <label className="block text-xs font-mono uppercase text-on-surface-variant mb-1">
+            <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
               Digest Schedule Time
             </label>
             <input
               type="text"
               value={digestTime}
               onChange={(e) => setDigestTime(e.target.value)}
-              className="bg-surface-container-low px-3 py-1.5 rounded-lg text-sm text-primary w-full border border-[#27272A]"
+              className="bg-[#101014] px-3 py-1.5 rounded-lg text-xs text-zinc-200 w-full border border-[#27272A] outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-mono uppercase text-on-surface-variant mb-1">
-              Included Channels
+            <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+              Connected Tool Ingestion
             </label>
-            <div className="text-xs text-on-surface-variant font-mono mt-1">
-              Slack (12 channels), Gmail (Inbox VIP), Notion, Box
+            <div className="text-xs text-zinc-300 font-mono mt-1">
+              Slack (12 channels), Gmail (VIP Inbox), Notion, Box, Drive
             </div>
           </div>
           <div className="flex items-end justify-end">
             <span className="text-xs text-emerald-400 font-mono flex items-center gap-1">
-              <span className="material-symbols-outlined text-[16px]">check</span>
-              Preferences Auto-Saved
+              <Check className="w-3.5 h-3.5" />
+              <span>Preferences Active</span>
             </span>
           </div>
         </div>
       )}
 
       {/* Bento Grid / Executive Summary Layout */}
-      <div className="px-4 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 max-w-7xl mx-auto w-full">
+      <div className="px-4 sm:px-6 md:px-8 pt-5 grid grid-cols-1 lg:grid-cols-12 gap-5 max-w-7xl mx-auto w-full">
         {/* Left Column: Key Takeaways & Urgent Items (8 Cols) */}
-        <div className="lg:col-span-8 flex flex-col gap-space-lg">
+        <div className="lg:col-span-8 flex flex-col gap-5">
           {/* Executive AI Summary Banner Card */}
-          <div className="p-space-lg rounded-2xl bg-surface-container-low relative overflow-hidden flex flex-col gap-space-md border border-[#27272A]">
-            <div className="absolute -right-12 -top-12 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none"></div>
+          <div className="p-5 rounded-xl bg-[#18181B] flex flex-col gap-4 border border-[#27272A]">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-space-sm">
-                <span className="material-symbols-outlined text-primary text-[20px]">
-                  auto_awesome
-                </span>
-                <h2 className="font-headline-sm font-semibold text-primary">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-blue-400" />
+                <h2 className="text-sm font-semibold text-white">
                   Executive Intelligence Synthesis
                 </h2>
               </div>
-              <span className="px-space-sm py-0.5 rounded text-label-sm bg-surface-container-high text-on-surface-variant font-mono">
+              <span className="px-2 py-0.5 rounded text-[11px] bg-zinc-800 text-zinc-300 font-mono border border-[#27272A]">
                 3 High Priority Actions
               </span>
             </div>
 
-            <p className="text-body-lg text-on-surface-variant leading-relaxed">
-              Overnight activity shows significant movement on the{' '}
-              <strong className="text-primary font-semibold">Project Atlas V2</strong> launch roadmap.
-              Engineering resolved 14 blockers on Slack, while leadership finalized Q3 budget allocation
-              via Notion. One high-risk escalation requires immediate attention in Gmail.
+            <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
+              Overnight activity shows critical movement on the{' '}
+              <strong className="text-white font-semibold">Q3 Infrastructure Migration</strong>.
+              Engineering resolved the Redis pooling bottleneck on Slack, while Marcus Vance updated Slide 14 of the board deck in Google Drive. One critical customer SLA escalation requires immediate attention in Gmail.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-space-sm">
-              <div className="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs border border-[#27272A]/50">
-                <span className="text-label-sm text-on-surface-variant font-mono uppercase text-[11px]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+              <div className="p-3.5 rounded-lg bg-[#101014] flex flex-col gap-1 border border-[#27272A]">
+                <span className="text-[10px] text-zinc-400 font-mono uppercase">
                   Overnight Commits
                 </span>
-                <span className="font-headline-md text-2xl font-bold text-primary">48 PRs</span>
-                <span className="text-body-sm text-emerald-400 flex items-center gap-1 font-mono text-xs">
-                  <span className="material-symbols-outlined text-[14px]">trending_up</span> +12% vs avg
+                <span className="text-xl font-bold text-white">48 PRs</span>
+                <span className="text-xs text-emerald-400 flex items-center gap-1 font-mono">
+                  <TrendingUp className="w-3 h-3" /> +12% vs average
                 </span>
               </div>
 
-              <div className="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs border border-[#27272A]/50">
-                <span className="text-label-sm text-on-surface-variant font-mono uppercase text-[11px]">
-                  Urgent Emails
+              <div className="p-3.5 rounded-lg bg-[#101014] flex flex-col gap-1 border border-[#27272A]">
+                <span className="text-[10px] text-zinc-400 font-mono uppercase">
+                  Urgent Escalations
                 </span>
-                <span className="font-headline-md text-2xl font-bold text-primary">2 Threads</span>
-                <span className="text-body-sm text-rose-400 flex items-center gap-1 font-mono text-xs">
-                  <span className="material-symbols-outlined text-[14px]">priority_high</span> Action
-                  required
+                <span className="text-xl font-bold text-white">2 Threads</span>
+                <span className="text-xs text-rose-400 flex items-center gap-1 font-mono">
+                  <AlertCircle className="w-3 h-3" /> Sign-off required
                 </span>
               </div>
 
-              <div className="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs border border-[#27272A]/50">
-                <span className="text-label-sm text-on-surface-variant font-mono uppercase text-[11px]">
-                  Doc Updates
+              <div className="p-3.5 rounded-lg bg-[#101014] flex flex-col gap-1 border border-[#27272A]">
+                <span className="text-[10px] text-zinc-400 font-mono uppercase">
+                  Vault Updates
                 </span>
-                <span className="font-headline-md text-2xl font-bold text-primary">7 Files</span>
-                <span className="text-body-sm text-on-surface-variant flex items-center gap-1 font-mono text-xs">
-                  <span className="material-symbols-outlined text-[14px]">edit</span> Notion &amp; Drive
+                <span className="text-xl font-bold text-white">7 Files</span>
+                <span className="text-xs text-zinc-400 flex items-center gap-1 font-mono">
+                  <FileText className="w-3 h-3" /> Notion &amp; Drive
                 </span>
               </div>
             </div>
           </div>
 
           {/* Urgent Gmail Threads Block */}
-          <div className="p-space-lg rounded-2xl bg-surface-container-low flex flex-col gap-space-md border border-[#27272A]">
+          <div className="p-5 rounded-xl bg-[#18181B] flex flex-col gap-3.5 border border-[#27272A]">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-space-sm">
-                <div className="w-3 h-3 rounded-sm bg-[#ef4444]"></div>
-                <h2 className="font-headline-sm font-semibold text-primary">Urgent Gmail Threads</h2>
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-rose-400" />
+                <h2 className="text-sm font-semibold text-white">Urgent Gmail Threads</h2>
               </div>
-              <span className="text-label-md text-on-surface-variant font-mono text-xs">
+              <span className="text-xs text-zinc-400 font-mono">
                 2 threads require reply
               </span>
             </div>
 
-            <div className="flex flex-col gap-space-sm">
+            <div className="flex flex-col gap-2.5">
               {/* Gmail Item 1 */}
               <div
                 onClick={() => onOpenSearchWithQuery('Summarize Globex Corp SLA requirements')}
-                className="p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all flex flex-col gap-space-sm cursor-pointer group border border-[#27272A]/60"
+                className="p-3.5 rounded-lg bg-[#101014] hover:bg-[#141418] transition flex flex-col gap-1.5 cursor-pointer border border-[#27272A] group"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-space-sm">
-                    <span className="px-2 py-0.5 rounded text-label-sm font-mono text-xs bg-[#ef4444]/10 text-[#ef4444] font-medium">
-                      Gmail
+                  <div className="flex items-center gap-2">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-rose-950/50 text-rose-400 border border-rose-800/40">
+                      [Swytchcode/Gmail]
                     </span>
-                    <span className="text-body-md font-semibold text-primary group-hover:underline">
+                    <span className="text-xs font-semibold text-zinc-200 group-hover:text-white">
                       Sarah Jenkins (VP Sales) — Enterprise SLA Escalation: Globex Corp
                     </span>
                   </div>
-                  <span className="text-label-sm text-on-surface-variant font-mono text-xs">
+                  <span className="text-[10px] text-zinc-500 font-mono">
                     07:15 AM
                   </span>
                 </div>
-                <p className="text-body-sm text-on-surface-variant line-clamp-2 leading-relaxed">
-                  "We are at risk of losing the renewal if the custom API rate limits aren't approved by
-                  noon. They have escalated directly to their CTO..."
+                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                  "We are at risk of losing the renewal if the custom API rate limits aren't approved by noon. They have escalated directly to their CTO..."
                 </p>
-                <div className="flex items-center gap-space-sm pt-space-xs flex-wrap">
-                  <span className="px-2 py-0.5 rounded text-label-sm bg-surface-container-high text-rose-400 font-mono text-xs font-semibold">
-                    Priority: Critical
-                  </span>
-                  <span className="text-body-sm text-on-surface-variant text-xs">
-                    • Suggested action: Review attached API waiver and approve via security portal
-                  </span>
+                <div className="flex items-center gap-2 pt-1 text-[11px] font-mono text-zinc-500">
+                  <span className="text-rose-400 font-medium">Priority: Critical</span>
+                  <span>•</span>
+                  <span>Suggested action: Review attached API waiver</span>
                 </div>
               </div>
 
               {/* Gmail Item 2 */}
               <div
                 onClick={() => onOpenSearchWithQuery('Board Deck Final Review Q3 Numbers')}
-                className="p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all flex flex-col gap-space-sm cursor-pointer group border border-[#27272A]/60"
+                className="p-3.5 rounded-lg bg-[#101014] hover:bg-[#141418] transition flex flex-col gap-1.5 cursor-pointer border border-[#27272A] group"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-space-sm">
-                    <span className="px-2 py-0.5 rounded text-label-sm font-mono text-xs bg-[#ef4444]/10 text-[#ef4444] font-medium">
-                      Gmail
+                  <div className="flex items-center gap-2">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-zinc-800 text-zinc-300 border border-[#27272A]">
+                      [Swytchcode/Gmail]
                     </span>
-                    <span className="text-body-md font-semibold text-primary group-hover:underline">
+                    <span className="text-xs font-semibold text-zinc-200 group-hover:text-white">
                       Marcus Vance — Board Deck Final Review Q3 Numbers
                     </span>
                   </div>
-                  <span className="text-label-sm text-on-surface-variant font-mono text-xs">
+                  <span className="text-[10px] text-zinc-500 font-mono">
                     04:30 AM
                   </span>
                 </div>
-                <p className="text-body-sm text-on-surface-variant line-clamp-2 leading-relaxed">
-                  "Please check slide 14 regarding ARR projections. I adjusted the churn rate down based on
-                  the latest cohort analysis..."
+                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                  "Please check slide 14 regarding ARR projections. I adjusted the churn rate down based on the latest cohort analysis..."
                 </p>
-                <div className="flex items-center gap-space-sm pt-space-xs flex-wrap">
-                  <span className="px-2 py-0.5 rounded text-label-sm bg-surface-container-high text-amber-400 font-mono text-xs font-semibold">
-                    Priority: High
-                  </span>
-                  <span className="text-body-sm text-on-surface-variant text-xs">
-                    • Suggested action: Quick sign-off or inline comment
-                  </span>
+                <div className="flex items-center gap-2 pt-1 text-[11px] font-mono text-zinc-500">
+                  <span className="text-amber-400 font-medium">Priority: High</span>
+                  <span>•</span>
+                  <span>Suggested action: Quick sign-off on slide 14</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Overnight Slack Activity Block */}
-          <div className="p-space-lg rounded-2xl bg-surface-container-low flex flex-col gap-space-md border border-[#27272A]">
+          <div className="p-5 rounded-xl bg-[#18181B] flex flex-col gap-3.5 border border-[#27272A]">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-space-sm">
-                <div className="w-3 h-3 rounded-sm bg-[#3b82f6]"></div>
-                <h2 className="font-headline-sm font-semibold text-primary">Overnight Slack Activity</h2>
+              <div className="flex items-center gap-2">
+                <Hash className="w-4 h-4 text-blue-400" />
+                <h2 className="text-sm font-semibold text-white">Overnight Slack Discussions</h2>
               </div>
-              <span className="text-label-md text-on-surface-variant font-mono text-xs">
+              <span className="text-xs text-zinc-400 font-mono">
                 342 messages analyzed across 12 channels
               </span>
             </div>
 
-            <div className="flex flex-col gap-space-sm">
+            <div className="flex flex-col gap-2.5">
               {/* Slack Thread 1 */}
               <div
                 onClick={() => onOpenSearchWithQuery('Redis connection pool hotfix staging')}
-                className="p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all flex flex-col gap-space-sm cursor-pointer border border-[#27272A]/60"
+                className="p-3.5 rounded-lg bg-[#101014] hover:bg-[#141418] transition flex flex-col gap-1.5 cursor-pointer border border-[#27272A] group"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-space-sm">
-                    <span className="px-2 py-0.5 rounded text-label-sm font-mono text-xs bg-[#3b82f6]/10 text-[#3b82f6] font-medium">
-                      Slack
+                  <div className="flex items-center gap-2">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-blue-950/50 text-blue-400 border border-blue-800/40">
+                      [Swytchcode/Slack]
                     </span>
-                    <span className="text-body-md font-semibold text-primary">
-                      #eng-core-infra •{' '}
-                      <span className="text-on-surface-variant font-normal">Thread led by @alex.dev</span>
+                    <span className="text-xs font-semibold text-zinc-200 group-hover:text-white">
+                      #eng-core-infra • Thread led by @alex.dev
                     </span>
                   </div>
-                  <span className="text-label-sm text-on-surface-variant font-mono text-xs">
+                  <span className="text-[10px] text-zinc-500 font-mono">
                     14 replies
                   </span>
                 </div>
-                <p className="text-body-sm text-on-surface-variant leading-relaxed">
-                  Resolved memory leak in redis caching layer. Deployed hotfix to staging at 02:45 AM. All
-                  smoke tests passed successfully. Ready for production rollout during next maintenance
-                  window.
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Resolved memory leak in redis caching layer. Deployed hotfix to staging at 02:45 AM. All smoke tests passed successfully. Ready for production rollout.
                 </p>
-                <div className="flex items-center gap-space-xs text-label-sm text-emerald-400 font-mono text-xs">
-                  <span className="material-symbols-outlined text-[14px]">check_circle</span>
-                  <span>Consensus reached: Zero regressions detected.</span>
+                <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-mono pt-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>Consensus reached: Zero regressions detected</span>
                 </div>
-              </div>
-
-              {/* Slack Thread 2 */}
-              <div
-                onClick={() => onOpenSearchWithQuery('Marketing copy AI Assistant feature')}
-                className="p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all flex flex-col gap-space-sm cursor-pointer border border-[#27272A]/60"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-space-sm">
-                    <span className="px-2 py-0.5 rounded text-label-sm font-mono text-xs bg-[#3b82f6]/10 text-[#3b82f6] font-medium">
-                      Slack
-                    </span>
-                    <span className="text-body-md font-semibold text-primary">
-                      #product-launch •{' '}
-                      <span className="text-on-surface-variant font-normal">Thread led by @elena_p</span>
-                    </span>
-                  </div>
-                  <span className="text-label-sm text-on-surface-variant font-mono text-xs">
-                    28 replies
-                  </span>
-                </div>
-                <p className="text-body-sm text-on-surface-variant leading-relaxed">
-                  Marketing copy for the AI Assistant feature set approved. Localization strings
-                  dispatched for French and Japanese. Beta testers report 94% satisfaction score.
-                </p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right Column: Key Document Updates & Quick Actions (4 Cols) */}
-        <div className="lg:col-span-4 flex flex-col gap-space-lg">
+        <div className="lg:col-span-4 flex flex-col gap-5">
           {/* Key Document Updates Block */}
-          <div className="p-space-lg rounded-2xl bg-surface-container-low flex flex-col gap-space-md border border-[#27272A]">
+          <div className="p-5 rounded-xl bg-[#18181B] flex flex-col gap-3.5 border border-[#27272A]">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-space-sm">
-                <div className="w-3 h-3 rounded-sm bg-[#64748b]"></div>
-                <h2 className="font-headline-sm font-semibold text-primary">Key Document Updates</h2>
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-purple-400" />
+                <h2 className="text-sm font-semibold text-white">Key Document Updates</h2>
               </div>
-              <span className="text-label-md text-on-surface-variant font-mono text-xs">
+              <span className="text-xs text-zinc-500 font-mono">
                 Notion &amp; Drive
               </span>
             </div>
 
-            <div className="flex flex-col gap-space-sm">
-              {/* Doc 1 */}
+            <div className="flex flex-col gap-2.5">
               <div
                 onClick={() => onNavigate('summarizer')}
-                className="p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all flex flex-col gap-space-xs cursor-pointer border border-[#27272A]/60"
+                className="p-3 rounded-lg bg-[#101014] hover:bg-[#141418] transition flex flex-col gap-1 cursor-pointer border border-[#27272A]"
               >
                 <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded text-label-sm font-mono text-xs bg-[#64748b]/10 text-[#64748b] font-medium">
-                    Notion
-                  </span>
-                  <span className="text-label-sm text-on-surface-variant font-mono text-xs">
-                    Updated 2h ago
-                  </span>
+                  <span className="text-[10px] font-mono text-purple-400">[Swytchcode/Notion]</span>
+                  <span className="text-[10px] text-zinc-500 font-mono">2h ago</span>
                 </div>
-                <span className="text-body-md font-semibold text-primary">
+                <span className="text-xs font-semibold text-zinc-200">
                   Q3 Strategic Roadmap — Final Draft
                 </span>
-                <p className="text-body-sm text-on-surface-variant line-clamp-2 leading-relaxed">
-                  Added revised milestones for enterprise SSO integration and SOC2 Type II compliance
-                  audit schedule.
+                <p className="text-xs text-zinc-400 line-clamp-2">
+                  Added revised milestones for enterprise SSO integration and SOC2 Type II audit.
                 </p>
               </div>
 
-              {/* Doc 2 */}
               <div
                 onClick={() => onNavigate('vault')}
-                className="p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all flex flex-col gap-space-xs cursor-pointer border border-[#27272A]/60"
+                className="p-3 rounded-lg bg-[#101014] hover:bg-[#141418] transition flex flex-col gap-1 cursor-pointer border border-[#27272A]"
               >
                 <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded text-label-sm font-mono text-xs bg-[#64748b]/10 text-[#64748b] font-medium">
-                    Google Drive
-                  </span>
-                  <span className="text-label-sm text-on-surface-variant font-mono text-xs">
-                    Updated 5h ago
-                  </span>
+                  <span className="text-[10px] font-mono text-blue-400">[Swytchcode/Drive]</span>
+                  <span className="text-[10px] text-zinc-500 font-mono">5h ago</span>
                 </div>
-                <span className="text-body-md font-semibold text-primary">
+                <span className="text-xs font-semibold text-zinc-200">
                   Pricing Model Simulation v4.xlsx
                 </span>
-                <p className="text-body-sm text-on-surface-variant line-clamp-2 leading-relaxed">
-                  Modified tier thresholds for mid-market tier based on feedback from the sales team sync.
-                </p>
-              </div>
-
-              {/* Doc 3 */}
-              <div
-                onClick={() => onOpenSearchWithQuery('Incident #409 post-mortem')}
-                className="p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all flex flex-col gap-space-xs cursor-pointer border border-[#27272A]/60"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded text-label-sm font-mono text-xs bg-[#64748b]/10 text-[#64748b] font-medium">
-                    Notion
-                  </span>
-                  <span className="text-label-sm text-on-surface-variant font-mono text-xs">
-                    Yesterday
-                  </span>
-                </div>
-                <span className="text-body-md font-semibold text-primary">
-                  Engineering Post-Mortem: Incident #409
-                </span>
-                <p className="text-body-sm text-on-surface-variant line-clamp-2 leading-relaxed">
-                  Root cause analysis and preventative action items for the latency spike in EU-Central
-                  region.
+                <p className="text-xs text-zinc-400 line-clamp-2">
+                  Modified tier thresholds for mid-market tier based on sales feedback.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* AI Action Center / Quick Prompts */}
-          <div className="p-space-lg rounded-2xl bg-surface-container-low flex flex-col gap-space-md border border-[#27272A]">
-            <div className="flex items-center gap-space-sm">
-              <span className="material-symbols-outlined text-primary text-[20px]">bolt</span>
-              <h2 className="font-headline-sm font-semibold text-primary">Quick Actions &amp; Queries</h2>
+          {/* Quick Queries Center */}
+          <div className="p-5 rounded-xl bg-[#18181B] flex flex-col gap-3.5 border border-[#27272A]">
+            <div className="flex items-center gap-2">
+              <Bot className="w-4 h-4 text-blue-400" />
+              <h2 className="text-sm font-semibold text-white">Ask OmniMind Agent</h2>
             </div>
-            <p className="text-body-sm text-on-surface-variant">
-              Ask OmniMind anything regarding today's digests:
-            </p>
-            <div className="flex flex-col gap-space-xs">
+            <div className="flex flex-col gap-2">
               <button
                 onClick={() => onOpenSearchWithQuery('Summarize Globex Corp SLA requirements')}
-                className="w-full text-left p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-body-sm text-on-surface transition-all flex items-center justify-between group border border-[#27272A]/50"
+                className="w-full text-left p-2.5 rounded-lg bg-[#101014] hover:bg-zinc-800 text-xs text-zinc-200 transition flex items-center justify-between border border-[#27272A]"
               >
-                <span className="text-primary font-medium">“Summarize Globex Corp SLA requirements”</span>
-                <span className="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">
-                  arrow_forward
-                </span>
+                <span>“Summarize Globex Corp SLA requirements”</span>
+                <ArrowRight className="w-3.5 h-3.5 text-zinc-400" />
               </button>
 
               <button
-                onClick={() => onOpenSearchWithQuery('Draft reply to Sarah Jenkins regarding waiver')}
-                className="w-full text-left p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-body-sm text-on-surface transition-all flex items-center justify-between group border border-[#27272A]/50"
+                onClick={() => onOpenSearchWithQuery('Investigation: Redis connection pool leak')}
+                className="w-full text-left p-2.5 rounded-lg bg-[#101014] hover:bg-zinc-800 text-xs text-zinc-200 transition flex items-center justify-between border border-[#27272A]"
               >
-                <span className="text-primary font-medium">
-                  “Draft reply to Sarah Jenkins regarding waiver”
-                </span>
-                <span className="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">
-                  arrow_forward
-                </span>
+                <span>“Investigation: Redis connection pool leak”</span>
+                <ArrowRight className="w-3.5 h-3.5 text-zinc-400" />
               </button>
 
               <button
                 onClick={() => onOpenSearchWithQuery('List all action items assigned to me today')}
-                className="w-full text-left p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-body-sm text-on-surface transition-all flex items-center justify-between group border border-[#27272A]/50"
+                className="w-full text-left p-2.5 rounded-lg bg-[#101014] hover:bg-zinc-800 text-xs text-zinc-200 transition flex items-center justify-between border border-[#27272A]"
               >
-                <span className="text-primary font-medium">
-                  “List all action items assigned to me today”
-                </span>
-                <span className="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">
-                  arrow_forward
-                </span>
+                <span>“List all action items assigned to me today”</span>
+                <ArrowRight className="w-3.5 h-3.5 text-zinc-400" />
               </button>
             </div>
           </div>

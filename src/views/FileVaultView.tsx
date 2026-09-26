@@ -3,6 +3,22 @@ import { WORKSPACE_DOCUMENTS_INITIAL } from '../data/mockWorkspacePayload';
 import { WorkspaceDocument } from '../types';
 import { ActiveView } from '../components/Navigation/Sidebar';
 import { IngestModal } from '../components/Modals/IngestModal';
+import {
+  UploadCloud,
+  RefreshCw,
+  HardDrive,
+  Box as BoxIcon,
+  Database,
+  Search,
+  FileText,
+  FileSpreadsheet,
+  FileCode,
+  File,
+  Lock,
+  X,
+  BookOpen,
+  FolderX,
+} from 'lucide-react';
 
 interface FileVaultViewProps {
   onNavigate: (view: ActiveView) => void;
@@ -26,12 +42,12 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
     return matchesSearch && matchesApp && matchesStatus;
   });
 
-  const getFileIcon = (fileName: string) => {
-    if (fileName.endsWith('.pdf')) return 'picture_as_pdf';
-    if (fileName.endsWith('.docx') || fileName.endsWith('.doc')) return 'article';
-    if (fileName.endsWith('.xlsx') || fileName.endsWith('.csv')) return 'table_chart';
-    if (fileName.endsWith('.md')) return 'markdown';
-    return 'description';
+  const renderFileIcon = (fileName: string) => {
+    if (fileName.endsWith('.pdf')) return <FileText className="w-4 h-4 text-rose-400" />;
+    if (fileName.endsWith('.docx') || fileName.endsWith('.doc')) return <FileText className="w-4 h-4 text-blue-400" />;
+    if (fileName.endsWith('.xlsx') || fileName.endsWith('.csv')) return <FileSpreadsheet className="w-4 h-4 text-emerald-400" />;
+    if (fileName.endsWith('.md')) return <FileCode className="w-4 h-4 text-purple-400" />;
+    return <File className="w-4 h-4 text-zinc-400" />;
   };
 
   const handleIngest = (newDoc: Partial<WorkspaceDocument>) => {
@@ -62,28 +78,28 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
   };
 
   return (
-    <div className="flex-1 p-space-xl max-w-7xl mx-auto space-y-space-xl animate-fade-in text-primary">
+    <div className="flex-1 p-6 md:p-8 max-w-7xl mx-auto space-y-6 text-zinc-100">
       {/* View Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-space-md border-b border-[#27272A]/60 pb-space-lg">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#27272A] pb-5">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[11px] font-mono tracking-wider uppercase text-blue-400 font-semibold px-2 py-0.5 rounded bg-blue-950/60 border border-blue-800/40">
               CROSS-PLATFORM STORAGE
             </span>
-            <span className="text-[12px] text-secondary">Google Drive + Box Synchronized</span>
+            <span className="text-xs text-zinc-400">Google Drive + Box Synchronized</span>
           </div>
-          <h1 className="text-display-sm font-semibold tracking-tight text-primary">File Vault & Knowledge Base</h1>
-          <p className="text-secondary text-body-md mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-white">File Vault & Knowledge Base</h1>
+          <p className="text-zinc-400 text-xs sm:text-sm mt-1">
             All documents, PDF roadmaps, presentations, and spreadsheets pre-indexed with semantic chunking for OmniMind.
           </p>
         </div>
 
-        <div className="flex items-center gap-space-sm">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => setIsIngestOpen(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-high border border-[#27272A] text-sm text-primary hover:bg-[#27272A] transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#18181B] border border-[#27272A] text-xs font-medium text-white hover:bg-zinc-800 transition-colors"
           >
-            <span className="material-symbols-outlined text-[18px]">cloud_upload</span>
+            <UploadCloud className="w-4 h-4 text-zinc-300" />
             Upload Document
           </button>
           <button
@@ -92,76 +108,74 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
                 prev.map((d) => ({ ...d, indexingStatus: 'Fully Indexed', lastModified: 'Just now' }))
               );
             }}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-primary text-black font-semibold text-sm hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white text-black font-semibold text-xs hover:bg-zinc-200 transition-colors shadow-sm"
           >
-            <span className="material-symbols-outlined text-[18px]">sync</span>
+            <RefreshCw className="w-3.5 h-3.5 text-black" />
             Index All Documents
           </button>
         </div>
       </div>
 
       {/* Storage Overview Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
-        <div className="p-4 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex items-center justify-between">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] flex items-center justify-between">
           <div>
-            <span className="text-xs text-secondary uppercase font-mono">Google Drive Workspace</span>
-            <p className="text-xl font-bold font-mono text-primary mt-1">1,842 Files</p>
-            <p className="text-xs text-secondary mt-0.5">38.4 GB indexed • Encrypted</p>
+            <span className="text-xs text-zinc-400 uppercase font-mono">Google Drive Workspace</span>
+            <p className="text-xl font-bold font-mono text-white mt-1">1,842 Files</p>
+            <p className="text-xs text-zinc-400 mt-0.5">38.4 GB indexed • Encrypted</p>
           </div>
-          <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center border border-[#27272A]">
-            <span className="material-symbols-outlined text-blue-400">folder_shared</span>
+          <div className="w-10 h-10 rounded-lg bg-[#101014] flex items-center justify-center border border-[#27272A]">
+            <HardDrive className="w-5 h-5 text-blue-400" />
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] flex items-center justify-between">
           <div>
-            <span className="text-xs text-secondary uppercase font-mono">Box Enterprise Storage</span>
-            <p className="text-xl font-bold font-mono text-primary mt-1">940 Files</p>
-            <p className="text-xs text-secondary mt-0.5">14.1 GB indexed • SOC2</p>
+            <span className="text-xs text-zinc-400 uppercase font-mono">Box Enterprise Storage</span>
+            <p className="text-xl font-bold font-mono text-white mt-1">940 Files</p>
+            <p className="text-xs text-zinc-400 mt-0.5">14.1 GB indexed • SOC2</p>
           </div>
-          <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center border border-[#27272A]">
-            <span className="material-symbols-outlined text-indigo-400">inventory_2</span>
+          <div className="w-10 h-10 rounded-lg bg-[#101014] flex items-center justify-center border border-[#27272A]">
+            <BoxIcon className="w-5 h-5 text-indigo-400" />
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] flex items-center justify-between">
           <div>
-            <span className="text-xs text-secondary uppercase font-mono">Semantic Vector Status</span>
+            <span className="text-xs text-zinc-400 uppercase font-mono">Semantic Vector Status</span>
             <p className="text-xl font-bold font-mono text-emerald-400 mt-1">100% Vectorized</p>
-            <p className="text-xs text-secondary mt-0.5">Track 2 High-Precision Indexing</p>
+            <p className="text-xs text-zinc-400 mt-0.5">Track 2 High-Precision Indexing</p>
           </div>
-          <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center border border-[#27272A]">
-            <span className="material-symbols-outlined text-emerald-400">dataset</span>
+          <div className="w-10 h-10 rounded-lg bg-[#101014] flex items-center justify-center border border-[#27272A]">
+            <Database className="w-5 h-5 text-emerald-400" />
           </div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-md p-space-md rounded-xl bg-surface-container-low border border-[#27272A]/70">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 p-3 rounded-xl bg-[#18181B] border border-[#27272A]">
         <div className="flex-1 relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">
-            search
-          </span>
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search documents by filename, author, or keyword..."
-            className="w-full bg-surface-container-lowest border border-[#27272A] rounded-lg pl-9 pr-4 py-2 text-sm text-primary placeholder:text-secondary/60 focus:outline-none focus:border-zinc-500"
+            className="w-full bg-[#101014] border border-[#27272A] rounded-lg pl-9 pr-4 py-2 text-xs text-zinc-200 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500 font-sans"
           />
         </div>
 
         <div className="flex items-center gap-2 overflow-x-auto">
           {/* Storage Filter */}
-          <div className="flex items-center bg-surface-container-lowest p-1 rounded-lg border border-[#27272A]">
+          <div className="flex items-center bg-[#101014] p-1 rounded-lg border border-[#27272A]">
             {(['ALL', 'Google Drive', 'Box Enterprise'] as const).map((app) => (
               <button
                 key={app}
                 onClick={() => setAppFilter(app)}
                 className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
                   appFilter === app
-                    ? 'bg-surface-container-high text-primary font-semibold shadow-xs'
-                    : 'text-secondary hover:text-primary'
+                    ? 'bg-[#18181B] text-white font-semibold border border-[#27272A]'
+                    : 'text-zinc-400 hover:text-white'
                 }`}
               >
                 {app}
@@ -173,7 +187,7 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-surface-container-lowest border border-[#27272A] rounded-lg px-3 py-1.5 text-xs text-primary focus:outline-none"
+            className="bg-[#101014] border border-[#27272A] rounded-lg px-3 py-1.5 text-xs text-zinc-200 focus:outline-none"
           >
             <option value="ALL">All Index Statuses</option>
             <option value="Fully Indexed">Fully Indexed</option>
@@ -184,11 +198,11 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
       </div>
 
       {/* Documents Table */}
-      <div className="rounded-xl border border-[#27272A]/70 bg-surface-container-low overflow-hidden">
+      <div className="rounded-xl border border-[#27272A] bg-[#18181B] overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm border-collapse">
+          <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-[#27272A] bg-surface-container-lowest/60 text-secondary text-xs uppercase font-mono tracking-wider">
+              <tr className="border-b border-[#27272A] bg-[#101014] text-zinc-400 uppercase font-mono tracking-wider text-[11px]">
                 <th className="py-3 px-4">Document Name</th>
                 <th className="py-3 px-4">Origin Storage</th>
                 <th className="py-3 px-4">Shared By</th>
@@ -197,13 +211,11 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#27272A]/60">
+            <tbody className="divide-y divide-[#27272A]">
               {filteredDocs.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-secondary">
-                    <span className="material-symbols-outlined text-[36px] mb-2 block text-secondary/50">
-                      folder_off
-                    </span>
+                  <td colSpan={6} className="py-12 text-center text-zinc-500">
+                    <FolderX className="w-8 h-8 mx-auto mb-2 text-zinc-600" />
                     No documents found matching the search criteria.
                   </td>
                 </tr>
@@ -211,47 +223,47 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
                 filteredDocs.map((doc) => (
                   <tr
                     key={doc.id}
-                    className="hover:bg-surface-container/60 transition-colors cursor-pointer group"
+                    className="hover:bg-zinc-800/40 transition-colors cursor-pointer group"
                     onClick={() => setSelectedDocForDetail(doc)}
                   >
-                    <td className="py-3.5 px-4">
+                    <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center border border-[#27272A] text-secondary group-hover:text-primary">
-                          <span className="material-symbols-outlined text-[18px]">{getFileIcon(doc.name)}</span>
+                        <div className="w-8 h-8 rounded-lg bg-[#101014] flex items-center justify-center border border-[#27272A]">
+                          {renderFileIcon(doc.name)}
                         </div>
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <p className="font-medium text-primary text-sm line-clamp-1">{doc.name}</p>
-                            {doc.isLocked && (
-                              <span className="material-symbols-outlined text-[14px] text-secondary">lock</span>
-                            )}
+                            <p className="font-medium text-white text-xs line-clamp-1">{doc.name}</p>
+                            {doc.isLocked && <Lock className="w-3 h-3 text-zinc-500" />}
                           </div>
-                          <p className="text-xs text-secondary font-mono mt-0.5">
+                          <p className="text-[11px] text-zinc-500 font-mono mt-0.5">
                             {doc.size} • {doc.pagesOrSheets}
                           </p>
                         </div>
                       </div>
                     </td>
 
-                    <td className="py-3.5 px-4">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-xs font-medium border border-[#27272A]">
-                        <span className="material-symbols-outlined text-[14px] text-secondary">
-                          {doc.sourceApp === 'Google Drive' ? 'folder_shared' : 'inventory_2'}
-                        </span>
+                    <td className="py-3 px-4">
+                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#101014] text-xs font-medium border border-[#27272A] text-zinc-300">
+                        {doc.sourceApp === 'Google Drive' ? (
+                          <HardDrive className="w-3 h-3 text-blue-400" />
+                        ) : (
+                          <BoxIcon className="w-3 h-3 text-indigo-400" />
+                        )}
                         <span>{doc.sourceApp}</span>
                       </div>
                     </td>
 
-                    <td className="py-3.5 px-4">
+                    <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-surface-container-high border border-[#27272A] flex items-center justify-center text-[10px] font-bold text-primary">
+                        <div className="w-6 h-6 rounded-full bg-zinc-800 border border-[#27272A] flex items-center justify-center text-[10px] font-bold text-zinc-300 font-mono">
                           {doc.sharedByInitials}
                         </div>
-                        <span className="text-xs text-primary">{doc.sharedBy}</span>
+                        <span className="text-xs text-zinc-300">{doc.sharedBy}</span>
                       </div>
                     </td>
 
-                    <td className="py-3.5 px-4">
+                    <td className="py-3 px-4">
                       <span
                         className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           doc.indexingStatus === 'Fully Indexed'
@@ -274,9 +286,9 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
                       </span>
                     </td>
 
-                    <td className="py-3.5 px-4 text-xs text-secondary font-mono">{doc.lastModified}</td>
+                    <td className="py-3 px-4 text-xs text-zinc-400 font-mono">{doc.lastModified}</td>
 
-                    <td className="py-3.5 px-4 text-right" onClick={(e) => e.stopPropagation()}>
+                    <td className="py-3 px-4 text-right" onClick={(e) => e.stopPropagation()}>
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => {
@@ -285,17 +297,17 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
                             }
                             onNavigate('summarizer');
                           }}
-                          className="px-2.5 py-1 rounded text-xs bg-surface-container-high hover:bg-[#27272A] border border-[#27272A] text-secondary hover:text-primary transition-colors flex items-center gap-1"
+                          className="px-2.5 py-1 rounded text-xs bg-[#101014] hover:bg-zinc-800 border border-[#27272A] text-zinc-300 hover:text-white transition-colors flex items-center gap-1"
                         >
-                          <span className="material-symbols-outlined text-[14px]">auto_stories</span>
+                          <BookOpen className="w-3.5 h-3.5 text-zinc-400" />
                           Summarize
                         </button>
                         <button
                           onClick={() => handleReindex(doc.id)}
                           title="Re-index document"
-                          className="w-7 h-7 rounded flex items-center justify-center bg-surface-container hover:bg-[#27272A] border border-[#27272A] text-secondary hover:text-primary transition-colors"
+                          className="w-7 h-7 rounded flex items-center justify-center bg-[#101014] hover:bg-zinc-800 border border-[#27272A] text-zinc-400 hover:text-white transition-colors"
                         >
-                          <span className="material-symbols-outlined text-[15px]">refresh</span>
+                          <RefreshCw className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </td>
@@ -309,57 +321,55 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
 
       {/* Document Detail Modal */}
       {selectedDocForDetail && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-surface-container border border-[#27272A] rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150">
+          <div className="bg-[#18181B] border border-[#27272A] rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#27272A]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center border border-[#27272A]">
-                  <span className="material-symbols-outlined text-primary text-[22px]">
-                    {getFileIcon(selectedDocForDetail.name)}
-                  </span>
+                <div className="w-10 h-10 rounded-lg bg-[#101014] flex items-center justify-center border border-[#27272A]">
+                  {renderFileIcon(selectedDocForDetail.name)}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-primary text-base line-clamp-1">
+                  <h3 className="font-semibold text-white text-sm line-clamp-1">
                     {selectedDocForDetail.name}
                   </h3>
-                  <p className="text-xs text-secondary font-mono">{selectedDocForDetail.sourceApp}</p>
+                  <p className="text-xs text-zinc-500 font-mono">{selectedDocForDetail.sourceApp}</p>
                 </div>
               </div>
               <button
                 onClick={() => setSelectedDocForDetail(null)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-[#27272A]"
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
               >
-                <span className="material-symbols-outlined text-[20px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between py-1.5 border-b border-[#27272A]/50">
-                <span className="text-secondary">File Size:</span>
-                <span className="font-mono text-primary">{selectedDocForDetail.size}</span>
+            <div className="space-y-3 text-xs">
+              <div className="flex justify-between py-1.5 border-b border-[#27272A]">
+                <span className="text-zinc-400">File Size:</span>
+                <span className="font-mono text-zinc-200">{selectedDocForDetail.size}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-[#27272A]/50">
-                <span className="text-secondary">Length / Structure:</span>
-                <span className="text-primary">{selectedDocForDetail.pagesOrSheets}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#27272A]">
+                <span className="text-zinc-400">Length / Structure:</span>
+                <span className="text-zinc-200">{selectedDocForDetail.pagesOrSheets}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-[#27272A]/50">
-                <span className="text-secondary">Shared By / Author:</span>
-                <span className="text-primary">{selectedDocForDetail.sharedBy}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#27272A]">
+                <span className="text-zinc-400">Shared By / Author:</span>
+                <span className="text-zinc-200">{selectedDocForDetail.sharedBy}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-[#27272A]/50">
-                <span className="text-secondary">Indexing Status:</span>
+              <div className="flex justify-between py-1.5 border-b border-[#27272A]">
+                <span className="text-zinc-400">Indexing Status:</span>
                 <span className="text-emerald-400 font-medium">{selectedDocForDetail.indexingStatus}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-[#27272A]/50">
-                <span className="text-secondary">Last Synced:</span>
-                <span className="font-mono text-primary">{selectedDocForDetail.lastModified}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#27272A]">
+                <span className="text-zinc-400">Last Synced:</span>
+                <span className="font-mono text-zinc-200">{selectedDocForDetail.lastModified}</span>
               </div>
             </div>
 
             <div className="pt-2 flex justify-end gap-2">
               <button
                 onClick={() => setSelectedDocForDetail(null)}
-                className="px-4 py-2 rounded-lg bg-surface-container-high border border-[#27272A] text-sm text-secondary hover:text-primary transition-colors"
+                className="px-4 py-2 rounded-lg bg-[#101014] border border-[#27272A] text-xs text-zinc-300 hover:text-white transition-colors"
               >
                 Close
               </button>
@@ -371,9 +381,9 @@ export const FileVaultView: React.FC<FileVaultViewProps> = ({ onNavigate, onSele
                   setSelectedDocForDetail(null);
                   onNavigate('summarizer');
                 }}
-                className="px-4 py-2 rounded-lg bg-primary text-black font-semibold text-sm hover:opacity-90 transition-opacity flex items-center gap-1.5"
+                className="px-4 py-2 rounded-lg bg-white text-black font-semibold text-xs hover:bg-zinc-200 transition flex items-center gap-1.5"
               >
-                <span className="material-symbols-outlined text-[16px]">summarize</span>
+                <BookOpen className="w-3.5 h-3.5 text-black" />
                 Open in Summarizer
               </button>
             </div>

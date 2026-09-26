@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { executeOmniMindQuery } from '../../services/omniMindEngine';
 import { OmniMindResponseSchema } from '../../types';
+import {
+  Search,
+  X,
+  Sparkles,
+  Copy,
+  Check,
+  ExternalLink,
+  Code2,
+  Share2,
+  CheckSquare,
+  Bot,
+  Layers,
+} from 'lucide-react';
 
 interface OmniMindSearchModalProps {
   isOpen: boolean;
@@ -27,7 +40,6 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
     if (isOpen) {
       if (initialQuery) {
         setQuery(initialQuery);
-        // Automatically trigger search if query is provided
         handleRunSearch(initialQuery);
       }
       if (initialMode) {
@@ -84,22 +96,22 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-20 px-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150 select-none"
     >
       <div
-        className="w-full max-w-3xl bg-surface-container-low border border-[#27272A] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150"
+        className="w-full max-w-3xl bg-[#101014] border border-[#27272A] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150 text-zinc-100"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
-        <div className="p-4 border-b border-[#27272A] flex items-center gap-3 bg-surface-container-lowest/80">
-          <span className="material-symbols-outlined text-primary text-[22px]">search</span>
+        <div className="p-4 border-b border-[#27272A] flex items-center gap-3 bg-[#09090B]">
+          <Search className="w-5 h-5 text-zinc-400 shrink-0" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleRunSearch()}
             placeholder="Search across Slack, Drive, Notion, Box, Gmail or ask OmniMind..."
-            className="w-full bg-transparent text-primary placeholder-outline text-body-lg outline-none font-body-md"
+            className="w-full bg-transparent text-white placeholder-zinc-500 text-sm sm:text-base outline-none font-sans"
             autoFocus
           />
           {query && (
@@ -108,26 +120,24 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
                 setQuery('');
                 setResult(null);
               }}
-              className="text-on-surface-variant hover:text-primary p-1 rounded"
+              className="text-zinc-400 hover:text-white p-1 rounded transition"
             >
-              <span className="material-symbols-outlined text-[18px]">close</span>
+              <X className="w-4 h-4" />
             </button>
           )}
           <button
             onClick={() => handleRunSearch()}
             disabled={loading || !query.trim()}
-            className="px-4 py-2 bg-primary text-on-primary rounded-xl text-xs font-semibold hover:bg-primary-fixed-dim transition disabled:opacity-50 flex items-center gap-1.5 whitespace-nowrap"
+            className="px-3.5 py-1.5 bg-white text-zinc-950 font-medium rounded-lg text-xs hover:bg-zinc-200 transition disabled:opacity-50 flex items-center gap-1.5 shrink-0"
           >
             {loading ? (
               <>
-                <span className="material-symbols-outlined text-[16px] animate-spin">
-                  progress_activity
-                </span>
+                <div className="w-3 h-3 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
                 <span>Synthesizing...</span>
               </>
             ) : (
               <>
-                <span className="material-symbols-outlined text-[16px]">bolt</span>
+                <Sparkles className="w-3.5 h-3.5" />
                 <span>Execute</span>
               </>
             )}
@@ -136,9 +146,9 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
 
         {/* Quick Suggestion Chips */}
         {!result && (
-          <div className="p-4 flex flex-col gap-2">
-            <div className="text-[11px] font-code uppercase tracking-wider text-on-surface-variant">
-              Suggested Universal Queries (Track 2)
+          <div className="p-5 flex flex-col gap-2.5">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-medium">
+              Suggested Track 2 Agent Queries
             </div>
             <div className="flex flex-wrap gap-2">
               {presets.map((preset) => (
@@ -148,7 +158,7 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
                     setQuery(preset);
                     handleRunSearch(preset);
                   }}
-                  className="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-xs text-on-surface hover:text-primary border border-[#27272A] transition text-left"
+                  className="px-3 py-1.5 rounded-lg bg-[#18181B] hover:bg-zinc-800 text-xs text-zinc-300 hover:text-white border border-[#27272A] transition text-left"
                 >
                   "{preset}"
                 </button>
@@ -162,38 +172,36 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
           <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4">
             {/* View Mode Toggle & Copy JSON */}
             <div className="flex items-center justify-between pb-3 border-b border-[#27272A]">
-              <div className="flex items-center gap-1 bg-surface-container p-1 rounded-lg">
+              <div className="flex items-center gap-1 bg-[#18181B] p-1 rounded-lg border border-[#27272A]">
                 <button
                   onClick={() => setViewMode('brief')}
-                  className={`px-3 py-1 rounded-md text-xs font-medium transition ${
+                  className={`px-3 py-1 rounded text-xs font-medium transition ${
                     viewMode === 'brief'
-                      ? 'bg-primary text-on-primary font-semibold shadow-sm'
-                      : 'text-on-surface-variant hover:text-on-surface'
+                      ? 'bg-zinc-800 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   Executive Briefing
                 </button>
                 <button
                   onClick={() => setViewMode('raw_json')}
-                  className={`px-3 py-1 rounded-md text-xs font-medium transition font-code ${
+                  className={`px-3 py-1 rounded text-xs font-mono transition ${
                     viewMode === 'raw_json'
-                      ? 'bg-primary text-on-primary font-semibold shadow-sm'
-                      : 'text-on-surface-variant hover:text-on-surface'
+                      ? 'bg-zinc-800 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-white'
                   }`}
                 >
-                  Strict Output Schema (JSON)
+                  Strict Schema (JSON)
                 </button>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleCopyJson}
-                  className="flex items-center gap-1 px-3 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-xs text-primary border border-[#27272A] transition font-code"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#18181B] hover:bg-zinc-800 text-xs text-zinc-300 border border-[#27272A] transition font-mono"
                 >
-                  <span className="material-symbols-outlined text-[14px]">
-                    {copied ? 'check' : 'content_copy'}
-                  </span>
-                  <span>{copied ? 'Copied Raw JSON!' : 'Copy Schema'}</span>
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-zinc-400" />}
+                  <span>{copied ? 'Copied!' : 'Copy Schema'}</span>
                 </button>
                 {onNavigateToSearch && (
                   <button
@@ -201,10 +209,10 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
                       onNavigateToSearch(result.queryProcessed);
                       onClose();
                     }}
-                    className="flex items-center gap-1 px-3 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-xs text-primary border border-[#27272A] transition"
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-white transition"
                   >
-                    <span>Full Search View</span>
-                    <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                    <span>Full View</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-zinc-300" />
                   </button>
                 )}
               </div>
@@ -213,34 +221,34 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
             {viewMode === 'brief' ? (
               <div className="space-y-4">
                 {/* Executive Summary */}
-                <div className="p-4 rounded-xl bg-surface-container border border-[#27272A] space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-wider">
-                    <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
-                    <span>Executive Knowledge Synthesis</span>
+                <div className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-blue-400 font-mono">
+                    <Bot className="w-4 h-4" />
+                    <span>SYNTHESIS COMPLETE (ZERO HALLUCINATION)</span>
                   </div>
-                  <p className="text-body-md text-on-surface leading-relaxed">{result.summary}</p>
+                  <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">{result.summary}</p>
                 </div>
 
                 {/* Sources List */}
                 <div className="space-y-2">
-                  <div className="text-xs font-code uppercase tracking-wider text-on-surface-variant">
-                    Correlated Cross-Platform Sources ({result.sources.length})
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-medium">
+                    Correlated Sources ({result.sources.length})
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {result.sources.map((src, i) => (
                       <div
                         key={i}
-                        className="p-3 rounded-xl bg-surface-container border border-[#27272A] space-y-1"
+                        className="p-3 rounded-lg bg-[#18181B] border border-[#27272A] space-y-1"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="px-2 py-0.5 rounded text-[11px] font-code bg-surface-container-high text-primary font-medium">
-                            {src.app}
+                          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-zinc-800 text-blue-300 border border-zinc-700">
+                            Swytchcode/{src.app}
                           </span>
-                          <span className="text-[11px] text-on-surface-variant font-code truncate max-w-[180px]">
+                          <span className="text-[11px] text-zinc-400 font-mono truncate max-w-[150px]">
                             {src.identifier}
                           </span>
                         </div>
-                        <p className="text-xs text-on-surface-variant line-clamp-2">"{src.snippet}"</p>
+                        <p className="text-xs text-zinc-400 line-clamp-2">"{src.snippet}"</p>
                       </div>
                     ))}
                   </div>
@@ -249,64 +257,22 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
                 {/* Action Items */}
                 {result.actionItems && result.actionItems.length > 0 && (
                   <div className="space-y-2">
-                    <div className="text-xs font-code uppercase tracking-wider text-on-surface-variant">
-                      Extracted Commitments & Action Items ({result.actionItems.length})
+                    <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 font-medium">
+                      Extracted Commitments ({result.actionItems.length})
                     </div>
                     <div className="space-y-2">
                       {result.actionItems.map((act, i) => (
                         <div
                           key={i}
-                          className="p-3 rounded-xl bg-surface-container border border-[#27272A] flex items-center justify-between gap-3"
+                          className="p-3 rounded-lg bg-[#18181B] border border-[#27272A] flex items-center justify-between gap-3 text-xs"
                         >
-                          <div className="flex items-center gap-2.5">
-                            <span className="material-symbols-outlined text-primary text-[18px]">
-                              check_circle_outline
-                            </span>
-                            <div>
-                              <div className="text-body-sm font-medium text-primary">{act.task}</div>
-                              <div className="text-[11px] text-on-surface-variant">
-                                Source: {act.sourceApp}
-                              </div>
-                            </div>
+                          <div className="flex items-center gap-2 min-w-0">
+                            <CheckSquare className="w-4 h-4 text-emerald-400 shrink-0" />
+                            <span className="text-zinc-200 truncate">{act.task}</span>
                           </div>
-                          <span
-                            className={`px-2 py-0.5 rounded text-[10px] font-code font-bold uppercase ${
-                              act.priority === 'High'
-                                ? 'bg-error-container text-error'
-                                : 'bg-surface-container-high text-on-surface-variant'
-                            }`}
-                          >
-                            {act.priority} Priority
+                          <span className="text-[10px] font-mono text-zinc-400 px-2 py-0.5 rounded bg-zinc-800 border border-[#27272A] shrink-0">
+                            {act.sourceApp}
                           </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Knowledge Graph Links */}
-                {result.knowledgeLinks && result.knowledgeLinks.length > 0 && (
-                  <div className="space-y-2">
-                    <div className="text-xs font-code uppercase tracking-wider text-on-surface-variant">
-                      Knowledge Graph Connections
-                    </div>
-                    <div className="space-y-2">
-                      {result.knowledgeLinks.map((link, i) => (
-                        <div
-                          key={i}
-                          className="p-3 rounded-xl bg-surface-container border border-[#27272A] flex items-start gap-3"
-                        >
-                          <span className="material-symbols-outlined text-primary text-[18px] mt-0.5">
-                            hub
-                          </span>
-                          <div>
-                            <div className="text-xs font-code text-primary">
-                              {link.nodeA} ↔ {link.nodeB}
-                            </div>
-                            <div className="text-xs text-on-surface-variant mt-0.5">
-                              {link.relationship}
-                            </div>
-                          </div>
                         </div>
                       ))}
                     </div>
@@ -314,31 +280,13 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
                 )}
               </div>
             ) : (
-              <div className="relative">
-                <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] font-code text-xs text-emerald-400 overflow-x-auto leading-relaxed max-h-[500px]">
-                  <pre>{JSON.stringify(result, null, 2)}</pre>
-                </div>
+              /* Raw JSON Schema Inspector */
+              <div className="p-4 rounded-lg bg-[#0C0C0E] border border-[#27272A] font-mono text-xs text-emerald-400 overflow-x-auto leading-relaxed">
+                <pre>{JSON.stringify(result, null, 2)}</pre>
               </div>
             )}
           </div>
         )}
-
-        {/* Footer controls */}
-        <div className="p-3 bg-surface-container-lowest border-t border-[#27272A] flex items-center justify-between text-xs text-on-surface-variant">
-          <div className="flex items-center gap-3">
-            <span>
-              Press <kbd className="px-1.5 py-0.5 rounded bg-surface-container-high font-code">Esc</kbd> to exit
-            </span>
-            <span>·</span>
-            <span>Strict Track 2 Schema Compliant</span>
-          </div>
-          <button
-            onClick={onClose}
-            className="hover:text-primary transition font-medium"
-          >
-            Close
-          </button>
-        </div>
       </div>
     </div>
   );

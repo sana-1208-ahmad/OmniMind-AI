@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Sidebar, ActiveView } from './components/Navigation/Sidebar';
 import { TopHeader } from './components/Navigation/TopHeader';
 import { OmniMindSearchModal } from './components/Modals/OmniMindSearchModal';
+import { SwytchcodeStatusToast } from './components/Notifications/SwytchcodeStatusToast';
 
 // Views
 import { LandingView } from './views/LandingView';
@@ -25,7 +26,10 @@ import { SettingsView } from './views/SettingsView';
 export default function App() {
   const [currentView, setCurrentView] = useState<ActiveView>('dashboard');
   const [currentWorkspace, setCurrentWorkspace] = useState('Acme Corp Workspace');
-  const [userEmail, setUserEmail] = useState('sanaahmad9352@gmail.com');
+  const [userEmail, setUserEmail] = useState('sabiyaahmad8661@gmail.com');
+
+  // Swytchcode CLI Connection state
+  const [isCliOffline, setIsCliOffline] = useState(false);
 
   // Mobile sidebar drawer state
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -37,6 +41,18 @@ export default function App() {
 
   // Universal Search page query
   const [universalSearchQuery, setUniversalSearchQuery] = useState('q3 roadmap infrastructure migration');
+
+  // Listen for custom trigger events to toggle CLI status if triggered elsewhere
+  useEffect(() => {
+    const handler = () => setIsCliOffline((prev) => !prev);
+    window.addEventListener('swytchcode:toggle-offline', handler);
+    return () => window.removeEventListener('swytchcode:toggle-offline', handler);
+  }, []);
+
+  const handleReconnectCli = async () => {
+    await new Promise((res) => setTimeout(res, 800));
+    setIsCliOffline(false);
+  };
 
   // Keyboard shortcut for Command Palette (⌘K / Ctrl+K)
   useEffect(() => {
@@ -81,6 +97,7 @@ export default function App() {
             }}
             isMobileOpen={isMobileSidebarOpen}
             onCloseMobile={() => setIsMobileSidebarOpen(false)}
+            isCliOffline={isCliOffline}
           />
 
           {/* Main Content Area */}
@@ -93,6 +110,9 @@ export default function App() {
               onNavigate={setCurrentView}
               userEmail={userEmail}
               onToggleMobileNav={() => setIsMobileSidebarOpen((prev) => !prev)}
+              currentView={currentView}
+              isCliOffline={isCliOffline}
+              onToggleCliOffline={() => setIsCliOffline((prev) => !prev)}
             />
 
             {/* View Container */}
@@ -146,7 +166,12 @@ export default function App() {
                 <WorkspaceAnalyticsView onNavigate={setCurrentView} />
               )}
 
-              {currentView === 'integrations' && <IntegrationsView />}
+              {currentView === 'integrations' && (
+                <IntegrationsView
+                  isCliOffline={isCliOffline}
+                  onToggleCliOffline={() => setIsCliOffline((prev) => !prev)}
+                />
+              )}
 
               {currentView === 'ai-settings' && <AISettingsView />}
 
@@ -176,6 +201,14 @@ export default function App() {
         initialQuery={searchInitialQuery}
         initialMode={searchInitialMode}
         onNavigateToSearch={handleNavigateToSearch}
+      />
+
+      {/* Subtle Bottom-Right Swytchcode Connection Interruption Toast */}
+      <SwytchcodeStatusToast
+        isOffline={isCliOffline}
+        onReconnect={handleReconnectCli}
+        onDismiss={() => setIsCliOffline(false)}
+        onNavigate={setCurrentView}
       />
     </div>
   );

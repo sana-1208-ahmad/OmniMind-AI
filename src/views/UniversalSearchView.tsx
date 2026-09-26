@@ -3,6 +3,30 @@ import { ActiveView } from '../components/Navigation/Sidebar';
 import { ContextDetailModal } from '../components/Modals/ContextDetailModal';
 import { executeOmniMindQuery } from '../services/omniMindEngine';
 import { OmniMindResponseSchema } from '../types';
+import {
+  Search,
+  Hash,
+  Mail,
+  HardDrive,
+  FileText,
+  Box as BoxIcon,
+  Check,
+  Copy,
+  Code2,
+  SlidersHorizontal,
+  Eye,
+  MessageSquare,
+  Paperclip,
+  Shield,
+  Clock,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Layers,
+  Bot,
+  CheckCircle2,
+} from 'lucide-react';
 
 interface UniversalSearchViewProps {
   initialQuery?: string;
@@ -13,7 +37,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
   initialQuery = 'q3 roadmap infrastructure migration',
 }) => {
   const [query, setQuery] = useState(initialQuery);
-  const [activeTab, setActiveTab] = useState<'all' | 'gmail' | 'slack' | 'drive' | 'notion' | 'box'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'slack' | 'drive' | 'notion' | 'box' | 'gmail'>('all');
   const [timeRange, setTimeRange] = useState('any');
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([
     'Sarah Jenkins (Lead)',
@@ -24,7 +48,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
   const [newTagInput, setNewTagInput] = useState('');
   const [page, setPage] = useState(1);
 
-  // Selected item for Context Viewer Modal
+  // Context Viewer Modal
   const [contextItem, setContextItem] = useState<{
     isOpen: boolean;
     title: string;
@@ -34,7 +58,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
     snippet: string;
   } | null>(null);
 
-  // Live Track 2 Autonomous Synthesis State
+  // Track 2 Autonomous Synthesis State
   const [autonomousResult, setAutonomousResult] = useState<OmniMindResponseSchema | null>(null);
   const [loadingSynthesis, setLoadingSynthesis] = useState(false);
   const [showJsonSchema, setShowJsonSchema] = useState(false);
@@ -42,7 +66,6 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   useEffect(() => {
-    // Run automated Track 2 synthesis on initial mount or query change
     runAutonomousSynthesis(initialQuery);
   }, [initialQuery]);
 
@@ -96,7 +119,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
   }
 
   return (
-    <div className="flex flex-col w-full min-h-full text-on-surface pb-12">
+    <div className="flex flex-col w-full min-h-full pb-12 text-zinc-100">
       {/* Context Viewer Modal */}
       {contextItem && (
         <ContextDetailModal
@@ -112,235 +135,223 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
       )}
 
       {/* Top Header & Search Input */}
-      <div className="px-4 sm:px-6 md:px-8 pt-6 pb-4 flex flex-col gap-4 border-b border-[#27272A]/40">
+      <div className="px-4 sm:px-6 md:px-8 pt-6 pb-4 border-b border-[#27272A] bg-[#09090B]">
         <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-          <div className="flex-1">
-            <h1 className="font-headline-lg text-primary text-2xl sm:text-3xl font-bold tracking-tight">
-              Multi-Source Search
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[11px] font-mono uppercase text-blue-400 font-semibold px-2 py-0.5 rounded bg-blue-950/60 border border-blue-800/40">
+                Swytchcode 5-Tool Engine
+              </span>
+              <span className="text-xs text-zinc-400">Track 2 Multi-App Reasoning</span>
+            </div>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+              Universal Multi-App Search
             </h1>
-            <p className="font-body-md text-on-surface-variant text-xs sm:text-sm mt-1">
-              Correlating text payloads from <span className="text-primary font-mono">Slack, Gmail, Google Drive, Notion, and Box</span>
-            </p>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-            <div className="relative w-full md:w-80">
-              <span className="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">
-                search
-              </span>
+            <div className="relative w-full md:w-96">
+              <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-3" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Find docs, threads, or commits..."
-                className="w-full bg-surface-container pl-10 pr-3 py-2 rounded-xl text-primary border border-[#27272A] focus:outline-none focus:border-primary text-xs sm:text-sm font-body-md"
+                placeholder="Search across Slack, Drive, Notion, Box, Gmail..."
+                className="w-full bg-[#18181B] pl-9 pr-3 py-2 rounded-lg text-white border border-[#27272A] focus:outline-none focus:border-zinc-500 text-xs sm:text-sm font-sans"
               />
             </div>
             <button
               type="submit"
               disabled={loadingSynthesis}
-              className="px-4 py-2 bg-primary text-[#131315] rounded-xl text-xs font-bold hover:bg-primary-fixed-dim transition flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-2 bg-white text-zinc-950 font-medium rounded-lg text-xs hover:bg-zinc-200 transition flex items-center gap-1.5 shrink-0 disabled:opacity-50"
             >
               {loadingSynthesis ? (
                 <>
-                  <span className="material-symbols-outlined text-[16px] animate-spin">
-                    progress_activity
-                  </span>
+                  <div className="w-3.5 h-3.5 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
                   <span>Synthesizing...</span>
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined text-[16px]">bolt</span>
-                  <span>Query</span>
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Synthesize</span>
                 </>
               )}
             </button>
           </div>
         </form>
 
-        {/* Filter Tabs */}
-        <div className="flex items-center justify-between overflow-x-auto pb-1 gap-4">
-          <div className="flex items-center gap-1.5 shrink-0">
+        {/* Filter Segmented Controls */}
+        <div className="flex items-center justify-between overflow-x-auto pt-4 gap-4">
+          <div className="flex items-center gap-1 p-1 bg-[#18181B] rounded-lg border border-[#27272A] shrink-0 text-xs">
             <button
               onClick={() => setActiveTab('all')}
-              className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all shadow-sm ${
+              className={`px-3 py-1.5 rounded-md font-medium transition ${
                 activeTab === 'all'
-                  ? 'bg-primary text-[#131315] font-bold'
-                  : 'bg-surface-container text-on-surface-variant hover:text-on-surface border border-[#27272A]'
+                  ? 'bg-zinc-800 text-white shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
               All (14)
             </button>
             <button
-              onClick={() => setActiveTab('gmail')}
-              className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1 ${
-                activeTab === 'gmail'
-                  ? 'bg-primary text-[#131315] font-bold'
-                  : 'bg-surface-container text-on-surface-variant hover:text-on-surface border border-[#27272A]'
-              }`}
-            >
-              <span className="material-symbols-outlined text-[15px]">mail</span> Gmail (4)
-            </button>
-            <button
               onClick={() => setActiveTab('slack')}
-              className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 ${
                 activeTab === 'slack'
-                  ? 'bg-primary text-[#131315] font-bold'
-                  : 'bg-surface-container text-on-surface-variant hover:text-on-surface border border-[#27272A]'
+                  ? 'bg-zinc-800 text-white shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
-              <span className="material-symbols-outlined text-[15px]">chat</span> Slack (6)
+              <Hash className="w-3.5 h-3.5 text-zinc-400" />
+              <span>Slack (6)</span>
             </button>
             <button
               onClick={() => setActiveTab('drive')}
-              className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 ${
                 activeTab === 'drive'
-                  ? 'bg-primary text-[#131315] font-bold'
-                  : 'bg-surface-container text-on-surface-variant hover:text-on-surface border border-[#27272A]'
+                  ? 'bg-zinc-800 text-white shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
-              <span className="material-symbols-outlined text-[15px]">folder</span> Drive (2)
+              <HardDrive className="w-3.5 h-3.5 text-zinc-400" />
+              <span>Drive (2)</span>
             </button>
             <button
               onClick={() => setActiveTab('notion')}
-              className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 ${
                 activeTab === 'notion'
-                  ? 'bg-primary text-[#131315] font-bold'
-                  : 'bg-surface-container text-on-surface-variant hover:text-on-surface border border-[#27272A]'
+                  ? 'bg-zinc-800 text-white shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
-              <span className="material-symbols-outlined text-[15px]">description</span> Notion (2)
+              <FileText className="w-3.5 h-3.5 text-zinc-400" />
+              <span>Notion (2)</span>
             </button>
             <button
               onClick={() => setActiveTab('box')}
-              className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 ${
                 activeTab === 'box'
-                  ? 'bg-primary text-[#131315] font-bold'
-                  : 'bg-surface-container text-on-surface-variant hover:text-on-surface border border-[#27272A]'
+                  ? 'bg-zinc-800 text-white shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
-              <span className="material-symbols-outlined text-[15px]">inventory_2</span> Box (2)
+              <BoxIcon className="w-3.5 h-3.5 text-zinc-400" />
+              <span>Box (2)</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('gmail')}
+              className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 ${
+                activeTab === 'gmail'
+                  ? 'bg-zinc-800 text-white shadow-sm'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              <Mail className="w-3.5 h-3.5 text-zinc-400" />
+              <span>Gmail (2)</span>
             </button>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => setShowJsonSchema(!showJsonSchema)}
-              className="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high rounded-xl text-primary font-mono text-xs border border-[#27272A] flex items-center gap-1.5 transition"
-            >
-              <span className="material-symbols-outlined text-[16px]">code</span>
-              <span>{showJsonSchema ? 'Hide Schema' : 'Raw JSON'}</span>
-            </button>
-          </div>
+          <button
+            onClick={() => setShowJsonSchema(!showJsonSchema)}
+            className="px-3 py-1.5 bg-[#18181B] hover:bg-zinc-800 rounded-lg text-zinc-300 font-mono text-xs border border-[#27272A] flex items-center gap-1.5 transition shrink-0"
+          >
+            <Code2 className="w-3.5 h-3.5 text-blue-400" />
+            <span>{showJsonSchema ? 'Hide Schema' : 'Inspect JSON Schema'}</span>
+          </button>
         </div>
       </div>
 
       {/* Main Grid: Filters & Search Content */}
-      <div className="grid grid-cols-12 gap-4 sm:gap-6 px-4 sm:px-6 md:px-8 pt-6">
+      <div className="grid grid-cols-12 gap-5 px-4 sm:px-6 md:px-8 pt-5">
         {/* Mobile Filter Toggle */}
         <div className="col-span-12 lg:hidden">
           <button
             onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-surface-container border border-[#27272A] text-xs font-mono text-primary"
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-[#18181B] border border-[#27272A] text-xs font-mono text-white"
           >
             <span className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[18px]">tune</span>
-              <span>Filter Options ({timeRange !== 'any' ? '1 active' : 'Default'})</span>
+              <SlidersHorizontal className="w-4 h-4 text-zinc-400" />
+              <span>Filter Options</span>
             </span>
-            <span className="material-symbols-outlined text-[18px]">
-              {mobileFiltersOpen ? 'expand_less' : 'expand_more'}
+            <span className="text-zinc-400 text-xs">
+              {mobileFiltersOpen ? 'Collapse' : 'Expand'}
             </span>
           </button>
         </div>
 
-        {/* Left Column: Filters (3 cols on desktop, toggled on mobile) */}
+        {/* Left Column: Filters */}
         <div className={`col-span-12 lg:col-span-3 ${mobileFiltersOpen ? 'flex' : 'hidden lg:flex'} flex-col gap-4`}>
-          <div className="bg-surface-container rounded-2xl p-space-md flex flex-col gap-space-md border border-[#27272A]">
-            <div className="flex items-center justify-between border-b border-[#27272A]/50 pb-2">
-              <span className="font-headline-sm font-semibold text-primary">Filters</span>
+          <div className="bg-[#18181B] rounded-xl p-4 flex flex-col gap-4 border border-[#27272A]">
+            <div className="flex items-center justify-between border-b border-[#27272A] pb-2">
+              <span className="text-xs font-semibold text-white">Search Filters</span>
               <button
                 onClick={() => {
                   setTimeRange('any');
                   setSelectedAuthors(['Sarah Jenkins (Lead)', 'Alex Rivera (DevOps)']);
-                  setTags(['#engineering', '#q3-migration']);
                 }}
-                className="text-xs font-mono text-on-surface-variant hover:text-primary transition-colors"
+                className="text-[11px] font-mono text-zinc-500 hover:text-zinc-300 transition"
               >
-                Reset all
+                Reset
               </button>
             </div>
 
-            {/* Time Range */}
-            <div className="flex flex-col gap-space-sm">
-              <label className="font-mono text-on-surface-variant uppercase tracking-wider text-[11px]">
-                Time Range
+            {/* Time Horizon */}
+            <div className="flex flex-col gap-1.5">
+              <label className="font-mono text-zinc-400 uppercase tracking-wider text-[10px]">
+                Time Horizon
               </label>
-              <div className="flex flex-col gap-space-xs">
-                {[
-                  { id: 'any', label: 'Any time' },
-                  { id: '24h', label: 'Past 24 hours' },
-                  { id: 'week', label: 'Past week' },
-                  { id: 'month', label: 'Past month' },
-                ].map((item) => (
+              <select
+                value={timeRange}
+                onChange={(e) => setTimeRange(e.target.value)}
+                className="bg-[#101014] text-xs text-zinc-200 border border-[#27272A] rounded-lg px-2.5 py-1.5 outline-none focus:border-zinc-500"
+              >
+                <option value="any">Any Time</option>
+                <option value="24h">Past 24 Hours</option>
+                <option value="7d">Past 7 Days</option>
+                <option value="30d">Past 30 Days</option>
+                <option value="q3">Q3 Fiscal Cycle</option>
+              </select>
+            </div>
+
+            {/* Author / Sender */}
+            <div className="flex flex-col gap-1.5 pt-2 border-t border-[#27272A]">
+              <label className="font-mono text-zinc-400 uppercase tracking-wider text-[10px]">
+                Key Authors &amp; Senders
+              </label>
+              <div className="flex flex-col gap-1">
+                {['Sarah Jenkins (Lead)', 'Alex Rivera (DevOps)', 'Elena Rostova (Product)'].map((author) => (
                   <label
-                    key={item.id}
-                    className="flex items-center gap-space-sm p-1.5 rounded-lg hover:bg-surface-container-high cursor-pointer transition"
+                    key={author}
+                    className="flex items-center gap-2 p-1.5 rounded hover:bg-zinc-800/60 cursor-pointer transition text-xs text-zinc-300"
                   >
                     <input
-                      type="radio"
-                      name="timerange"
-                      checked={timeRange === item.id}
-                      onChange={() => setTimeRange(item.id)}
-                      className="accent-primary"
+                      type="checkbox"
+                      checked={selectedAuthors.includes(author)}
+                      onChange={() => toggleAuthor(author)}
+                      className="accent-zinc-100 rounded"
                     />
-                    <span className="text-body-sm text-on-surface">{item.label}</span>
+                    <span>{author}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* Author / Sender */}
-            <div className="flex flex-col gap-space-sm pt-space-sm border-t border-[#27272A]/40">
-              <label className="font-mono text-on-surface-variant uppercase tracking-wider text-[11px]">
-                Author / Sender
-              </label>
-              <div className="flex flex-col gap-space-xs">
-                {['Sarah Jenkins (Lead)', 'Alex Rivera (DevOps)', 'Elena Rostova (Product)'].map(
-                  (author) => (
-                    <label
-                      key={author}
-                      className="flex items-center gap-space-sm p-1.5 rounded-lg hover:bg-surface-container-high cursor-pointer transition"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedAuthors.includes(author)}
-                        onChange={() => toggleAuthor(author)}
-                        className="accent-primary rounded"
-                      />
-                      <span className="text-body-sm text-on-surface">{author}</span>
-                    </label>
-                  )
-                )}
-              </div>
-            </div>
-
             {/* Tags & Categories */}
-            <div className="flex flex-col gap-space-sm pt-space-sm border-t border-[#27272A]/40">
-              <label className="font-mono text-on-surface-variant uppercase tracking-wider text-[11px]">
-                Tags &amp; Categories
+            <div className="flex flex-col gap-1.5 pt-2 border-t border-[#27272A]">
+              <label className="font-mono text-zinc-400 uppercase tracking-wider text-[10px]">
+                Active Ingestion Tags
               </label>
-              <div className="flex flex-wrap gap-space-xs">
+              <div className="flex flex-wrap gap-1.5">
                 {tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-space-sm py-1 bg-surface-container-high text-on-surface rounded-lg text-xs font-mono flex items-center gap-1 border border-[#27272A]"
+                    className="px-2 py-0.5 bg-[#101014] text-zinc-300 rounded text-xs font-mono flex items-center gap-1 border border-[#27272A]"
                   >
                     {tag}
                     <button
                       onClick={() => removeTag(tag)}
-                      className="hover:text-primary text-on-surface-variant"
+                      className="hover:text-white text-zinc-500"
                     >
-                      <span className="material-symbols-outlined text-[14px]">close</span>
+                      <X className="w-3 h-3" />
                     </button>
                   </span>
                 ))}
@@ -352,31 +363,21 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                       value={newTagInput}
                       onChange={(e) => setNewTagInput(e.target.value)}
                       placeholder="#tag"
-                      className="px-2 py-0.5 bg-surface-container text-primary rounded-lg text-xs font-mono border border-primary focus:outline-none w-24"
+                      className="px-2 py-0.5 bg-[#101014] text-zinc-200 rounded text-xs font-mono border border-zinc-500 focus:outline-none w-20"
                     />
                     <button
                       type="submit"
-                      className="px-1.5 py-0.5 bg-primary text-black rounded text-[11px] font-bold"
+                      className="px-1.5 py-0.5 bg-white text-zinc-950 rounded text-[11px] font-bold"
                     >
                       Add
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsAddingTag(false);
-                        setNewTagInput('');
-                      }}
-                      className="px-1.5 py-0.5 bg-surface-container text-on-surface-variant hover:text-white rounded text-[11px]"
-                    >
-                      ✕
                     </button>
                   </form>
                 ) : (
                   <button
                     onClick={() => setIsAddingTag(true)}
-                    className="px-space-sm py-1 bg-surface-container text-on-surface-variant hover:text-primary rounded-lg text-xs font-mono border border-dashed border-[#27272A] transition"
+                    className="px-2 py-0.5 bg-[#101014] text-zinc-400 hover:text-white rounded text-xs font-mono border border-dashed border-[#27272A] transition"
                   >
-                    + Add tag
+                    + Add
                   </button>
                 )}
               </div>
@@ -384,55 +385,51 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
           </div>
         </div>
 
-        {/* Right Column: Search Results & Track 2 Autonomous Response (9 cols) */}
-        <div className="col-span-12 lg:col-span-9 flex flex-col gap-space-md">
+        {/* Right Column: Search Results & Track 2 Autonomous Response */}
+        <div className="col-span-12 lg:col-span-9 flex flex-col gap-4">
           {/* OmniMind Autonomous Intelligence Summary Banner */}
           {autonomousResult && (
-            <div className="bg-surface-container rounded-2xl p-space-lg border border-[#27272A] shadow-md flex flex-col gap-3 relative overflow-hidden">
+            <div className="bg-[#18181B] rounded-xl p-5 border border-[#27272A] shadow-md flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-[20px]">
-                    psychology
-                  </span>
-                  <span className="font-semibold text-primary text-body-md">
-                    OmniMind Autonomous Synthesis (Track 2)
+                  <Bot className="w-4 h-4 text-blue-400" />
+                  <span className="font-semibold text-white text-sm">
+                    Autonomous Multi-App Synthesis
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-500/10 text-emerald-400">
-                    Precision Guaranteed • Zero Hallucination
+                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/50">
+                    Track 2 Schema Validated
                   </span>
                   <button
                     onClick={copyRawJson}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-high hover:bg-surface-bright text-xs font-mono text-primary transition"
+                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#101014] hover:bg-zinc-800 text-xs font-mono text-zinc-300 border border-[#27272A] transition"
                   >
-                    <span className="material-symbols-outlined text-[14px]">
-                      {copied ? 'check' : 'content_copy'}
-                    </span>
-                    <span>{copied ? 'Copied' : 'Copy JSON Schema'}</span>
+                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copied ? 'Copied' : 'Copy JSON'}</span>
                   </button>
                 </div>
               </div>
 
               {showJsonSchema ? (
-                <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] font-mono text-xs text-emerald-400 overflow-x-auto leading-relaxed">
+                <div className="p-4 rounded-lg bg-[#0C0C0E] border border-[#27272A] font-mono text-xs text-emerald-400 overflow-x-auto leading-relaxed">
                   <pre>{JSON.stringify(autonomousResult, null, 2)}</pre>
                 </div>
               ) : (
                 <>
-                  <p className="text-body-md text-on-surface leading-relaxed">
+                  <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
                     {autonomousResult.summary}
                   </p>
 
-                  {/* Sources citations inline */}
-                  <div className="flex flex-wrap gap-2 pt-1 border-t border-[#27272A]/40">
+                  {/* Explicit Swytchcode Source Badges */}
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-[#27272A]">
                     {autonomousResult.sources.map((src, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 rounded-lg bg-surface-container-low border border-[#27272A] text-xs font-mono text-on-surface flex items-center gap-1.5"
+                        className="px-2.5 py-1 rounded bg-[#101014] border border-[#27272A] text-xs font-mono text-zinc-300 flex items-center gap-1.5"
                       >
-                        <span className="text-primary font-bold">[{src.app}]</span>
-                        <span className="text-on-surface-variant truncate max-w-[200px]">
+                        <span className="text-blue-400 font-semibold">[Source: Swytchcode/{src.app}]</span>
+                        <span className="text-zinc-400 truncate max-w-[220px]">
                           {src.identifier}
                         </span>
                       </span>
@@ -445,22 +442,22 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
 
           {/* Result Card 1: Slack */}
           {(activeTab === 'all' || activeTab === 'slack') && (
-            <div className="bg-surface-container hover:bg-surface-container-high transition-all rounded-2xl p-space-lg flex flex-col gap-space-md shadow-sm border border-[#27272A]">
+            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
               <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-space-md">
-                  <div className="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-primary border border-[#27272A]">
-                    <span className="material-symbols-outlined text-[20px]">chat</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+                    <Hash className="w-4 h-4 text-blue-400" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-space-sm flex-wrap">
-                      <h3 className="font-headline-sm font-semibold text-primary">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="font-semibold text-white text-sm">
                         Infrastructure Migration Timeline &amp; Q3 Milestones
                       </h3>
-                      <span className="px-space-sm py-0.5 bg-surface-container-low text-on-surface-variant font-mono text-xs rounded-lg border border-[#27272A]">
-                        Source: Slack #engineering
+                      <span className="px-2 py-0.5 bg-[#101014] text-blue-400 font-mono text-xs rounded border border-[#27272A]">
+                        [Source: Swytchcode/Slack #engineering]
                       </span>
                     </div>
-                    <p className="text-body-sm text-on-surface-variant mt-0.5">
+                    <p className="text-xs text-zinc-400 mt-0.5">
                       Posted by Alex Rivera • Yesterday at 4:42 PM
                     </p>
                   </div>
@@ -471,36 +468,34 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                     setContextItem({
                       isOpen: true,
                       title: 'Infrastructure Migration Timeline & Q3 Milestones',
-                      sourceApp: 'Slack #engineering',
+                      sourceApp: 'Swytchcode/Slack #engineering',
                       author: 'Alex Rivera (DevOps)',
                       timestamp: 'Yesterday at 4:42 PM',
                       snippet:
                         '...We need to lock in the final instances for the q3 roadmap infrastructure migration by Friday. The database replication lag test passed successfully under heavy load simulation...',
                     })
                   }
-                  className="px-space-md py-space-sm bg-surface-container-low hover:bg-primary hover:text-[#131315] rounded-xl text-on-surface font-medium text-xs transition-all flex items-center gap-space-xs border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
                 >
-                  <span className="material-symbols-outlined text-[16px]">visibility</span>
-                  <span>View Context</span>
+                  <Eye className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>View Thread</span>
                 </button>
               </div>
 
-              <p className="text-body-md text-on-surface pl-14 leading-relaxed">
+              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
                 "...We need to lock in the final instances for the{' '}
-                <span className="bg-primary/20 text-primary px-1 rounded font-semibold">
+                <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
                 </span>{' '}
-                by Friday. The database replication lag test passed successfully under heavy load
-                simulation..."
+                by Friday. The database replication lag test passed successfully under heavy load simulation..."
               </p>
 
-              <div className="flex items-center gap-space-md pl-14 pt-space-xs text-xs text-on-surface-variant font-mono">
+              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
                 <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">forum</span> 14 replies
+                  <MessageSquare className="w-3.5 h-3.5" /> 14 replies
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">attachment</span> 2 files
-                  attached
+                  <Paperclip className="w-3.5 h-3.5" /> 2 files attached
                 </span>
               </div>
             </div>
@@ -508,22 +503,22 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
 
           {/* Result Card 2: Gmail */}
           {(activeTab === 'all' || activeTab === 'gmail') && (
-            <div className="bg-surface-container hover:bg-surface-container-high transition-all rounded-2xl p-space-lg flex flex-col gap-space-md shadow-sm border border-[#27272A]">
+            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
               <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-space-md">
-                  <div className="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-primary border border-[#27272A]">
-                    <span className="material-symbols-outlined text-[20px]">mail</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+                    <Mail className="w-4 h-4 text-emerald-400" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-space-sm flex-wrap">
-                      <h3 className="font-headline-sm font-semibold text-primary">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="font-semibold text-white text-sm">
                         RE: Executive Briefing: Q3 Roadmap &amp; Cloud Migration Budget
                       </h3>
-                      <span className="px-space-sm py-0.5 bg-surface-container-low text-on-surface-variant font-mono text-xs rounded-lg border border-[#27272A]">
-                        Source: Gmail Inbox
+                      <span className="px-2 py-0.5 bg-[#101014] text-emerald-400 font-mono text-xs rounded border border-[#27272A]">
+                        [Source: Swytchcode/Gmail Thread: Sarah Jenkins]
                       </span>
                     </div>
-                    <p className="text-body-sm text-on-surface-variant mt-0.5">
+                    <p className="text-xs text-zinc-400 mt-0.5">
                       From Sarah Jenkins • 3 days ago
                     </p>
                   </div>
@@ -534,58 +529,54 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                     setContextItem({
                       isOpen: true,
                       title: 'RE: Executive Briefing: Q3 Roadmap & Cloud Migration Budget',
-                      sourceApp: 'Gmail Inbox',
+                      sourceApp: 'Swytchcode/Gmail Inbox',
                       author: 'Sarah Jenkins (VP Sales)',
                       timestamp: '3 days ago',
                       snippet:
                         'Attached is the revised financial projection for the upcoming q3 roadmap infrastructure migration. Please review the multi-region failover provisions before the board meeting next Tuesday...',
                     })
                   }
-                  className="px-space-md py-space-sm bg-surface-container-low hover:bg-primary hover:text-[#131315] rounded-xl text-on-surface font-medium text-xs transition-all flex items-center gap-space-xs border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
                 >
-                  <span className="material-symbols-outlined text-[16px]">visibility</span>
-                  <span>View Context</span>
+                  <Eye className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>View Thread</span>
                 </button>
               </div>
 
-              <p className="text-body-md text-on-surface pl-14 leading-relaxed">
+              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
                 "Attached is the revised financial projection for the upcoming{' '}
-                <span className="bg-primary/20 text-primary px-1 rounded font-semibold">
+                <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
                 </span>
-                . Please review the multi-region failover provisions before the board meeting next
-                Tuesday..."
+                . Please review the multi-region failover provisions before the board meeting next Tuesday..."
               </p>
 
-              <div className="flex items-center gap-space-md pl-14 pt-space-xs text-xs text-on-surface-variant font-mono">
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">label</span> Executive
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">schedule</span> 5 min read
-                </span>
+              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+                <span>Executive Thread</span>
+                <span>·</span>
+                <span>Direct Sign-off</span>
               </div>
             </div>
           )}
 
           {/* Result Card 3: Notion */}
           {(activeTab === 'all' || activeTab === 'notion') && (
-            <div className="bg-surface-container hover:bg-surface-container-high transition-all rounded-2xl p-space-lg flex flex-col gap-space-md shadow-sm border border-[#27272A]">
+            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
               <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-space-md">
-                  <div className="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-primary border border-[#27272A]">
-                    <span className="material-symbols-outlined text-[20px]">description</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+                    <FileText className="w-4 h-4 text-purple-400" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-space-sm flex-wrap">
-                      <h3 className="font-headline-sm font-semibold text-primary">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="font-semibold text-white text-sm">
                         Technical Architecture Spec: Q3 Migration Plan
                       </h3>
-                      <span className="px-space-sm py-0.5 bg-surface-container-low text-on-surface-variant font-mono text-xs rounded-lg border border-[#27272A]">
-                        Source: Notion Engineering Wiki
+                      <span className="px-2 py-0.5 bg-[#101014] text-purple-400 font-mono text-xs rounded border border-[#27272A]">
+                        [Source: Swytchcode/Notion Architecture Spec]
                       </span>
                     </div>
-                    <p className="text-body-sm text-on-surface-variant mt-0.5">
+                    <p className="text-xs text-zinc-400 mt-0.5">
                       Updated by Elena Rostova • 5 days ago
                     </p>
                   </div>
@@ -596,58 +587,54 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                     setContextItem({
                       isOpen: true,
                       title: 'Technical Architecture Spec: Q3 Migration Plan',
-                      sourceApp: 'Notion Engineering Wiki',
+                      sourceApp: 'Swytchcode/Notion Engineering Wiki',
                       author: 'Elena Rostova (Product)',
                       timestamp: '5 days ago',
                       snippet:
                         '...This document outlines the zero-downtime strategy for the core database clusters as part of the broader q3 roadmap infrastructure migration. Kubernetes node pools will auto-scale...',
                     })
                   }
-                  className="px-space-md py-space-sm bg-surface-container-low hover:bg-primary hover:text-[#131315] rounded-xl text-on-surface font-medium text-xs transition-all flex items-center gap-space-xs border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
                 >
-                  <span className="material-symbols-outlined text-[16px]">visibility</span>
-                  <span>View Context</span>
+                  <Eye className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>View Doc</span>
                 </button>
               </div>
 
-              <p className="text-body-md text-on-surface pl-14 leading-relaxed">
-                "...This document outlines the zero-downtime strategy for the core database clusters as part
-                of the broader{' '}
-                <span className="bg-primary/20 text-primary px-1 rounded font-semibold">
+              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
+                "...This document outlines the zero-downtime strategy for the core database clusters as part of the broader{' '}
+                <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
                 </span>
                 . Kubernetes node pools will auto-scale..."
               </p>
 
-              <div className="flex items-center gap-space-md pl-14 pt-space-xs text-xs text-on-surface-variant font-mono">
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">edit</span> Edited 4 times
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">folder</span> Wiki / Architecture
-                </span>
+              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+                <span>Version 4.2</span>
+                <span>·</span>
+                <span>Engineering Spec</span>
               </div>
             </div>
           )}
 
           {/* Result Card 4: Google Drive */}
           {(activeTab === 'all' || activeTab === 'drive') && (
-            <div className="bg-surface-container hover:bg-surface-container-high transition-all rounded-2xl p-space-lg flex flex-col gap-space-md shadow-sm border border-[#27272A]">
+            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
               <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-space-md">
-                  <div className="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-primary border border-[#27272A]">
-                    <span className="material-symbols-outlined text-[20px]">folder</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+                    <HardDrive className="w-4 h-4 text-blue-400" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-space-sm flex-wrap">
-                      <h3 className="font-headline-sm font-semibold text-primary">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="font-semibold text-white text-sm">
                         Q3_Migration_Architecture_Draft_v4.pdf
                       </h3>
-                      <span className="px-space-sm py-0.5 bg-surface-container-low text-on-surface-variant font-mono text-xs rounded-lg border border-[#27272A]">
-                        Source: Google Drive
+                      <span className="px-2 py-0.5 bg-[#101014] text-blue-400 font-mono text-xs rounded border border-[#27272A]">
+                        [Source: Swytchcode/Google Drive / Roadmap.docx]
                       </span>
                     </div>
-                    <p className="text-body-sm text-on-surface-variant mt-0.5">
+                    <p className="text-xs text-zinc-400 mt-0.5">
                       Owned by Alex Rivera • Last modified last week
                     </p>
                   </div>
@@ -658,59 +645,54 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                     setContextItem({
                       isOpen: true,
                       title: 'Q3_Migration_Architecture_Draft_v4.pdf',
-                      sourceApp: 'Google Drive',
+                      sourceApp: 'Swytchcode/Google Drive',
                       author: 'Alex Rivera (DevOps)',
                       timestamp: 'Last modified last week',
                       snippet:
                         '...Diagrams and network topologies highlighting data flow during the q3 roadmap infrastructure migration phase 2. Includes security compliance checklists...',
                     })
                   }
-                  className="px-space-md py-space-sm bg-surface-container-low hover:bg-primary hover:text-[#131315] rounded-xl text-on-surface font-medium text-xs transition-all flex items-center gap-space-xs border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
                 >
-                  <span className="material-symbols-outlined text-[16px]">visibility</span>
-                  <span>View Context</span>
+                  <Eye className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>View Doc</span>
                 </button>
               </div>
 
-              <p className="text-body-md text-on-surface pl-14 leading-relaxed">
+              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
                 "...Diagrams and network topologies highlighting data flow during the{' '}
-                <span className="bg-primary/20 text-primary px-1 rounded font-semibold">
+                <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
                 </span>{' '}
                 phase 2. Includes security compliance checklists..."
               </p>
 
-              <div className="flex items-center gap-space-md pl-14 pt-space-xs text-xs text-on-surface-variant font-mono">
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">lock</span> Shared with 12
-                  people
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">description</span> PDF
-                  Document
-                </span>
+              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+                <span>PDF Document</span>
+                <span>·</span>
+                <span>Shared with 12 engineers</span>
               </div>
             </div>
           )}
 
           {/* Result Card 5: Box */}
           {(activeTab === 'all' || activeTab === 'box') && (
-            <div className="bg-surface-container hover:bg-surface-container-high transition-all rounded-2xl p-space-lg flex flex-col gap-space-md shadow-sm border border-[#27272A]">
+            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
               <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-space-md">
-                  <div className="w-10 h-10 rounded-xl bg-surface-container-low flex items-center justify-center text-primary border border-[#27272A]">
-                    <span className="material-symbols-outlined text-[20px]">inventory_2</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+                    <BoxIcon className="w-4 h-4 text-amber-400" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-space-sm flex-wrap">
-                      <h3 className="font-headline-sm font-semibold text-primary">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="font-semibold text-white text-sm">
                         Enterprise_Architecture_Security_Review.xlsx
                       </h3>
-                      <span className="px-space-sm py-0.5 bg-surface-container-low text-on-surface-variant font-mono text-xs rounded-lg border border-[#27272A]">
-                        Source: Box Enterprise
+                      <span className="px-2 py-0.5 bg-[#101014] text-amber-400 font-mono text-xs rounded border border-[#27272A]">
+                        [Source: Swytchcode/Box Vault]
                       </span>
                     </div>
-                    <p className="text-body-sm text-on-surface-variant mt-0.5">
+                    <p className="text-xs text-zinc-400 mt-0.5">
                       Uploaded by Marcus Vance • Yesterday at 09:15
                     </p>
                   </div>
@@ -721,82 +703,58 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                     setContextItem({
                       isOpen: true,
                       title: 'Enterprise_Architecture_Security_Review.xlsx',
-                      sourceApp: 'Box Enterprise',
+                      sourceApp: 'Swytchcode/Box Vault',
                       author: 'Marcus Vance (Infra Sec)',
                       timestamp: 'Yesterday at 09:15',
                       snippet:
                         '...Security audit matrix confirming all storage buckets and Box sync pipelines adhere to SOC2 Type II compliance standards. Cross-tool encryption validated for Gmail, Drive, Notion, Box, and Slack...',
                     })
                   }
-                  className="px-space-md py-space-sm bg-surface-container-low hover:bg-primary hover:text-[#131315] rounded-xl text-on-surface font-medium text-xs transition-all flex items-center gap-space-xs border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
                 >
-                  <span className="material-symbols-outlined text-[16px]">visibility</span>
-                  <span>View Context</span>
+                  <Eye className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>View Doc</span>
                 </button>
               </div>
 
-              <p className="text-body-md text-on-surface pl-14 leading-relaxed">
+              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
                 "...Security audit matrix confirming all storage buckets and Box sync pipelines adhere to SOC2 Type II compliance standards. Cross-tool encryption validated for{' '}
-                <span className="bg-primary/20 text-primary px-1 rounded font-semibold">
+                <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
                 </span>{' '}
                 and automated disaster recovery runs..."
               </p>
 
-              <div className="flex items-center gap-space-md pl-14 pt-space-xs text-xs text-on-surface-variant font-mono">
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">shield</span> Encrypted
+              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+                <span className="flex items-center gap-1 text-emerald-400">
+                  <Shield className="w-3.5 h-3.5" /> SOC2 Verified
                 </span>
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">history</span> Version 3.2
-                </span>
+                <span>·</span>
+                <span>Encrypted AES-256</span>
               </div>
             </div>
           )}
 
-          {/* Pagination */}
-          <div className="flex items-center justify-between pt-space-md">
-            <span className="text-body-sm text-on-surface-variant font-mono">
-              Showing results across Gmail, Google Drive, Notion, Box, and Slack
-            </span>
-            <div className="flex items-center gap-space-xs font-mono text-xs">
+          {/* Clean Pagination */}
+          <div className="flex items-center justify-between pt-4 border-t border-[#27272A] text-xs font-mono text-zinc-400">
+            <span>Showing verified cross-tool records</span>
+            <div className="flex items-center gap-1">
               <button
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
-                className="px-space-md py-space-sm bg-surface-container text-on-surface-variant rounded-xl disabled:opacity-50 border border-[#27272A]"
+                className="px-2.5 py-1 bg-[#18181B] hover:bg-zinc-800 rounded border border-[#27272A] disabled:opacity-40 transition flex items-center gap-1"
               >
-                Previous
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span>Prev</span>
               </button>
-              <button
-                onClick={() => setPage(1)}
-                className={`px-space-md py-space-sm rounded-xl font-bold ${
-                  page === 1 ? 'bg-primary text-[#131315]' : 'bg-surface-container'
-                }`}
-              >
-                1
-              </button>
-              <button
-                onClick={() => setPage(2)}
-                className={`px-space-md py-space-sm rounded-xl ${
-                  page === 2 ? 'bg-primary text-[#131315] font-bold' : 'bg-surface-container'
-                }`}
-              >
-                2
-              </button>
-              <button
-                onClick={() => setPage(3)}
-                className={`px-space-md py-space-sm rounded-xl ${
-                  page === 3 ? 'bg-primary text-[#131315] font-bold' : 'bg-surface-container'
-                }`}
-              >
-                3
-              </button>
+              <span className="px-2 py-1 text-white">Page {page} of 3</span>
               <button
                 disabled={page === 3}
                 onClick={() => setPage(page + 1)}
-                className="px-space-md py-space-sm bg-surface-container hover:bg-surface-container-high text-on-surface rounded-xl border border-[#27272A]"
+                className="px-2.5 py-1 bg-[#18181B] hover:bg-zinc-800 rounded border border-[#27272A] disabled:opacity-40 transition flex items-center gap-1"
               >
-                Next
+                <span>Next</span>
+                <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>

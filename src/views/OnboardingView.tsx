@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
 import { ActiveView } from '../components/Navigation/Sidebar';
+import {
+  HardDrive,
+  Mail,
+  FileText,
+  Box as BoxIcon,
+  Hash,
+  Check,
+  Link as LinkIcon,
+  Info,
+  ArrowRight,
+  Loader2,
+  Layers,
+} from 'lucide-react';
 
 interface OnboardingViewProps {
   onNavigate: (view: ActiveView) => void;
@@ -8,7 +21,7 @@ interface OnboardingViewProps {
 interface IntegrationCardState {
   id: string;
   name: string;
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
   description: string;
   connected: boolean;
 }
@@ -18,35 +31,35 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onNavigate }) =>
     {
       id: 'gdrive',
       name: 'Google Drive',
-      icon: 'add_to_drive',
+      icon: HardDrive,
       description: 'Sync documents, spreadsheets, and shared team folders instantly.',
       connected: true,
     },
     {
       id: 'gmail',
       name: 'Gmail',
-      icon: 'mail',
+      icon: Mail,
       description: 'Index email communications and threads for contextual AI queries.',
       connected: true,
     },
     {
       id: 'notion',
       name: 'Notion',
-      icon: 'edit_note',
+      icon: FileText,
       description: 'Import wikis, technical notes, and collaborative roadmaps.',
       connected: true,
     },
     {
       id: 'box',
       name: 'Box',
-      icon: 'folder_zip',
+      icon: BoxIcon,
       description: 'Secure enterprise content management and file sharing sync.',
       connected: true,
     },
     {
       id: 'slack',
       name: 'Slack',
-      icon: 'chat',
+      icon: Hash,
       description: 'Real-time chat channels, direct messages, and team notifications.',
       connected: true,
     },
@@ -66,99 +79,104 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onNavigate }) =>
     setLoadingContinue(true);
     setTimeout(() => {
       onNavigate('dashboard');
-    }, 900);
+    }, 700);
   }
 
   return (
-    <main className="w-full bg-surface min-h-full flex-1 flex items-center justify-center selection:bg-white selection:text-black py-8">
-      <div className="flex flex-col w-full max-w-7xl mx-auto px-gutter justify-between gap-8">
+    <main className="w-full bg-[#09090B] min-h-full flex-1 flex items-center justify-center py-10 px-4 text-zinc-100">
+      <div className="flex flex-col w-full max-w-7xl mx-auto justify-between gap-8">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-margin gap-space-md">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-space-xs mb-space-xs">
-              <span className="material-symbols-outlined text-primary text-body-lg">hub</span>
-              <span className="font-label-md text-on-surface-variant uppercase tracking-wider font-mono text-xs">
-                Step 03 / 05
+            <div className="flex items-center gap-2 mb-2">
+              <Layers className="w-4 h-4 text-white" />
+              <span className="font-mono text-[11px] text-zinc-400 uppercase tracking-wider">
+                Step 03 / 05 • Connect Swytchcode Core APIs
               </span>
             </div>
-            <h1 className="font-headline-lg text-primary text-3xl font-bold tracking-tight">
-              Connect your core tools
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+              Connect your core workspace tools
             </h1>
-            <p className="font-body-md text-on-surface-variant mt-space-xs max-w-xl">
+            <p className="text-xs sm:text-sm text-zinc-400 mt-1 max-w-xl">
               Synchronize your workspace data across platforms to enable real-time intelligence, automated
               indexing, and unified search.
             </p>
           </div>
-          <div className="flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-sm rounded-xl border border-[#27272A]">
+          <div className="flex items-center gap-2 bg-[#18181B] px-3 py-2 rounded-xl border border-[#27272A]">
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-            <span className="font-body-sm text-on-surface-variant font-mono">
+            <span className="text-xs text-zinc-300 font-mono">
               Encrypted End-to-End TLS 1.3
             </span>
           </div>
         </div>
 
         {/* Grid Layout for Integrations (5 items) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-gutter mb-margin">
-          {integrations.map((item) => (
-            <div
-              key={item.id}
-              className="group relative bg-surface-container hover:bg-surface-container-high transition-all duration-300 rounded-2xl p-space-lg flex flex-col justify-between border border-[#27272A]"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-space-lg">
-                  <div className="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary group-hover:scale-105 transition-transform duration-300">
-                    <span className="material-symbols-outlined text-2xl">{item.icon}</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {integrations.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.id}
+                className="group relative bg-[#18181B] hover:border-zinc-600 transition duration-200 rounded-2xl p-5 flex flex-col justify-between border border-[#27272A]"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#101014] flex items-center justify-center text-white border border-[#27272A]">
+                      <Icon className="w-5 h-5 text-zinc-200" />
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[11px] font-mono ${
+                        item.connected
+                          ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/50'
+                          : 'bg-[#101014] text-zinc-500 border border-[#27272A]'
+                      }`}
+                    >
+                      {item.connected ? 'Active' : 'Available'}
+                    </span>
                   </div>
-                  <span
-                    className={`px-space-sm py-1 rounded-full text-label-sm font-mono text-[11px] ${
+                  <h3 className="text-sm font-semibold text-white mb-1">
+                    {item.name}
+                  </h3>
+                  <p className="text-xs text-zinc-400 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+
+                <div className="mt-6">
+                  <button
+                    onClick={() => toggleConnect(item.id)}
+                    className={`w-full py-2 px-3 rounded-xl text-xs transition duration-150 flex items-center justify-center gap-1.5 border font-medium ${
                       item.connected
-                        ? 'bg-emerald-500/10 text-emerald-400'
-                        : 'bg-surface-container-lowest text-on-surface-variant'
+                        ? 'bg-white text-black border-white hover:bg-zinc-200'
+                        : 'bg-[#101014] text-zinc-300 border-[#27272A] hover:bg-zinc-800 hover:text-white'
                     }`}
                   >
-                    {item.connected ? 'Active' : 'Available'}
-                  </span>
+                    {item.connected ? (
+                      <Check className="w-3.5 h-3.5 text-black" />
+                    ) : (
+                      <LinkIcon className="w-3.5 h-3.5" />
+                    )}
+                    <span>{item.connected ? 'Connected' : 'Connect'}</span>
+                  </button>
                 </div>
-                <h3 className="font-headline-sm text-primary mb-space-xs font-semibold">
-                  {item.name}
-                </h3>
-                <p className="font-body-sm text-on-surface-variant leading-relaxed">
-                  {item.description}
-                </p>
               </div>
-
-              <div className="mt-space-xl">
-                <button
-                  onClick={() => toggleConnect(item.id)}
-                  className={`w-full py-space-sm px-space-md rounded-xl font-body-sm transition-all duration-200 flex items-center justify-center gap-space-xs border border-[#27272A] ${
-                    item.connected
-                      ? 'bg-primary text-[#131315] font-semibold'
-                      : 'text-primary hover:bg-primary hover:text-on-primary'
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-body-md">
-                    {item.connected ? 'check' : 'link'}
-                  </span>
-                  <span>{item.connected ? 'Connected' : 'Connect'}</span>
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Bottom Navigation Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-space-lg border-t border-[#27272A]">
-          <div className="flex items-center gap-space-sm text-on-surface-variant mb-space-md sm:mb-0">
-            <span className="material-symbols-outlined text-body-md">info</span>
-            <span className="font-body-sm">
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-6 border-t border-[#27272A] gap-4">
+          <div className="flex items-center gap-2 text-zinc-400 text-xs">
+            <Info className="w-4 h-4 text-zinc-500 shrink-0" />
+            <span>
               You can manage, add, or remove integrations anytime from workspace settings.
             </span>
           </div>
 
-          <div className="flex items-center gap-space-md w-full sm:w-auto justify-end">
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             <button
               onClick={() => onNavigate('dashboard')}
-              className="px-space-lg py-space-sm rounded-xl font-body-sm text-on-surface-variant hover:text-primary transition-colors"
+              className="px-4 py-2 rounded-xl text-xs text-zinc-400 hover:text-white transition-colors"
             >
               Skip for now
             </button>
@@ -166,19 +184,17 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onNavigate }) =>
             <button
               onClick={handleContinue}
               disabled={loadingContinue}
-              className="bg-primary text-on-primary px-space-xl py-space-sm rounded-xl font-body-sm font-semibold hover:bg-primary-fixed-dim transition-colors flex items-center gap-space-xs shadow-md"
+              className="bg-white text-black px-5 py-2 rounded-xl text-xs font-semibold hover:bg-zinc-200 transition flex items-center gap-1.5 shadow-sm"
             >
               {loadingContinue ? (
                 <>
-                  <span className="material-symbols-outlined text-body-md animate-spin">
-                    progress_activity
-                  </span>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-black" />
                   <span>Initializing Workspace...</span>
                 </>
               ) : (
                 <>
                   <span>Continue to Workspace</span>
-                  <span className="material-symbols-outlined text-body-md">arrow_forward</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-black" />
                 </>
               )}
             </button>

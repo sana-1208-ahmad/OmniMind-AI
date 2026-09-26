@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 import { ActiveView } from '../components/Navigation/Sidebar';
+import {
+  Layers,
+  ArrowRight,
+  CheckCircle2,
+  Cpu,
+  ShieldCheck,
+  User,
+  Zap,
+  Network,
+  Lock,
+} from 'lucide-react';
 
 interface LandingViewProps {
   onNavigate: (view: ActiveView) => void;
@@ -9,125 +20,121 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
   const [email, setEmail] = useState('');
 
   return (
-    <div className="bg-surface font-body-md text-on-surface min-h-screen flex flex-col selection:bg-white selection:text-black">
+    <div className="bg-[#09090B] text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-white selection:text-black">
       {/* Header */}
-      <header className="sticky top-0 w-full z-30 bg-surface/90 backdrop-blur-xl border-b border-[#27272A]/40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+      <header className="sticky top-0 w-full z-30 bg-[#09090B]/90 backdrop-blur-xl border-b border-[#27272A]">
         <div className="h-16 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between">
           <div
-            className="flex items-center gap-space-md cursor-pointer"
+            className="flex items-center gap-3 cursor-pointer"
             onClick={() => onNavigate('dashboard')}
           >
-            <div className="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center border border-[#27272A]">
-              <span className="material-symbols-outlined text-primary text-[20px]">hub</span>
+            <div className="w-8 h-8 rounded-lg bg-[#18181B] flex items-center justify-center border border-[#27272A]">
+              <Layers className="w-4 h-4 text-white" />
             </div>
-            <span className="text-headline-sm font-semibold tracking-tight text-on-surface">
-              OmniMind
+            <span className="text-base font-bold tracking-tight text-white">
+              OmniMind AI
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-space-lg">
-            <span className="px-3 py-1 bg-surface-container text-on-surface font-medium rounded-lg text-body-md">
+          <nav className="hidden md:flex items-center gap-6 text-xs font-medium">
+            <span className="px-3 py-1 bg-[#18181B] text-white rounded-lg border border-[#27272A]">
               Overview
             </span>
             <button
               onClick={() => onNavigate('search')}
-              className="text-body-md text-on-surface-variant hover:text-on-surface transition-colors"
+              className="text-zinc-400 hover:text-white transition-colors"
             >
               Universal Search
             </button>
             <button
               onClick={() => onNavigate('graph')}
-              className="text-body-md text-on-surface-variant hover:text-on-surface transition-colors"
+              className="text-zinc-400 hover:text-white transition-colors"
             >
               Knowledge Graph
             </button>
             <button
               onClick={() => onNavigate('action-board')}
-              className="text-body-md text-on-surface-variant hover:text-on-surface transition-colors"
+              className="text-zinc-400 hover:text-white transition-colors"
             >
               Action Board
             </button>
             <button
               onClick={() => onNavigate('integrations')}
-              className="text-body-md text-on-surface-variant hover:text-on-surface transition-colors"
+              className="text-zinc-400 hover:text-white transition-colors"
             >
               Integrations
             </button>
           </nav>
 
-          <div className="flex items-center gap-space-md">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => onNavigate('auth')}
-              className="text-body-md text-on-surface-variant hover:text-on-surface px-space-md py-space-sm transition-colors"
+              className="text-xs text-zinc-400 hover:text-white px-3 py-1.5 transition-colors"
             >
               Sign In
             </button>
             <button
               onClick={() => onNavigate('dashboard')}
-              className="bg-primary text-on-primary px-space-lg py-2 rounded-xl text-body-md font-semibold hover:bg-primary-fixed-dim transition-colors shadow-sm"
+              className="bg-white text-black px-4 py-2 rounded-xl text-xs font-semibold hover:bg-zinc-200 transition shadow-sm"
             >
               Workspace
             </button>
             <div
-              className="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer"
+              className="w-8 h-8 rounded-full bg-[#18181B] border border-[#27272A] flex items-center justify-center cursor-pointer text-zinc-300 hover:text-white"
               onClick={() => onNavigate('dashboard')}
             >
-              <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
+              <User className="w-4 h-4" />
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="w-full flex-1 bg-surface">
-        <div className="flex flex-col w-full text-on-surface">
+      <main className="w-full flex-1">
+        <div className="flex flex-col w-full">
           {/* Hero Section */}
-          <section className="relative pt-8 sm:pt-12 pb-12 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-space-xl items-center">
-            <div className="flex flex-col gap-space-lg lg:col-span-7">
-              <div className="inline-flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container border border-outline-variant/35 w-max">
-                <span className="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                <span className="text-label-md text-on-surface-variant font-code">
-                  v4.2 Enterprise Release Live
+          <section className="relative pt-12 pb-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="flex flex-col gap-5 lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#18181B] border border-[#27272A] w-max">
+                <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="text-xs text-zinc-300 font-mono">
+                  v4.2 Enterprise Release Live • Swytchcode Track 2
                 </span>
               </div>
 
-              <h1 className="font-headline-lg text-4xl lg:text-5xl font-bold tracking-tight text-on-surface leading-[1.1]">
+              <h1 className="text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
                 The autonomous knowledge layer for your entire enterprise.
               </h1>
 
-              <p className="font-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+              <p className="text-sm lg:text-base text-zinc-400 max-w-xl leading-relaxed">
                 Connect fragmented internal data, documentation, and real-time workflows into a single
                 reasoning architecture across Gmail, Google Drive, Notion, Box, and Slack.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-space-md max-w-md mt-space-sm">
+              <div className="flex flex-col sm:flex-row gap-3 max-w-md mt-2">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your work email"
-                  className="bg-surface-container-low border border-outline-variant/40 px-space-lg py-space-md rounded-xl text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary transition-colors flex-1 text-body-md"
+                  className="bg-[#18181B] border border-[#27272A] px-4 py-2.5 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500 transition-colors flex-1 text-xs font-sans"
                 />
                 <button
                   onClick={() => onNavigate('onboarding')}
-                  className="bg-primary text-on-primary px-space-xl py-space-md rounded-xl text-body-md font-semibold hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-space-sm whitespace-nowrap shadow-md"
+                  className="bg-white text-black px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-zinc-200 transition flex items-center justify-center gap-1.5 whitespace-nowrap shadow-sm"
                 >
                   <span>Start Free Trial</span>
-                  <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  <ArrowRight className="w-4 h-4 text-black" />
                 </button>
               </div>
 
-              <div className="flex items-center gap-space-lg mt-space-md text-body-sm text-on-surface-variant">
-                <div className="flex items-center gap-space-xs">
-                  <span className="material-symbols-outlined text-[16px] text-emerald-400">
-                    check_circle
-                  </span>
+              <div className="flex items-center gap-6 mt-2 text-xs text-zinc-400">
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                   <span>No credit card required</span>
                 </div>
-                <div className="flex items-center gap-space-xs">
-                  <span className="material-symbols-outlined text-[16px] text-emerald-400">
-                    check_circle
-                  </span>
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                   <span>SOC2 Type II Certified</span>
                 </div>
               </div>
@@ -135,58 +142,57 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
 
             {/* Hero System Box */}
             <div className="lg:col-span-5 w-full">
-              <div className="bg-surface-container border border-outline-variant/30 rounded-2xl p-space-lg flex flex-col gap-space-lg shadow-2xl relative overflow-hidden">
-                <div className="absolute -right-20 -top-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
-                <div className="flex items-center justify-between border-b border-outline-variant/20 pb-space-md">
-                  <div className="flex items-center gap-space-sm">
-                    <div className="w-3 h-3 rounded-full bg-error/80"></div>
-                    <div className="w-3 h-3 rounded-full bg-secondary/40"></div>
-                    <div className="w-3 h-3 rounded-full bg-emerald-400/80"></div>
+              <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-6 flex flex-col gap-4 shadow-2xl relative">
+                <div className="flex items-center justify-between border-b border-[#27272A] pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></div>
                   </div>
-                  <span className="text-code text-label-sm text-on-surface-variant font-mono">
+                  <span className="text-[11px] text-zinc-400 font-mono">
                     omnimind-core-v2.1.sys
                   </span>
                 </div>
 
-                <div className="space-y-space-md">
-                  <div className="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant/20">
-                    <div className="flex items-center justify-between text-body-sm mb-space-xs font-mono">
-                      <span className="text-on-surface-variant">Query Vector Index</span>
+                <div className="space-y-3">
+                  <div className="bg-[#101014] p-3 rounded-xl border border-[#27272A]">
+                    <div className="flex items-center justify-between text-xs mb-1 font-mono">
+                      <span className="text-zinc-400">Query Vector Index</span>
                       <span className="text-emerald-400 font-bold">14ms latency</span>
                     </div>
-                    <p className="text-body-sm text-primary font-mono bg-surface/80 p-space-sm rounded-lg border border-[#27272A]">
+                    <p className="text-xs text-zinc-300 font-mono bg-[#18181B] p-2 rounded-lg border border-[#27272A]">
                       GET /api/v2/knowledge/stream?sync=true
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-space-md">
-                    <div className="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant/20">
-                      <span className="text-label-sm text-on-surface-variant block mb-1 font-mono">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-[#101014] p-3 rounded-xl border border-[#27272A]">
+                      <span className="text-[10px] text-zinc-400 block mb-1 font-mono uppercase">
                         Active Nodes
                       </span>
-                      <span className="text-headline-md font-bold text-on-surface">1,248,590</span>
+                      <span className="text-lg font-bold text-white font-mono">1,248,590</span>
                     </div>
-                    <div className="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant/20">
-                      <span className="text-label-sm text-on-surface-variant block mb-1 font-mono">
+                    <div className="bg-[#101014] p-3 rounded-xl border border-[#27272A]">
+                      <span className="text-[10px] text-zinc-400 block mb-1 font-mono uppercase">
                         Sync Accuracy
                       </span>
-                      <span className="text-headline-md font-bold text-emerald-400">99.98%</span>
+                      <span className="text-lg font-bold text-emerald-400 font-mono">99.98%</span>
                     </div>
                   </div>
 
-                  <div className="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between border border-[#27272A]">
-                    <div className="flex items-center gap-space-md">
-                      <div className="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
-                        <span className="material-symbols-outlined text-[20px]">psychology</span>
+                  <div className="bg-[#101014] p-3 rounded-xl flex items-center justify-between border border-[#27272A]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-[#18181B] flex items-center justify-center text-white border border-[#27272A]">
+                        <Cpu className="w-4 h-4 text-zinc-300" />
                       </div>
                       <div>
-                        <h4 className="text-body-md font-medium text-on-surface">
+                        <h4 className="text-xs font-semibold text-white">
                           Autonomous Cluster #4
                         </h4>
-                        <p className="text-body-sm text-on-surface-variant">Real-time reasoning active</p>
+                        <p className="text-[11px] text-zinc-400">Real-time reasoning active</p>
                       </div>
                     </div>
-                    <span className="px-space-sm py-space-xs rounded bg-surface-container-highest text-label-sm font-mono text-primary">
+                    <span className="px-2 py-0.5 rounded bg-[#18181B] text-[10px] font-mono text-emerald-400 border border-[#27272A]">
                       Stable
                     </span>
                   </div>
@@ -196,96 +202,94 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
           </section>
 
           {/* Metrics Section */}
-          <section className="border-y border-outline-variant/20 bg-surface-container-lowest py-space-xl px-gutter">
-            <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-space-xl text-center">
-              <div className="flex flex-col gap-space-xs">
-                <span className="text-headline-lg font-bold text-on-surface">99.99%</span>
-                <span className="text-body-md text-on-surface-variant">Uptime SLA Guaranteed</span>
+          <section className="border-y border-[#27272A] bg-[#101014] py-8 px-4 sm:px-6 md:px-8">
+            <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              <div className="flex flex-col gap-1">
+                <span className="text-2xl md:text-3xl font-bold text-white font-mono">99.99%</span>
+                <span className="text-xs text-zinc-400">Uptime SLA Guaranteed</span>
               </div>
-              <div className="flex flex-col gap-space-xs">
-                <span className="text-headline-lg font-bold text-on-surface">&lt; 15ms</span>
-                <span className="text-body-md text-on-surface-variant">Average Vector Lookup</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-2xl md:text-3xl font-bold text-white font-mono">&lt; 15ms</span>
+                <span className="text-xs text-zinc-400">Average Vector Lookup</span>
               </div>
-              <div className="flex flex-col gap-space-xs">
-                <span className="text-headline-lg font-bold text-on-surface">10B+</span>
-                <span className="text-body-md text-on-surface-variant">Tokens Processed Daily</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-2xl md:text-3xl font-bold text-white font-mono">10B+</span>
+                <span className="text-xs text-zinc-400">Tokens Processed Daily</span>
               </div>
-              <div className="flex flex-col gap-space-xs">
-                <span className="text-headline-lg font-bold text-on-surface">500+</span>
-                <span className="text-body-md text-on-surface-variant">Enterprise Deployments</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-2xl md:text-3xl font-bold text-white font-mono">500+</span>
+                <span className="text-xs text-zinc-400">Enterprise Deployments</span>
               </div>
             </div>
           </section>
 
           {/* Architecture Bento Section */}
-          <section className="py-margin px-gutter max-w-7xl mx-auto w-full">
-            <div className="flex flex-col items-center text-center gap-space-sm mb-space-xl">
-              <span className="text-label-md font-mono text-primary uppercase tracking-wider">
+          <section className="py-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full">
+            <div className="flex flex-col items-center text-center gap-2 mb-10">
+              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">
                 Architecture
               </span>
-              <h2 className="font-headline-lg text-3xl md:text-4xl font-bold">
+              <h2 className="text-2xl md:text-3xl font-bold text-white">
                 Engineered for absolute scale
               </h2>
-              <p className="text-body-lg text-on-surface-variant max-w-2xl">
+              <p className="text-xs sm:text-sm text-zinc-400 max-w-2xl">
                 Everything you need to orchestrate complex knowledge graphs and reasoning engines
                 across disparate tools.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
-              <div className="bg-surface-container border border-outline-variant/30 rounded-2xl p-space-lg flex flex-col justify-between gap-space-xl group hover:border-outline-variant/60 transition-colors">
-                <div className="flex flex-col gap-space-md">
-                  <div className="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined text-[24px]">hub</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-6 flex flex-col justify-between gap-6 group hover:border-zinc-600 transition-colors">
+                <div className="flex flex-col gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#101014] flex items-center justify-center text-white border border-[#27272A]">
+                    <Zap className="w-5 h-5 text-amber-400" />
                   </div>
-                  <h3 className="font-headline-md text-xl text-on-surface font-semibold">
+                  <h3 className="text-base text-white font-semibold">
                     Zero-Latency Sync
                   </h3>
-                  <p className="text-body-md text-on-surface-variant leading-relaxed">
+                  <p className="text-xs text-zinc-400 leading-relaxed">
                     Connect internal databases, repositories, and documentation channels without custom
                     pipeline engineering.
                   </p>
                 </div>
-                <div className="bg-surface-container-lowest p-space-md rounded-xl font-mono text-body-sm text-on-surface-variant border border-outline-variant/20">
+                <div className="bg-[#101014] p-3 rounded-xl font-mono text-xs text-zinc-400 border border-[#27272A]">
                   $ omnimind sync --auto-resolve
                 </div>
               </div>
 
-              <div className="bg-surface-container border border-outline-variant/30 rounded-2xl p-space-lg flex flex-col justify-between gap-space-xl group hover:border-outline-variant/60 transition-colors">
-                <div className="flex flex-col gap-space-md">
-                  <div className="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined text-[24px]">shield_lock</span>
+              <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-6 flex flex-col justify-between gap-6 group hover:border-zinc-600 transition-colors">
+                <div className="flex flex-col gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#101014] flex items-center justify-center text-white border border-[#27272A]">
+                    <Lock className="w-5 h-5 text-emerald-400" />
                   </div>
-                  <h3 className="font-headline-md text-xl text-on-surface font-semibold">
+                  <h3 className="text-base text-white font-semibold">
                     Enterprise Security
                   </h3>
-                  <p className="text-body-md text-on-surface-variant leading-relaxed">
+                  <p className="text-xs text-zinc-400 leading-relaxed">
                     Role-based access controls, end-to-end encryption at rest and in transit, and complete
                     audit logging.
                   </p>
                 </div>
-                <div className="bg-surface-container-lowest p-space-md rounded-xl font-mono text-body-sm text-primary border border-outline-variant/20 flex items-center justify-between">
+                <div className="bg-[#101014] p-3 rounded-xl font-mono text-xs text-zinc-300 border border-[#27272A] flex items-center justify-between">
                   <span>SOC2 &amp; HIPAA Compliant</span>
-                  <span className="material-symbols-outlined text-[16px] text-emerald-400">
-                    verified
-                  </span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 </div>
               </div>
 
-              <div className="bg-surface-container border border-outline-variant/30 rounded-2xl p-space-lg flex flex-col justify-between gap-space-xl group hover:border-outline-variant/60 transition-colors">
-                <div className="flex flex-col gap-space-md">
-                  <div className="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined text-[24px]">neurology</span>
+              <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-6 flex flex-col justify-between gap-6 group hover:border-zinc-600 transition-colors">
+                <div className="flex flex-col gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#101014] flex items-center justify-center text-white border border-[#27272A]">
+                    <Network className="w-5 h-5 text-blue-400" />
                   </div>
-                  <h3 className="font-headline-md text-xl text-on-surface font-semibold">
+                  <h3 className="text-base text-white font-semibold">
                     Autonomous Reasoning
                   </h3>
-                  <p className="text-body-md text-on-surface-variant leading-relaxed">
+                  <p className="text-xs text-zinc-400 leading-relaxed">
                     Self-healing vector indexes that automatically adapt to structural code changes and
                     documentation edits.
                   </p>
                 </div>
-                <div className="bg-surface-container-lowest p-space-md rounded-xl font-mono text-body-sm text-on-surface-variant border border-outline-variant/20">
+                <div className="bg-[#101014] p-3 rounded-xl font-mono text-xs text-zinc-400 border border-[#27272A]">
                   Index health: 100% optimized
                 </div>
               </div>
@@ -293,26 +297,25 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
           </section>
 
           {/* CTA Banner Section */}
-          <section className="py-margin px-gutter max-w-7xl mx-auto w-full mb-margin">
-            <div className="bg-surface-container-high border border-outline-variant/30 rounded-2xl p-space-xl md:p-16 flex flex-col items-center text-center gap-space-lg relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-transparent pointer-events-none"></div>
-              <h2 className="font-headline-lg text-3xl md:text-4xl text-on-surface max-w-xl font-bold">
+          <section className="py-8 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full mb-12">
+            <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-8 sm:p-12 flex flex-col items-center text-center gap-4 relative">
+              <h2 className="text-2xl sm:text-3xl text-white max-w-xl font-bold">
                 Ready to transform your enterprise knowledge?
               </h2>
-              <p className="text-body-lg text-on-surface-variant max-w-lg">
+              <p className="text-xs sm:text-sm text-zinc-400 max-w-lg">
                 Join forward-thinking engineering teams building the next generation of autonomous
                 workplace intelligence.
               </p>
-              <div className="flex items-center gap-space-md mt-space-sm flex-wrap justify-center">
+              <div className="flex items-center gap-3 mt-2 flex-wrap justify-center">
                 <button
                   onClick={() => onNavigate('onboarding')}
-                  className="bg-primary text-on-primary px-space-xl py-space-md rounded-xl text-body-md font-semibold hover:bg-primary-fixed-dim transition-colors shadow-lg"
+                  className="bg-white text-black px-6 py-2.5 rounded-xl text-xs font-semibold hover:bg-zinc-200 transition shadow-lg"
                 >
                   Start Free Trial
                 </button>
                 <button
                   onClick={() => onNavigate('dashboard')}
-                  className="bg-surface-container border border-outline-variant/40 text-on-surface px-space-xl py-space-md rounded-xl text-body-md font-medium hover:bg-surface-container-highest transition-colors"
+                  className="bg-[#101014] border border-[#27272A] text-white px-6 py-2.5 rounded-xl text-xs font-medium hover:bg-zinc-800 transition"
                 >
                   Enter Workspace
                 </button>
@@ -322,10 +325,10 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
         </div>
       </main>
 
-      <footer className="w-full bg-surface-container-low py-margin border-t border-[#27272A]/40">
-        <div className="max-w-7xl mx-auto px-gutter flex flex-col sm:flex-row items-center justify-between text-on-surface-variant text-body-sm gap-2">
-          <div>© 2026 OmniMind Inc. All rights reserved.</div>
-          <div className="flex items-center gap-4 text-xs font-mono">
+      <footer className="w-full bg-[#101014] py-6 border-t border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col sm:flex-row items-center justify-between text-zinc-500 text-xs gap-3">
+          <div>© 2026 OmniMind AI Inc. All rights reserved.</div>
+          <div className="flex items-center gap-4 text-[11px] font-mono">
             <span>SOC2 Type II</span>
             <span>·</span>
             <span>HIPAA Compliant</span>

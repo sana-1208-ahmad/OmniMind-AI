@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
 import { EXECUTION_LOGS_INITIAL } from '../data/mockWorkspacePayload';
 import { ExecutionLog } from '../types';
+import {
+  History,
+  Search,
+  Download,
+  RefreshCw,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  HardDrive,
+  Mail,
+  FileText,
+  Hash,
+  Box as BoxIcon,
+  Terminal,
+  ArrowRight,
+  ShieldCheck,
+  X,
+} from 'lucide-react';
 
 export const ExecutionLogsView: React.FC = () => {
   const [logs, setLogs] = useState<ExecutionLog[]>(EXECUTION_LOGS_INITIAL);
@@ -25,7 +43,9 @@ export const ExecutionLogsView: React.FC = () => {
       setIsRetrying(null);
       setLogs((prev) =>
         prev.map((l) =>
-          l.id === logId ? { ...l, status: 'Success', timestamp: 'Just now', latencyMs: Math.floor(Math.random() * 80) + 90 } : l
+          l.id === logId
+            ? { ...l, status: 'Success', timestamp: 'Just now', latencyMs: Math.floor(Math.random() * 80) + 90 }
+            : l
         )
       );
     }, 900);
@@ -34,40 +54,38 @@ export const ExecutionLogsView: React.FC = () => {
   const getSourceIcon = (source: string) => {
     switch (source) {
       case 'Slack':
-        return 'tag';
+        return <Hash className="w-4 h-4 text-blue-400" />;
       case 'Gmail':
-        return 'mail';
+        return <Mail className="w-4 h-4 text-emerald-400" />;
       case 'Notion':
-        return 'description';
+        return <FileText className="w-4 h-4 text-purple-400" />;
       case 'Google Drive':
-        return 'folder_shared';
+        return <HardDrive className="w-4 h-4 text-blue-400" />;
       case 'Box':
-        return 'inventory_2';
-      case 'GitHub':
-        return 'terminal';
+        return <BoxIcon className="w-4 h-4 text-amber-400" />;
       default:
-        return 'hub';
+        return <Terminal className="w-4 h-4 text-zinc-400" />;
     }
   };
 
   return (
-    <div className="flex-1 p-space-xl max-w-7xl mx-auto space-y-space-xl animate-fade-in text-primary">
+    <div className="flex-1 p-5 sm:p-6 max-w-7xl mx-auto space-y-6 text-zinc-100">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-space-md border-b border-[#27272A]/60 pb-space-lg">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#27272A] pb-5">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[11px] font-mono tracking-wider uppercase text-emerald-400 font-semibold px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/40">
-              AUDIT TRAIL & TELEMETRY
+              SOC2 Type II Audit Trail
             </span>
-            <span className="text-[12px] text-secondary">Track 2 Compliance Active</span>
+            <span className="text-xs text-zinc-400">Swytchcode Cryptographic Hashes Active</span>
           </div>
-          <h1 className="text-display-sm font-semibold tracking-tight text-primary">Execution Logs</h1>
-          <p className="text-secondary text-body-md mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-white">Execution Logs</h1>
+          <p className="text-zinc-400 text-xs sm:text-sm mt-1">
             Real-time trace logs of autonomous multi-platform queries, webhook ingestions, and synthesis events.
           </p>
         </div>
 
-        <div className="flex items-center gap-space-sm">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => {
               const newLog: ExecutionLog = {
@@ -80,17 +98,17 @@ export const ExecutionLogsView: React.FC = () => {
                 status: 'Success',
                 latencyMs: 118,
                 details: {
-                  caller: 'OmniMind Autonomous Cron',
+                  caller: 'OmniMind Swytchcode Agent',
                   chunksUpdated: 24,
                   sourceApp: 'Google Drive',
                 },
               };
               setLogs([newLog, ...logs]);
             }}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-high border border-[#27272A] text-sm text-primary hover:bg-[#27272A] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#18181B] border border-[#27272A] hover:border-zinc-700 text-xs text-zinc-200 transition"
           >
-            <span className="material-symbols-outlined text-[18px]">sync</span>
-            Force Re-sync
+            <RefreshCw className="w-3.5 h-3.5 text-zinc-400" />
+            <span>Force Re-sync</span>
           </button>
           <button
             onClick={() => {
@@ -102,101 +120,48 @@ export const ExecutionLogsView: React.FC = () => {
               downloadAnchor.click();
               downloadAnchor.remove();
             }}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-high border border-[#27272A] text-sm text-primary hover:bg-[#27272A] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white text-zinc-950 font-medium text-xs hover:bg-zinc-200 transition"
           >
-            <span className="material-symbols-outlined text-[18px]">file_download</span>
-            Export Audit JSON
+            <Download className="w-3.5 h-3.5" />
+            <span>Export Audit JSON</span>
           </button>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-space-md">
-        <div className="p-4 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-secondary text-xs font-mono uppercase">
-            <span>Total Executions</span>
-            <span className="material-symbols-outlined text-[18px] text-emerald-400">trending_up</span>
-          </div>
-          <div className="mt-3">
-            <span className="text-2xl font-bold font-mono text-primary">14,291</span>
-            <span className="ml-2 text-xs text-emerald-400">+12% today</span>
-          </div>
-        </div>
-
-        <div className="p-4 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-secondary text-xs font-mono uppercase">
-            <span>Success Rate</span>
-            <span className="material-symbols-outlined text-[18px] text-emerald-400">check_circle</span>
-          </div>
-          <div className="mt-3">
-            <span className="text-2xl font-bold font-mono text-emerald-400">99.82%</span>
-            <span className="ml-2 text-xs text-secondary">0.18% failover</span>
-          </div>
-        </div>
-
-        <div className="p-4 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-secondary text-xs font-mono uppercase">
-            <span>Avg Pipeline Latency</span>
-            <span className="material-symbols-outlined text-[18px] text-blue-400">speed</span>
-          </div>
-          <div className="mt-3">
-            <span className="text-2xl font-bold font-mono text-primary">142ms</span>
-            <span className="ml-2 text-xs text-emerald-400">-18ms p95</span>
-          </div>
-        </div>
-
-        <div className="p-4 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-secondary text-xs font-mono uppercase">
-            <span>Active Triggers</span>
-            <span className="material-symbols-outlined text-[18px] text-purple-400">bolt</span>
-          </div>
-          <div className="mt-3">
-            <span className="text-2xl font-bold font-mono text-primary">18</span>
-            <span className="ml-2 text-xs text-secondary">Across 5 Apps</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Filter Toolbar */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-md p-space-md rounded-xl bg-surface-container-low border border-[#27272A]/70">
-        <div className="flex-1 relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">
-            search
-          </span>
+      {/* Filter and Search Bar */}
+      <div className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="relative w-full md:w-80">
+          <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-3 top-2.5" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by execution ID, task name, or payload keyword..."
-            className="w-full bg-surface-container-lowest border border-[#27272A] rounded-lg pl-9 pr-4 py-2 text-sm text-primary placeholder:text-secondary/60 focus:outline-none focus:border-zinc-500"
+            placeholder="Search execution ID or description..."
+            className="w-full bg-[#101014] text-xs text-white pl-8 pr-3 py-1.5 rounded-lg border border-[#27272A] outline-none focus:border-zinc-500"
           />
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto">
-          {/* Status Filter */}
-          <div className="flex items-center bg-surface-container-lowest p-1 rounded-lg border border-[#27272A]">
-            {(['ALL', 'Success', 'Failed', 'Pending'] as const).map((status) => (
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <div className="flex items-center gap-1 bg-[#101014] p-1 rounded-lg border border-[#27272A] text-xs">
+            {(['ALL', 'Success', 'Failed'] as const).map((s) => (
               <button
-                key={status}
-                onClick={() => setStatusFilter(status)}
-                className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
-                  statusFilter === status
-                    ? 'bg-surface-container-high text-primary font-semibold shadow-xs'
-                    : 'text-secondary hover:text-primary'
+                key={s}
+                onClick={() => setStatusFilter(s)}
+                className={`px-2.5 py-1 rounded font-medium transition ${
+                  statusFilter === s ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                {status}
+                {s}
               </button>
             ))}
           </div>
 
-          {/* Source Dropdown */}
           <select
             value={sourceFilter}
             onChange={(e) => setSourceFilter(e.target.value)}
-            className="bg-surface-container-lowest border border-[#27272A] rounded-lg px-3 py-1.5 text-xs text-primary focus:outline-none"
+            className="bg-[#101014] text-xs text-zinc-200 border border-[#27272A] rounded-lg px-2.5 py-1.5 outline-none"
           >
-            <option value="ALL">All Sources (5)</option>
+            <option value="ALL">All Sources</option>
             <option value="Slack">Slack</option>
             <option value="Gmail">Gmail</option>
             <option value="Google Drive">Google Drive</option>
@@ -208,241 +173,131 @@ export const ExecutionLogsView: React.FC = () => {
       </div>
 
       {/* Logs Table */}
-      <div className="rounded-xl border border-[#27272A]/70 bg-surface-container-low overflow-hidden">
+      <div className="rounded-xl bg-[#18181B] border border-[#27272A] overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm border-collapse">
+          <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-[#27272A] bg-surface-container-lowest/60 text-secondary text-xs uppercase font-mono tracking-wider">
-                <th className="py-3 px-4">Event & Description</th>
-                <th className="py-3 px-4">Execution ID</th>
-                <th className="py-3 px-4">Source Platform</th>
-                <th className="py-3 px-4">Latency</th>
+              <tr className="border-b border-[#27272A] bg-[#101014] text-[10px] font-mono uppercase tracking-wider text-zinc-400">
                 <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4">Timestamp</th>
-                <th className="py-3 px-4 text-right">Actions</th>
+                <th className="py-3 px-4">Execution ID</th>
+                <th className="py-3 px-4">Tool Pipeline</th>
+                <th className="py-3 px-4">Description</th>
+                <th className="py-3 px-4 text-right">Latency</th>
+                <th className="py-3 px-4 text-right">Timestamp</th>
+                <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#27272A]/60">
-              {filteredLogs.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="py-12 text-center text-secondary">
-                    <span className="material-symbols-outlined text-[36px] mb-2 block text-secondary/50">
-                      find_in_page
+            <tbody className="divide-y divide-[#27272A] font-mono">
+              {filteredLogs.map((log) => (
+                <tr
+                  key={log.id}
+                  className="hover:bg-[#141418] transition cursor-pointer"
+                  onClick={() => setSelectedLog(log)}
+                >
+                  <td className="py-3 px-4">
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] ${
+                        log.status === 'Success'
+                          ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/50'
+                          : 'bg-rose-950/60 text-rose-400 border border-rose-800/50'
+                      }`}
+                    >
+                      {log.status === 'Success' ? (
+                        <CheckCircle2 className="w-3 h-3" />
+                      ) : (
+                        <AlertCircle className="w-3 h-3" />
+                      )}
+                      <span>{log.status}</span>
                     </span>
-                    No execution logs match the selected filters.
+                  </td>
+                  <td className="py-3 px-4 text-zinc-400 font-semibold">{log.execId}</td>
+                  <td className="py-3 px-4 text-zinc-300">
+                    <div className="flex items-center gap-1.5">
+                      {getSourceIcon(log.source)}
+                      <span className="font-sans font-medium">{log.source}</span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4 text-zinc-200 font-sans max-w-xs truncate">
+                    {log.description}
+                  </td>
+                  <td className="py-3 px-4 text-right tabular-nums text-zinc-400">
+                    {log.latencyMs}ms
+                  </td>
+                  <td className="py-3 px-4 text-right text-zinc-500 font-sans">{log.timestamp}</td>
+                  <td className="py-3 px-4 text-right" onClick={(e) => e.stopPropagation()}>
+                    {log.status === 'Failed' ? (
+                      <button
+                        onClick={() => handleRetry(log.id)}
+                        disabled={isRetrying === log.id}
+                        className="text-xs text-blue-400 hover:text-blue-300 transition"
+                      >
+                        {isRetrying === log.id ? 'Retrying...' : 'Retry'}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setSelectedLog(log)}
+                        className="text-xs text-zinc-400 hover:text-white transition"
+                      >
+                        Details
+                      </button>
+                    )}
                   </td>
                 </tr>
-              ) : (
-                filteredLogs.map((log) => (
-                  <tr
-                    key={log.id}
-                    className="hover:bg-surface-container/60 transition-colors cursor-pointer group"
-                    onClick={() => setSelectedLog(log)}
-                  >
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center border border-[#27272A] text-secondary group-hover:text-primary">
-                          <span className="material-symbols-outlined text-[18px]">{log.typeIcon}</span>
-                        </div>
-                        <div>
-                          <p className="font-medium text-primary text-sm line-clamp-1">{log.description}</p>
-                          <p className="text-xs text-secondary font-mono mt-0.5">
-                            {log.details?.origin || 'Autonomous trigger dispatcher'}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-4 font-mono text-xs text-secondary">
-                      <span className="px-2 py-0.5 rounded bg-surface-container-lowest border border-[#27272A]">
-                        {log.execId}
-                      </span>
-                    </td>
-
-                    <td className="py-3.5 px-4">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-xs font-medium border border-[#27272A]">
-                        <span className="material-symbols-outlined text-[14px] text-secondary">
-                          {getSourceIcon(log.source)}
-                        </span>
-                        <span>{log.source}</span>
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-4 font-mono text-xs">
-                      <span className={log.latencyMs > 300 ? 'text-amber-400' : 'text-emerald-400'}>
-                        {log.latencyMs}ms
-                      </span>
-                    </td>
-
-                    <td className="py-3.5 px-4">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/60 text-emerald-400 border border-emerald-800/50">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        <span>{log.status}</span>
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-4 text-xs text-secondary font-mono">{log.timestamp}</td>
-
-                    <td className="py-3.5 px-4 text-right" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button
-                          onClick={() => setSelectedLog(log)}
-                          className="px-2.5 py-1 rounded text-xs bg-surface-container-high hover:bg-[#27272A] border border-[#27272A] text-secondary hover:text-primary transition-colors"
-                        >
-                          Payload
-                        </button>
-                        <button
-                          disabled={isRetrying === log.id}
-                          onClick={() => handleRetry(log.id)}
-                          title="Re-run pipeline"
-                          className="w-7 h-7 rounded flex items-center justify-center bg-surface-container hover:bg-[#27272A] border border-[#27272A] text-secondary hover:text-primary transition-colors disabled:opacity-50"
-                        >
-                          <span
-                            className={`material-symbols-outlined text-[15px] ${
-                              isRetrying === log.id ? 'animate-spin text-emerald-400' : ''
-                            }`}
-                          >
-                            refresh
-                          </span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
+              ))}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* Selected Log Trace Modal / Drawer */}
+      {/* Log Detail Modal */}
       {selectedLog && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-surface-container border border-[#27272A] rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
-            {/* Modal Header */}
-            <div className="p-5 border-b border-[#27272A] flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-[#27272A]">
-                  <span className="material-symbols-outlined text-primary text-[20px]">{selectedLog.typeIcon}</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-primary text-base">Execution Trace: {selectedLog.execId}</h3>
-                  <p className="text-xs text-secondary font-mono">
-                    {selectedLog.source} • Latency {selectedLog.latencyMs}ms • {selectedLog.timestamp}
-                  </p>
-                </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-w-lg bg-[#18181B] border border-[#27272A] rounded-xl p-5 shadow-2xl space-y-4 font-mono text-xs">
+            <div className="flex items-center justify-between border-b border-[#27272A] pb-3">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span className="font-bold text-white text-sm">{selectedLog.execId}</span>
               </div>
               <button
                 onClick={() => setSelectedLog(null)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-[#27272A] transition-colors"
+                className="text-zinc-400 hover:text-white"
               >
-                <span className="material-symbols-outlined text-[20px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Modal Body */}
-            <div className="p-5 overflow-y-auto space-y-4">
-              <div>
-                <label className="text-xs uppercase font-mono text-secondary tracking-wider block mb-1">
-                  Task Summary
-                </label>
-                <p className="text-sm text-primary bg-surface-container-lowest p-3 rounded-lg border border-[#27272A]">
-                  {selectedLog.description}
-                </p>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-zinc-500">Pipeline Source:</span>
+                <span className="text-white">{selectedLog.source}</span>
               </div>
-
-              {/* Latency Waterfall */}
-              <div>
-                <label className="text-xs uppercase font-mono text-secondary tracking-wider block mb-2">
-                  Latency Breakdown (OmniMind Engine)
-                </label>
-                <div className="space-y-2 bg-surface-container-lowest p-3 rounded-lg border border-[#27272A]">
-                  <div>
-                    <div className="flex justify-between text-xs text-secondary mb-1">
-                      <span>Multi-App Workspace Ingest (Slack, Drive, Notion)</span>
-                      <span className="font-mono">{Math.floor(selectedLog.latencyMs * 0.45)}ms</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500 rounded-full" style={{ width: '45%' }} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between text-xs text-secondary mb-1">
-                      <span>Track 2 Schema Formulation & Strict Validation</span>
-                      <span className="font-mono">{Math.floor(selectedLog.latencyMs * 0.35)}ms</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: '35%' }} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between text-xs text-secondary mb-1">
-                      <span>Cross-Platform Dispatch & Vector Index Sync</span>
-                      <span className="font-mono">{Math.floor(selectedLog.latencyMs * 0.2)}ms</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-                      <div className="h-full bg-purple-500 rounded-full" style={{ width: '20%' }} />
-                    </div>
-                  </div>
-                </div>
+              <div className="flex justify-between">
+                <span className="text-zinc-500">Latency:</span>
+                <span className="text-emerald-400">{selectedLog.latencyMs}ms</span>
               </div>
-
-              {/* Raw JSON Payload */}
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="text-xs uppercase font-mono text-secondary tracking-wider">
-                    Raw Telemetry & Execution JSON
-                  </label>
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(JSON.stringify(selectedLog, null, 2));
-                    }}
-                    className="text-xs text-secondary hover:text-primary flex items-center gap-1"
-                  >
-                    <span className="material-symbols-outlined text-[14px]">content_copy</span>
-                    Copy JSON
-                  </button>
-                </div>
-                <pre className="text-xs font-mono p-3 rounded-lg bg-surface-container-lowest border border-[#27272A] text-zinc-300 overflow-x-auto max-h-60">
-                  {JSON.stringify(
-                    {
-                      status: 'success',
-                      executionId: selectedLog.execId,
-                      queryProcessed: selectedLog.description,
-                      sourceApp: selectedLog.source,
-                      metrics: {
-                        latencyMs: selectedLog.latencyMs,
-                        timestamp: selectedLog.timestamp,
-                        complianceTrack: 'Track 2 Autonomous Enterprise Knowledge Worker',
-                      },
-                      details: selectedLog.details,
-                    },
-                    null,
-                    2
-                  )}
-                </pre>
+              <div className="flex justify-between">
+                <span className="text-zinc-500">Timestamp:</span>
+                <span className="text-zinc-300">{selectedLog.timestamp}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-zinc-500">Status:</span>
+                <span className="text-emerald-400">{selectedLog.status}</span>
               </div>
             </div>
 
-            {/* Modal Footer */}
-            <div className="p-4 border-t border-[#27272A] flex justify-end gap-2 bg-surface-container-lowest">
+            <div className="p-3 bg-[#101014] rounded-lg border border-[#27272A] space-y-1">
+              <span className="text-[10px] text-zinc-500 uppercase">Payload Details</span>
+              <pre className="text-zinc-300 overflow-x-auto text-[11px] leading-relaxed">
+                {JSON.stringify(selectedLog.details || {}, null, 2)}
+              </pre>
+            </div>
+
+            <div className="flex justify-end pt-2">
               <button
                 onClick={() => setSelectedLog(null)}
-                className="px-4 py-2 rounded-lg bg-surface-container border border-[#27272A] text-sm text-secondary hover:text-primary transition-colors"
+                className="px-4 py-1.5 rounded-lg bg-zinc-800 text-white text-xs hover:bg-zinc-700 transition"
               >
-                Close Trace
-              </button>
-              <button
-                onClick={() => {
-                  handleRetry(selectedLog.id);
-                  setSelectedLog(null);
-                }}
-                className="px-4 py-2 rounded-lg bg-primary text-black font-semibold text-sm hover:opacity-90 transition-opacity flex items-center gap-1.5"
-              >
-                <span className="material-symbols-outlined text-[16px]">refresh</span>
-                Re-dispatch Execution
+                Close
               </button>
             </div>
           </div>

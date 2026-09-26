@@ -5,6 +5,14 @@ import {
   EXECUTION_LOGS_INITIAL,
   WORKSPACE_DOCUMENTS_INITIAL,
 } from '../data/mockWorkspacePayload';
+import {
+  FileCode,
+  CheckCircle2,
+  Download,
+  Table,
+  FileText,
+  Sun,
+} from 'lucide-react';
 
 export const ExportHubView: React.FC = () => {
   const [downloadSuccess, setDownloadSuccess] = useState<string | null>(null);
@@ -77,91 +85,91 @@ Compliant with OmniMind Track 2 Autonomous Enterprise Knowledge Worker standards
   };
 
   return (
-    <div className="flex-1 p-space-xl max-w-5xl mx-auto space-y-space-xl animate-fade-in text-primary">
+    <div className="flex-1 p-6 md:p-8 max-w-5xl mx-auto space-y-6 text-zinc-100">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#27272A]/60 pb-space-lg">
+      <div className="flex items-center justify-between border-b border-[#27272A] pb-5">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[11px] font-mono tracking-wider uppercase text-blue-400 font-semibold px-2 py-0.5 rounded bg-blue-950/60 border border-blue-800/40">
               CROSS-PLATFORM DISPATCH
             </span>
-            <span className="text-[12px] text-secondary">Export & Migration Center</span>
+            <span className="text-xs text-zinc-400">Export & Migration Center</span>
           </div>
-          <h1 className="text-display-sm font-semibold tracking-tight text-primary">Export Hub</h1>
-          <p className="text-secondary text-body-md mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-white">Export Hub</h1>
+          <p className="text-zinc-400 text-xs sm:text-sm mt-1">
             Extract executive digests, action item inventories, and raw Track 2 JSON payloads for external systems.
           </p>
         </div>
       </div>
 
       {downloadSuccess && (
-        <div className="p-3.5 rounded-lg bg-emerald-950/80 border border-emerald-800/60 text-emerald-300 text-sm flex items-center gap-2 animate-fade-in">
-          <span className="material-symbols-outlined text-[20px] text-emerald-400">check_circle</span>
+        <div className="p-3.5 rounded-lg bg-emerald-950/80 border border-emerald-800 text-emerald-300 text-xs flex items-center gap-2 animate-in fade-in duration-150">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{downloadSuccess}</span>
         </div>
       )}
 
       {/* Export Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Card 1: Track 2 Schema Payload */}
-        <div className="p-6 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex flex-col justify-between space-y-4 hover:border-zinc-500/50 transition-all">
+        <div className="p-6 rounded-xl bg-[#18181B] border border-[#27272A] flex flex-col justify-between space-y-4 hover:border-zinc-600 transition-all">
           <div>
-            <div className="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center border border-[#27272A] mb-3">
-              <span className="material-symbols-outlined text-purple-400 text-[26px]">data_object</span>
+            <div className="w-10 h-10 rounded-xl bg-[#101014] flex items-center justify-center border border-[#27272A] mb-3">
+              <FileCode className="w-5 h-5 text-purple-400" />
             </div>
-            <h3 className="font-semibold text-primary text-base">Track 2 Raw JSON Payload</h3>
-            <p className="text-xs text-secondary mt-1.5 leading-relaxed">
+            <h3 className="font-semibold text-white text-sm">Track 2 Raw JSON Payload</h3>
+            <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed">
               Complete strict-schema JSON payload formatted strictly for Track 2 evaluation. Contains query processed, multi-app citations, action items, and knowledge links.
             </p>
           </div>
 
           <button
             onClick={handleExportTrack2RawJSON}
-            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-primary text-black font-semibold text-xs hover:opacity-90 transition-opacity"
+            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-white text-black font-semibold text-xs hover:bg-zinc-200 transition"
           >
-            <span className="material-symbols-outlined text-[16px]">download</span>
+            <Download className="w-3.5 h-3.5 text-black" />
             Download Schema JSON
           </button>
         </div>
 
         {/* Card 2: Action Items CSV */}
-        <div className="p-6 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex flex-col justify-between space-y-4 hover:border-zinc-500/50 transition-all">
+        <div className="p-6 rounded-xl bg-[#18181B] border border-[#27272A] flex flex-col justify-between space-y-4 hover:border-zinc-600 transition-all">
           <div>
-            <div className="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center border border-[#27272A] mb-3">
-              <span className="material-symbols-outlined text-emerald-400 text-[26px]">view_kanban</span>
+            <div className="w-10 h-10 rounded-xl bg-[#101014] flex items-center justify-center border border-[#27272A] mb-3">
+              <Table className="w-5 h-5 text-emerald-400" />
             </div>
-            <h3 className="font-semibold text-primary text-base">Action Items CSV</h3>
-            <p className="text-xs text-secondary mt-1.5 leading-relaxed">
+            <h3 className="font-semibold text-white text-sm">Action Items CSV</h3>
+            <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed">
               Structured export of detected commitments, deadlines, and task owners across Slack, Gmail, and Notion for import into Jira, Asana, or Linear.
             </p>
           </div>
 
           <button
             onClick={handleExportActionBoardCSV}
-            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-surface-container-high border border-[#27272A] text-primary font-semibold text-xs hover:bg-[#27272A] transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-[#101014] border border-[#27272A] text-zinc-200 font-semibold text-xs hover:bg-zinc-800 hover:text-white transition"
           >
-            <span className="material-symbols-outlined text-[16px]">table_chart</span>
+            <Table className="w-3.5 h-3.5 text-zinc-400" />
             Export Action CSV
           </button>
         </div>
 
         {/* Card 3: Morning Digest Markdown */}
-        <div className="p-6 rounded-xl bg-surface-container-low border border-[#27272A]/70 flex flex-col justify-between space-y-4 hover:border-zinc-500/50 transition-all">
+        <div className="p-6 rounded-xl bg-[#18181B] border border-[#27272A] flex flex-col justify-between space-y-4 hover:border-zinc-600 transition-all">
           <div>
-            <div className="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center border border-[#27272A] mb-3">
-              <span className="material-symbols-outlined text-blue-400 text-[26px]">wb_sunny</span>
+            <div className="w-10 h-10 rounded-xl bg-[#101014] flex items-center justify-center border border-[#27272A] mb-3">
+              <Sun className="w-5 h-5 text-amber-400" />
             </div>
-            <h3 className="font-semibold text-primary text-base">Executive Digest (Markdown)</h3>
-            <p className="text-xs text-secondary mt-1.5 leading-relaxed">
+            <h3 className="font-semibold text-white text-sm">Executive Digest (Markdown)</h3>
+            <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed">
               Consolidated intelligence briefing with overnight Slack activity, urgent C-level Gmail threads, and key roadmap updates formatted in executive Markdown.
             </p>
           </div>
 
           <button
             onClick={handleExportMorningBriefing}
-            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-surface-container-high border border-[#27272A] text-primary font-semibold text-xs hover:bg-[#27272A] transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-[#101014] border border-[#27272A] text-zinc-200 font-semibold text-xs hover:bg-zinc-800 hover:text-white transition"
           >
-            <span className="material-symbols-outlined text-[16px]">description</span>
+            <FileText className="w-3.5 h-3.5 text-zinc-400" />
             Export Briefing .md
           </button>
         </div>

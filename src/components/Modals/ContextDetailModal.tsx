@@ -1,4 +1,5 @@
 import React from 'react';
+import { X, ShieldCheck } from 'lucide-react';
 
 interface ContextDetailModalProps {
   isOpen: boolean;
@@ -28,47 +29,47 @@ export const ContextDetailModal: React.FC<ContextDetailModalProps> = ({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150"
     >
       <div
-        className="w-full max-w-2xl bg-surface-container-low border border-[#27272A] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150"
+        className="w-full max-w-2xl bg-[#18181B] border border-[#27272A] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-space-lg border-b border-[#27272A] flex items-start justify-between bg-surface-container-lowest/60">
+        <div className="p-5 border-b border-[#27272A] flex items-start justify-between bg-[#101014]">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2 py-0.5 rounded text-[11px] font-code bg-surface-container-high text-primary font-medium">
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-[#18181B] text-zinc-200 border border-[#27272A] font-medium">
                 {sourceApp}
               </span>
-              <span className="text-xs text-on-surface-variant font-code">
+              <span className="text-xs text-zinc-400 font-mono">
                 {author} • {timestamp}
               </span>
             </div>
-            <h2 className="text-headline-sm font-semibold text-primary">{title}</h2>
+            <h2 className="text-base font-semibold text-white">{title}</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition"
+            className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
           >
-            <span className="material-symbols-outlined text-[20px]">close</span>
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content Body */}
-        <div className="p-space-lg overflow-y-auto space-y-4">
-          <div className="p-4 rounded-xl bg-surface-container border border-[#27272A] space-y-2">
-            <div className="text-xs font-code uppercase tracking-wider text-on-surface-variant">
+        <div className="p-6 overflow-y-auto space-y-4">
+          <div className="p-4 rounded-xl bg-[#101014] border border-[#27272A] space-y-2">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">
               Relevance Excerpt
             </div>
-            <p className="text-body-md text-primary leading-relaxed">{contentSnippet}</p>
+            <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed">{contentSnippet}</p>
           </div>
 
           <div className="space-y-2">
-            <div className="text-xs font-code uppercase tracking-wider text-on-surface-variant">
-              Full Payload Document & Context
+            <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">
+              Full Payload Document &amp; Context
             </div>
-            <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] text-body-sm text-on-surface-variant leading-relaxed space-y-3 font-mono">
+            <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] text-xs text-zinc-300 leading-relaxed space-y-3 font-mono">
               <p>
                 {fullBody ||
                   `[VERIFIED ENTERPRISE PAYLOAD]
@@ -85,14 +86,14 @@ Cross-reference verification passed with 99.98% cluster consensus. All dependenc
           </div>
 
           <div className="space-y-2">
-            <div className="text-xs font-code uppercase tracking-wider text-on-surface-variant">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">
               Extracted Workspace Tags
             </div>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2.5 py-1 rounded-lg bg-surface-container-high text-xs text-primary font-code"
+                  className="px-2.5 py-1 rounded-lg bg-[#101014] text-xs text-zinc-300 font-mono border border-[#27272A]"
                 >
                   {tag}
                 </span>
@@ -102,14 +103,14 @@ Cross-reference verification passed with 99.98% cluster consensus. All dependenc
         </div>
 
         {/* Footer */}
-        <div className="p-space-md border-t border-[#27272A] bg-surface-container-lowest flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-on-surface-variant">
-            <span className="material-symbols-outlined text-emerald-400 text-[16px]">verified</span>
+        <div className="p-4 border-t border-[#27272A] bg-[#101014] flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs text-zinc-400">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Cryptographically Verified Payload</span>
           </div>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-primary text-on-primary rounded-xl text-xs font-semibold hover:bg-primary-fixed-dim transition"
+            className="px-4 py-2 bg-white text-black rounded-xl text-xs font-semibold hover:bg-zinc-200 transition"
           >
             Done
           </button>

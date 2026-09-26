@@ -2,6 +2,23 @@ import React, { useState } from 'react';
 import { ActiveView } from '../components/Navigation/Sidebar';
 import { ACTION_ITEMS_INITIAL } from '../data/mockWorkspacePayload';
 import { ActionItem } from '../types';
+import {
+  CheckSquare,
+  Plus,
+  RefreshCw,
+  ArrowRight,
+  Clock,
+  Sparkles,
+  CheckCircle2,
+  X,
+  Hash,
+  Mail,
+  HardDrive,
+  FileText,
+  Box as BoxIcon,
+  ChevronRight,
+  AlertCircle,
+} from 'lucide-react';
 
 interface ActionBoardViewProps {
   onNavigate: (view: ActiveView) => void;
@@ -10,9 +27,14 @@ interface ActionBoardViewProps {
 export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
   const [tasks, setTasks] = useState<ActionItem[]>(ACTION_ITEMS_INITIAL);
   const [activeFilter, setActiveFilter] = useState<'all' | 'high' | 'my'>('all');
-  const [mobileKanbanTab, setMobileKanbanTab] = useState<'all' | 'todo' | 'in_progress' | 'completed'>('all');
   const [syncing, setSyncing] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
+  const [newTaskColumn, setNewTaskColumn] = useState<'todo' | 'in_progress' | 'completed'>('todo');
+  const [newTaskTitle, setNewTaskTitle] = useState('');
+  const [newTaskSource, setNewTaskSource] = useState<'Slack' | 'Gmail' | 'Google Drive' | 'Notion' | 'Box'>('Slack');
+  const [newTaskPriority, setNewTaskPriority] = useState<'High' | 'Medium' | 'Low'>('High');
 
   const filteredTasks = tasks.filter((t) => {
     if (activeFilter === 'high') return t.priority === 'High';
@@ -23,12 +45,6 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
   const todoTasks = filteredTasks.filter((t) => t.status === 'todo');
   const inProgressTasks = filteredTasks.filter((t) => t.status === 'in_progress');
   const completedTasks = filteredTasks.filter((t) => t.status === 'completed');
-
-  const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
-  const [newTaskColumn, setNewTaskColumn] = useState<'todo' | 'in_progress' | 'completed'>('todo');
-  const [newTaskTitle, setNewTaskTitle] = useState('');
-  const [newTaskSource, setNewTaskSource] = useState<'Slack' | 'Gmail' | 'Google Drive' | 'Notion' | 'Box'>('Slack');
-  const [newTaskPriority, setNewTaskPriority] = useState<'High' | 'Medium' | 'Low'>('High');
 
   function handleSync() {
     setSyncing(true);
@@ -69,397 +85,300 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
     setTasks((prev) => [newTask, ...prev]);
     setIsNewTaskModalOpen(false);
     setNewTaskTitle('');
-    setToastMessage(`Action item added to ${newTaskColumn.replace('_', ' ')}.`);
+    setToastMessage(`Action item created.`);
     setTimeout(() => setToastMessage(null), 3000);
   }
 
+  const getSourceIcon = (sourceApp: string) => {
+    if (sourceApp.includes('Slack')) return <Hash className="w-3.5 h-3.5 text-blue-400" />;
+    if (sourceApp.includes('Gmail')) return <Mail className="w-3.5 h-3.5 text-emerald-400" />;
+    if (sourceApp.includes('Drive')) return <HardDrive className="w-3.5 h-3.5 text-blue-400" />;
+    if (sourceApp.includes('Notion')) return <FileText className="w-3.5 h-3.5 text-purple-400" />;
+    return <BoxIcon className="w-3.5 h-3.5 text-amber-400" />;
+  };
+
   return (
-    <div className="flex flex-col w-full min-h-full bg-surface text-on-surface pb-12">
-      {/* Toast */}
+    <div className="flex flex-col w-full min-h-full pb-12 text-zinc-100">
+      {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-surface-container-high border border-emerald-500/40 text-primary px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-in fade-in duration-200">
-          <span className="material-symbols-outlined text-emerald-400 text-[18px]">verified</span>
+        <div className="fixed bottom-6 right-6 z-50 bg-[#18181B] border border-emerald-500/50 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 animate-in fade-in duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span className="text-xs font-mono">{toastMessage}</span>
         </div>
       )}
 
-      {/* Top Bar Controls */}
-      <div className="px-4 sm:px-6 md:px-8 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 max-w-7xl mx-auto w-full">
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-outline">
-              Reasoning Engine
-            </span>
-            <span className="px-2 py-0.5 rounded text-xs font-mono bg-surface-container-high text-primary border border-[#27272A]">
-              Live Sync
+      {/* Top Header */}
+      <div className="px-4 sm:px-6 md:px-8 py-5 border-b border-[#27272A] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 max-w-7xl mx-auto w-full">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-blue-400 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-800/40">
+              Autonomous Extraction
             </span>
           </div>
-          <h1 className="text-headline-lg font-bold text-primary tracking-tight text-2xl sm:text-3xl">
-            Action Board
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+            Action Board &amp; Commitments
           </h1>
+          <p className="text-xs text-zinc-400">
+            Tasks automatically extracted from conversations, email escalations, and meeting minutes
+          </p>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-4 flex-wrap w-full md:w-auto justify-between md:justify-end">
-          {/* Filter Buttons */}
-          <div className="flex items-center bg-surface-container-low rounded-xl p-1 border border-[#27272A]">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-[#18181B] rounded-lg p-1 border border-[#27272A] text-xs">
             <button
               onClick={() => setActiveFilter('all')}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
-                activeFilter === 'all'
-                  ? 'bg-surface-container-high text-primary font-semibold'
-                  : 'text-on-surface-variant hover:text-primary'
+              className={`px-3 py-1 rounded font-medium transition ${
+                activeFilter === 'all' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
               }`}
             >
               All Items
             </button>
             <button
               onClick={() => setActiveFilter('high')}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
-                activeFilter === 'high'
-                  ? 'bg-surface-container-high text-primary font-semibold'
-                  : 'text-on-surface-variant hover:text-primary'
+              className={`px-3 py-1 rounded font-medium transition ${
+                activeFilter === 'high' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
               }`}
             >
               High Priority
             </button>
             <button
               onClick={() => setActiveFilter('my')}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
-                activeFilter === 'my'
-                  ? 'bg-surface-container-high text-primary font-semibold'
-                  : 'text-on-surface-variant hover:text-primary'
+              className={`px-3 py-1 rounded font-medium transition ${
+                activeFilter === 'my' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
               }`}
             >
               Assigned to Me
             </button>
           </div>
 
-          {/* Primary Action */}
           <button
             onClick={handleSync}
             disabled={syncing}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-[#131315] font-semibold text-xs hover:bg-primary-fixed-dim transition-all shadow-md cursor-pointer disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white text-zinc-950 text-xs font-medium hover:bg-zinc-200 transition disabled:opacity-50"
           >
-            <span className={`material-symbols-outlined text-[18px] ${syncing ? 'animate-spin' : ''}`}>
-              bolt
-            </span>
-            <span>{syncing ? 'Syncing...' : 'Sync Commitments'}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Column Selector */}
-      <div className="px-4 sm:px-6 md:hidden max-w-7xl mx-auto w-full mb-4">
-        <div className="flex items-center bg-surface-container-low p-1 rounded-xl border border-[#27272A] text-xs font-mono">
-          <button
-            onClick={() => setMobileKanbanTab('all')}
-            className={`flex-1 py-1.5 rounded-lg text-center font-medium transition ${
-              mobileKanbanTab === 'all'
-                ? 'bg-surface-container-high text-primary font-bold'
-                : 'text-on-surface-variant hover:text-primary'
-            }`}
-          >
-            All ({filteredTasks.length})
-          </button>
-          <button
-            onClick={() => setMobileKanbanTab('todo')}
-            className={`flex-1 py-1.5 rounded-lg text-center font-medium transition ${
-              mobileKanbanTab === 'todo'
-                ? 'bg-primary text-black font-bold'
-                : 'text-on-surface-variant hover:text-primary'
-            }`}
-          >
-            To Do ({todoTasks.length})
-          </button>
-          <button
-            onClick={() => setMobileKanbanTab('in_progress')}
-            className={`flex-1 py-1.5 rounded-lg text-center font-medium transition ${
-              mobileKanbanTab === 'in_progress'
-                ? 'bg-amber-400 text-black font-bold'
-                : 'text-on-surface-variant hover:text-primary'
-            }`}
-          >
-            Active ({inProgressTasks.length})
-          </button>
-          <button
-            onClick={() => setMobileKanbanTab('completed')}
-            className={`flex-1 py-1.5 rounded-lg text-center font-medium transition ${
-              mobileKanbanTab === 'completed'
-                ? 'bg-emerald-400 text-black font-bold'
-                : 'text-on-surface-variant hover:text-primary'
-            }`}
-          >
-            Done ({completedTasks.length})
+            <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
+            <span>{syncing ? 'Syncing...' : 'Sync Tasks'}</span>
           </button>
         </div>
       </div>
 
       {/* Kanban Board Grid */}
-      <div className="px-4 sm:px-6 md:px-8 pb-12 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-start max-w-7xl mx-auto w-full">
+      <div className="px-4 sm:px-6 md:px-8 pt-5 grid grid-cols-1 md:grid-cols-3 gap-5 max-w-7xl mx-auto w-full items-start">
         {/* Column 1: To Do */}
-        <div className={`${mobileKanbanTab === 'all' || mobileKanbanTab === 'todo' ? 'flex' : 'hidden md:flex'} flex-col gap-4`}>
-          <div className="flex items-center justify-between px-space-xs py-space-xs">
-            <div className="flex items-center gap-space-sm">
-              <div className="w-2 h-2 rounded-full bg-primary"></div>
-              <h2 className="text-headline-sm font-semibold text-primary">To Do</h2>
-              <span className="px-2 py-0.5 rounded text-xs font-mono bg-surface-container-high text-on-surface-variant">
-                {todoTasks.length}
-              </span>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-zinc-400"></span>
+              <h2 className="text-xs font-semibold text-white uppercase tracking-wider font-mono">
+                To Do ({todoTasks.length})
+              </h2>
             </div>
             <button
               onClick={() => openCreateTaskModal('todo')}
-              className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded hover:bg-surface-container"
+              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
               title="Add task"
             >
-              <span className="material-symbols-outlined text-[20px]">add</span>
+              <Plus className="w-4 h-4" />
             </button>
           </div>
 
-          {todoTasks.map((t) => (
-            <div
-              key={t.id}
-              className="flex flex-col bg-surface-container-low rounded-2xl p-space-md hover:bg-surface-container transition-all group relative border border-[#27272A]"
-            >
-              <div className="flex items-center justify-between mb-space-sm">
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-surface-container-high text-on-surface-variant flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">
-                    {t.sourceApp.includes('Slack')
-                      ? 'chat'
-                      : t.sourceApp.includes('Gmail')
-                      ? 'mail'
-                      : 'description'}
+          <div className="space-y-2.5">
+            {todoTasks.map((t) => (
+              <div
+                key={t.id}
+                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] hover:border-zinc-700 transition space-y-2 group"
+              >
+                <div className="flex items-center justify-between text-[11px] font-mono">
+                  <span className="flex items-center gap-1.5 text-zinc-400">
+                    {getSourceIcon(t.sourceApp)}
+                    <span className="truncate max-w-[140px]">{t.sourceApp}</span>
                   </span>
-                  <span className="truncate max-w-[150px]">{t.sourceApp}</span>
-                </span>
-                <span
-                  className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
-                    t.priority === 'High'
-                      ? 'bg-error-container text-error'
-                      : 'bg-surface-container-high text-on-surface-variant'
-                  }`}
-                >
-                  {t.priority} Priority
-                </span>
-              </div>
-
-              <h3 className="text-body-md font-semibold text-primary mb-1 group-hover:text-primary-container transition-colors">
-                {t.task}
-              </h3>
-              <p className="text-xs text-on-surface-variant mb-3 leading-relaxed">
-                Commitment automatically detected and parsed by OmniMind reasoning engine.
-              </p>
-
-              <div className="flex items-center justify-between pt-space-sm border-t border-[#27272A]">
-                <div className="flex items-center gap-space-xs">
-                  <div className="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-[11px] font-bold text-primary font-mono">
-                    {t.assigneeInitials}
-                  </div>
-                  <span className="text-xs text-on-surface-variant">{t.assignee}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-outline">{t.code}</span>
-                  <button
-                    onClick={() => moveTask(t.id!, 'in_progress')}
-                    title="Move to In Progress"
-                    className="p-1 rounded bg-surface-container hover:bg-primary hover:text-black text-on-surface-variant transition"
+                  <span
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                      t.priority === 'High'
+                        ? 'bg-rose-950/60 text-rose-400 border border-rose-800/40'
+                        : 'bg-zinc-800 text-zinc-400'
+                    }`}
                   >
-                    <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    {t.priority}
+                  </span>
+                </div>
+
+                <h3 className="text-xs font-medium text-zinc-100 group-hover:text-white">
+                  {t.task}
+                </h3>
+
+                <div className="pt-2 border-t border-[#27272A] flex items-center justify-between text-xs">
+                  <span className="text-[11px] font-mono text-zinc-500">
+                    {t.assignee || 'Unassigned'}
+                  </span>
+                  <button
+                    onClick={() => moveTask(t.id || '', 'in_progress')}
+                    className="text-[11px] font-mono text-blue-400 hover:text-blue-300 transition flex items-center gap-1"
+                  >
+                    <span>Start</span>
+                    <ArrowRight className="w-3 h-3" />
                   </button>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Column 2: In Progress */}
-        <div className={`${mobileKanbanTab === 'all' || mobileKanbanTab === 'in_progress' ? 'flex' : 'hidden md:flex'} flex-col gap-4`}>
-          <div className="flex items-center justify-between px-space-xs py-space-xs">
-            <div className="flex items-center gap-space-sm">
-              <div className="w-2 h-2 rounded-full bg-amber-400"></div>
-              <h2 className="text-headline-sm font-semibold text-primary">In Progress</h2>
-              <span className="px-2 py-0.5 rounded text-xs font-mono bg-surface-container-high text-on-surface-variant">
-                {inProgressTasks.length}
-              </span>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+              <h2 className="text-xs font-semibold text-white uppercase tracking-wider font-mono">
+                In Progress ({inProgressTasks.length})
+              </h2>
             </div>
             <button
               onClick={() => openCreateTaskModal('in_progress')}
-              className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded hover:bg-surface-container"
+              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
               title="Add task"
             >
-              <span className="material-symbols-outlined text-[20px]">add</span>
+              <Plus className="w-4 h-4" />
             </button>
           </div>
 
-          {inProgressTasks.map((t) => (
-            <div
-              key={t.id}
-              className="flex flex-col bg-surface-container-low rounded-2xl p-space-md hover:bg-surface-container transition-all group relative border border-[#27272A]"
-            >
-              <div className="flex items-center justify-between mb-space-sm">
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-surface-container-high text-on-surface-variant flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">
-                    {t.sourceApp.includes('Slack')
-                      ? 'chat'
-                      : t.sourceApp.includes('Gmail')
-                      ? 'mail'
-                      : 'smart_toy'}
+          <div className="space-y-2.5">
+            {inProgressTasks.map((t) => (
+              <div
+                key={t.id}
+                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] hover:border-zinc-700 transition space-y-2 group"
+              >
+                <div className="flex items-center justify-between text-[11px] font-mono">
+                  <span className="flex items-center gap-1.5 text-zinc-400">
+                    {getSourceIcon(t.sourceApp)}
+                    <span className="truncate max-w-[140px]">{t.sourceApp}</span>
                   </span>
-                  <span className="truncate max-w-[150px]">{t.sourceApp}</span>
-                </span>
-                <span
-                  className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
-                    t.priority === 'High'
-                      ? 'bg-error-container text-error'
-                      : 'bg-surface-container-high text-on-surface-variant'
-                  }`}
-                >
-                  {t.priority} Priority
-                </span>
-              </div>
-
-              <h3 className="text-body-md font-semibold text-primary mb-1">
-                {t.task}
-              </h3>
-              <p className="text-xs text-on-surface-variant mb-3 leading-relaxed">
-                Active execution tracking in progress across designated stakeholder threads.
-              </p>
-
-              <div className="flex items-center justify-between pt-space-sm border-t border-[#27272A]">
-                <div className="flex items-center gap-space-xs">
-                  <div className="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-[11px] font-bold text-primary font-mono">
-                    {t.assigneeInitials}
-                  </div>
-                  <span className="text-xs text-on-surface-variant">{t.assignee}</span>
+                  <span
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                      t.priority === 'High'
+                        ? 'bg-rose-950/60 text-rose-400 border border-rose-800/40'
+                        : 'bg-zinc-800 text-zinc-400'
+                    }`}
+                  >
+                    {t.priority}
+                  </span>
                 </div>
-                <div className="flex items-center gap-1">
+
+                <h3 className="text-xs font-medium text-zinc-100 group-hover:text-white">
+                  {t.task}
+                </h3>
+
+                <div className="pt-2 border-t border-[#27272A] flex items-center justify-between text-xs">
+                  <span className="text-[11px] font-mono text-zinc-500">
+                    {t.assignee || 'Unassigned'}
+                  </span>
                   <button
-                    onClick={() => moveTask(t.id!, 'todo')}
-                    title="Move back to To Do"
-                    className="p-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant transition"
+                    onClick={() => moveTask(t.id || '', 'completed')}
+                    className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1"
                   >
-                    <span className="material-symbols-outlined text-[16px]">arrow_back</span>
-                  </button>
-                  <button
-                    onClick={() => moveTask(t.id!, 'completed')}
-                    title="Complete task"
-                    className="p-1 rounded bg-surface-container hover:bg-emerald-500 hover:text-black text-on-surface-variant transition"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">check</span>
+                    <span>Complete</span>
+                    <ArrowRight className="w-3 h-3" />
                   </button>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Column 3: Completed */}
-        <div className={`${mobileKanbanTab === 'all' || mobileKanbanTab === 'completed' ? 'flex' : 'hidden md:flex'} flex-col gap-4`}>
-          <div className="flex items-center justify-between px-space-xs py-space-xs">
-            <div className="flex items-center gap-space-sm">
-              <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
-              <h2 className="text-headline-sm font-semibold text-primary">Completed</h2>
-              <span className="px-2 py-0.5 rounded text-xs font-mono bg-surface-container-high text-on-surface-variant">
-                {completedTasks.length}
-              </span>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <h2 className="text-xs font-semibold text-white uppercase tracking-wider font-mono">
+                Completed ({completedTasks.length})
+              </h2>
             </div>
             <button
               onClick={() => openCreateTaskModal('completed')}
-              className="text-on-surface-variant hover:text-primary transition-colors p-1 rounded hover:bg-surface-container"
+              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
               title="Add task"
             >
-              <span className="material-symbols-outlined text-[20px]">add</span>
+              <Plus className="w-4 h-4" />
             </button>
           </div>
 
-          {completedTasks.map((t) => (
-            <div
-              key={t.id}
-              className="flex flex-col bg-surface-container-low rounded-2xl p-space-md hover:bg-surface-container transition-all group relative border border-[#27272A] opacity-75"
-            >
-              <div className="flex items-center justify-between mb-space-sm">
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-surface-container-high text-on-surface-variant flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px]">
-                    {t.sourceApp.includes('Slack') ? 'tag' : 'mail'}
+          <div className="space-y-2.5">
+            {completedTasks.map((t) => (
+              <div
+                key={t.id}
+                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] space-y-2 opacity-80 hover:opacity-100 transition"
+              >
+                <div className="flex items-center justify-between text-[11px] font-mono">
+                  <span className="flex items-center gap-1.5 text-zinc-400">
+                    {getSourceIcon(t.sourceApp)}
+                    <span className="truncate max-w-[140px]">{t.sourceApp}</span>
                   </span>
-                  <span className="truncate max-w-[150px]">{t.sourceApp}</span>
-                </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 font-semibold">
-                  Done
-                </span>
-              </div>
-
-              <h3 className="text-body-md font-semibold text-primary mb-1 line-through text-on-surface-variant">
-                {t.task}
-              </h3>
-              <p className="text-xs text-on-surface-variant mb-3 leading-relaxed">
-                Verification logs confirmed and archived in enterprise compliance ledger.
-              </p>
-
-              <div className="flex items-center justify-between pt-space-sm border-t border-[#27272A]">
-                <div className="flex items-center gap-space-xs">
-                  <div className="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-[11px] font-bold text-primary font-mono">
-                    {t.assigneeInitials}
-                  </div>
-                  <span className="text-xs text-on-surface-variant">{t.assignee}</span>
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40">
+                    Done
+                  </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-outline">{t.code}</span>
+
+                <h3 className="text-xs font-medium text-zinc-300 line-through">
+                  {t.task}
+                </h3>
+
+                <div className="pt-2 border-t border-[#27272A] flex items-center justify-between text-xs">
+                  <span className="text-[11px] font-mono text-zinc-500">
+                    {t.assignee || 'Unassigned'}
+                  </span>
                   <button
-                    onClick={() => moveTask(t.id!, 'in_progress')}
-                    title="Re-open task"
-                    className="p-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant transition"
+                    onClick={() => moveTask(t.id || '', 'todo')}
+                    className="text-[11px] font-mono text-zinc-400 hover:text-white transition"
                   >
-                    <span className="material-symbols-outlined text-[16px]">undo</span>
+                    Reopen
                   </button>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* New Action Item Modal */}
+      {/* New Task Modal */}
       {isNewTaskModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between pb-3 border-b border-[#27272A]">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary text-[20px]">add_task</span>
-                <h3 className="font-semibold text-primary text-base">New Action Item</h3>
-              </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-[#18181B] border border-[#27272A] rounded-xl p-5 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold text-white">Create Action Item</h3>
               <button
                 onClick={() => setIsNewTaskModalOpen(false)}
-                className="text-on-surface-variant hover:text-primary transition"
+                className="text-zinc-400 hover:text-white"
               >
-                <span className="material-symbols-outlined text-[20px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateTaskSubmit} className="space-y-4">
+            <form onSubmit={handleCreateTaskSubmit} className="space-y-3">
               <div>
-                <label className="block text-xs font-mono uppercase text-on-surface-variant mb-1.5">
-                  Task Description
+                <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+                  Task Title
                 </label>
                 <input
                   type="text"
-                  autoFocus
-                  required
                   value={newTaskTitle}
                   onChange={(e) => setNewTaskTitle(e.target.value)}
-                  placeholder="e.g. Schedule database migration rehearsal..."
-                  className="w-full px-3 py-2 rounded-xl bg-surface-container-lowest text-primary placeholder:text-outline border border-[#27272A] focus:outline-none focus:border-primary text-sm"
+                  placeholder="e.g., Update security compliance docs..."
+                  className="w-full bg-[#101014] border border-[#27272A] rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-zinc-500"
+                  autoFocus
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-mono uppercase text-on-surface-variant mb-1.5">
-                    Source App
+                  <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
+                    Source Tool
                   </label>
                   <select
                     value={newTaskSource}
                     onChange={(e) => setNewTaskSource(e.target.value as any)}
-                    className="w-full px-3 py-2 rounded-xl bg-surface-container-lowest text-primary border border-[#27272A] focus:outline-none focus:border-primary text-xs font-mono"
+                    className="w-full bg-[#101014] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs text-white outline-none"
                   >
                     <option value="Slack">Slack</option>
                     <option value="Gmail">Gmail</option>
@@ -470,13 +389,13 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase text-on-surface-variant mb-1.5">
+                  <label className="block text-[11px] font-mono uppercase text-zinc-400 mb-1">
                     Priority
                   </label>
                   <select
                     value={newTaskPriority}
                     onChange={(e) => setNewTaskPriority(e.target.value as any)}
-                    className="w-full px-3 py-2 rounded-xl bg-surface-container-lowest text-primary border border-[#27272A] focus:outline-none focus:border-primary text-xs font-mono"
+                    className="w-full bg-[#101014] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs text-white outline-none"
                   >
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
@@ -485,60 +404,19 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-mono uppercase text-on-surface-variant mb-1.5">
-                  Initial Column
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setNewTaskColumn('todo')}
-                    className={`py-1.5 rounded-lg text-xs font-mono text-center border transition ${
-                      newTaskColumn === 'todo'
-                        ? 'bg-primary text-black font-bold border-primary'
-                        : 'bg-surface-container text-on-surface-variant border-[#27272A]'
-                    }`}
-                  >
-                    To Do
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewTaskColumn('in_progress')}
-                    className={`py-1.5 rounded-lg text-xs font-mono text-center border transition ${
-                      newTaskColumn === 'in_progress'
-                        ? 'bg-amber-400 text-black font-bold border-amber-400'
-                        : 'bg-surface-container text-on-surface-variant border-[#27272A]'
-                    }`}
-                  >
-                    Active
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewTaskColumn('completed')}
-                    className={`py-1.5 rounded-lg text-xs font-mono text-center border transition ${
-                      newTaskColumn === 'completed'
-                        ? 'bg-emerald-400 text-black font-bold border-emerald-400'
-                        : 'bg-surface-container text-on-surface-variant border-[#27272A]'
-                    }`}
-                  >
-                    Done
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#27272A]">
+              <div className="flex items-center justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsNewTaskModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface-variant text-xs font-medium transition"
+                  className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-xl bg-primary text-black font-bold text-xs hover:opacity-90 transition"
+                  className="px-4 py-1.5 rounded-lg bg-white text-zinc-950 font-medium text-xs hover:bg-zinc-200 transition"
                 >
-                  Create Task
+                  Create Item
                 </button>
               </div>
             </form>

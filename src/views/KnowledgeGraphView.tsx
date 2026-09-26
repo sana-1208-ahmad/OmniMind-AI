@@ -3,6 +3,27 @@ import { ActiveView } from '../components/Navigation/Sidebar';
 import { KNOWLEDGE_NODES_INITIAL } from '../data/mockWorkspacePayload';
 import { KnowledgeNode } from '../types';
 import { IngestModal } from '../components/Modals/IngestModal';
+import {
+  Search,
+  Plus,
+  X,
+  Layers,
+  MessageSquare,
+  FileText,
+  Shield,
+  BarChart2,
+  ZoomIn,
+  ZoomOut,
+  Maximize2,
+  Activity,
+  Calendar,
+  User,
+  ChevronRight,
+  Pin,
+  ExternalLink,
+  Bot,
+  Sparkles,
+} from 'lucide-react';
 
 interface KnowledgeGraphViewProps {
   onNavigate: (view: ActiveView) => void;
@@ -38,7 +59,7 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
   }
 
   return (
-    <div className="flex flex-col w-full h-full min-h-full relative bg-[#09090B] text-on-surface overflow-hidden">
+    <div className="flex flex-col w-full h-full min-h-full relative bg-[#09090B] text-zinc-100 overflow-hidden select-none">
       <IngestModal
         isOpen={ingestModalOpen}
         onClose={() => setIngestModalOpen(false)}
@@ -68,59 +89,54 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
       <div className="absolute inset-0 bg-[radial-gradient(#27272A_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none"></div>
 
       {/* Top Action & Filter Bar */}
-      <header className="relative z-10 flex items-center justify-between px-4 sm:px-6 md:px-8 py-3 sm:py-4 border-b border-[#27272A]/50 bg-[#09090B]/85 backdrop-blur-md flex-wrap gap-3">
-        <div className="flex items-center gap-space-md">
-          <div className="flex flex-col">
-            <h1 className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
-              Knowledge Graph
-            </h1>
-            <p className="text-body-sm text-on-surface-variant font-mono text-xs">
-              1,420 interconnected enterprise documents &amp; communications
-            </p>
+      <header className="relative z-10 flex items-center justify-between px-4 sm:px-6 md:px-8 py-3.5 border-b border-[#27272A] bg-[#09090B]/90 backdrop-blur-md flex-wrap gap-3">
+        <div>
+          <div className="flex items-center gap-2 mb-0.5">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-blue-400 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-800/40">
+              Multi-Tool Neural Lattice
+            </span>
           </div>
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            Interactive Knowledge Graph
+          </h1>
+          <p className="text-xs text-zinc-400 font-mono">
+            1,420 cross-platform entities (Slack, Drive, Notion, Box, Gmail)
+          </p>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-4 flex-wrap w-full sm:w-auto justify-between sm:justify-end">
-          <div className="flex items-center bg-[#18181B] rounded-xl px-3 py-1.5 border border-[#27272A] flex-1 sm:w-60">
-            <span className="material-symbols-outlined text-on-surface-variant text-[18px] mr-2">
-              search
-            </span>
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full sm:w-auto justify-between sm:justify-end">
+          <div className="flex items-center bg-[#18181B] rounded-lg px-3 py-1.5 border border-[#27272A] flex-1 sm:w-60">
+            <Search className="w-3.5 h-3.5 text-zinc-500 mr-2 shrink-0" />
             <input
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
               placeholder="Filter nodes or tags..."
-              className="bg-transparent border-none outline-none text-primary w-full placeholder:text-on-surface-variant/60 text-xs"
+              className="bg-transparent border-none outline-none text-white w-full placeholder:text-zinc-600 text-xs"
             />
           </div>
 
-          <div className="flex items-center bg-[#18181B] p-1 rounded-xl border border-[#27272A]">
+          <div className="flex items-center bg-[#18181B] p-1 rounded-lg border border-[#27272A] text-xs">
             <button
               onClick={() => setNodeFilter('all')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
-                nodeFilter === 'all'
-                  ? 'bg-[#27272A] text-primary'
-                  : 'text-on-surface-variant hover:text-primary'
+              className={`px-2.5 py-1 rounded font-medium transition ${
+                nodeFilter === 'all' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
               }`}
             >
               All
             </button>
             <button
               onClick={() => setNodeFilter('documents')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
-                nodeFilter === 'documents'
-                  ? 'bg-[#27272A] text-primary'
-                  : 'text-on-surface-variant hover:text-primary'
+              className={`px-2.5 py-1 rounded font-medium transition ${
+                nodeFilter === 'documents' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
               }`}
             >
               Docs
             </button>
             <button
               onClick={() => setNodeFilter('slack')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
-                nodeFilter === 'slack'
-                  ? 'bg-[#27272A] text-primary'
-                  : 'text-on-surface-variant hover:text-primary'
+              className={`px-2.5 py-1 rounded font-medium transition ${
+                nodeFilter === 'slack' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
               }`}
             >
               Slack
@@ -129,9 +145,9 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
 
           <button
             onClick={() => setIngestModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-[#131315] rounded-xl text-xs font-bold shadow-sm hover:bg-primary-fixed-dim transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-zinc-950 rounded-lg text-xs font-medium hover:bg-zinc-200 transition"
           >
-            <span className="material-symbols-outlined text-[16px]">add_box</span>
+            <Plus className="w-3.5 h-3.5" />
             <span>Ingest</span>
           </button>
         </div>
@@ -152,12 +168,11 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
                 <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05"></stop>
               </linearGradient>
               <linearGradient id="line-grad-2" x1="0%" x2="100%" y1="0%" y2="100%">
-                <stop offset="0%" stopColor="#c8c6c9" stopOpacity="0.5"></stop>
+                <stop offset="0%" stopColor="#a1a1aa" stopOpacity="0.5"></stop>
                 <stop offset="100%" stopColor="#ffffff" stopOpacity="0.1"></stop>
               </linearGradient>
             </defs>
 
-            {/* Dynamic Vector Lines linking to center master node */}
             <path
               d="M 320 200 Q 450 160 580 230"
               fill="none"
@@ -212,20 +227,20 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
                   style={{ top: `${node.yPercent}%`, left: `${node.xPercent}%` }}
                 >
                   <div
-                    className={`relative flex items-center gap-space-md px-space-lg py-space-md rounded-2xl shadow-2xl transition-all ${
+                    className={`relative flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl transition-all ${
                       isSelected
-                        ? 'bg-primary text-[#131315] ring-4 ring-primary/30'
-                        : 'bg-primary text-[#131315]'
+                        ? 'bg-white text-zinc-950 ring-4 ring-white/30'
+                        : 'bg-white text-zinc-950'
                     }`}
                   >
-                    <div className="w-12 h-12 rounded-xl bg-black/10 flex items-center justify-center text-[#131315]">
-                      <span className="material-symbols-outlined text-[24px]">hub</span>
+                    <div className="w-9 h-9 rounded-lg bg-zinc-900 flex items-center justify-center text-white">
+                      <Layers className="w-5 h-5" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-headline-sm font-bold text-[#131315]">
+                      <span className="text-sm font-bold text-zinc-950">
                         {node.title}
                       </span>
-                      <span className="text-xs font-mono text-[#131315]/80">
+                      <span className="text-[11px] font-mono text-zinc-600">
                         {node.code} • {node.linksCount} links • Master Node
                       </span>
                     </div>
@@ -242,38 +257,38 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
                 style={{ top: `${node.yPercent}%`, left: `${node.xPercent}%` }}
               >
                 <div
-                  className={`relative flex items-center gap-space-md bg-[#18181B] hover:bg-[#27272A] border px-space-md py-space-sm rounded-xl shadow-xl transition-all ${
-                    isSelected ? 'border-primary ring-2 ring-primary/40' : 'border-[#27272A]'
+                  className={`relative flex items-center gap-3 bg-[#18181B] hover:bg-zinc-800 border px-3.5 py-2.5 rounded-xl shadow-xl transition-all ${
+                    isSelected ? 'border-white ring-2 ring-white/30' : 'border-[#27272A]'
                   }`}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined text-[20px]">
-                      {node.type === 'slack'
-                        ? 'forum'
-                        : node.type === 'financial'
-                        ? 'description'
-                        : node.type === 'document'
-                        ? 'security'
-                        : 'analytics'}
-                    </span>
+                  <div className="w-8 h-8 rounded-lg bg-[#27272A] flex items-center justify-center text-zinc-200">
+                    {node.type === 'slack' ? (
+                      <MessageSquare className="w-4 h-4 text-blue-400" />
+                    ) : node.type === 'financial' ? (
+                      <FileText className="w-4 h-4 text-emerald-400" />
+                    ) : node.type === 'document' ? (
+                      <Shield className="w-4 h-4 text-purple-400" />
+                    ) : (
+                      <BarChart2 className="w-4 h-4 text-amber-400" />
+                    )}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-label-md font-semibold text-primary">{node.title}</span>
-                    <span className="text-label-sm text-on-surface-variant font-mono text-[11px]">
+                    <span className="text-xs font-semibold text-white">{node.title}</span>
+                    <span className="text-[10px] text-zinc-500 font-mono">
                       {node.code} • {node.linksCount} links
                     </span>
                   </div>
 
                   {isPinned && (
-                    <div className="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full bg-amber-400 flex items-center justify-center text-black text-[10px]">
+                    <div className="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full bg-amber-400 flex items-center justify-center text-black text-[9px] font-bold">
                       ★
                     </div>
                   )}
 
                   {node.relevance.includes('98') && (
                     <>
-                      <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 animate-ping"></div>
-                      <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-400"></div>
+                      <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></div>
+                      <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
                     </>
                   )}
                 </div>
@@ -282,37 +297,37 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
           })}
 
           {/* Canvas Controls Floating Widget */}
-          <div className="absolute bottom-space-lg left-space-lg flex items-center gap-space-sm bg-[#18181B] border border-[#27272A] p-1.5 rounded-xl shadow-xl z-20">
+          <div className="absolute bottom-5 left-5 flex items-center gap-1 bg-[#18181B] border border-[#27272A] p-1 rounded-xl shadow-xl z-20">
             <button
               onClick={() => setZoomScale((z) => Math.min(1.6, z + 0.15))}
-              className="p-1.5 text-on-surface-variant hover:text-primary transition-all rounded-lg hover:bg-[#27272A]"
+              className="p-1.5 text-zinc-400 hover:text-white transition rounded-lg hover:bg-zinc-800"
               title="Zoom In"
             >
-              <span className="material-symbols-outlined text-[20px]">add</span>
+              <ZoomIn className="w-4 h-4" />
             </button>
             <button
               onClick={() => setZoomScale((z) => Math.max(0.6, z - 0.15))}
-              className="p-1.5 text-on-surface-variant hover:text-primary transition-all rounded-lg hover:bg-[#27272A]"
+              className="p-1.5 text-zinc-400 hover:text-white transition rounded-lg hover:bg-zinc-800"
               title="Zoom Out"
             >
-              <span className="material-symbols-outlined text-[20px]">remove</span>
+              <ZoomOut className="w-4 h-4" />
             </button>
-            <div className="w-[1px] h-4 bg-[#27272A] mx-space-xs"></div>
+            <div className="w-[1px] h-4 bg-[#27272A] mx-0.5"></div>
             <button
               onClick={() => setZoomScale(1)}
-              className="p-1.5 text-on-surface-variant hover:text-primary transition-all rounded-lg hover:bg-[#27272A]"
+              className="p-1.5 text-zinc-400 hover:text-white transition rounded-lg hover:bg-zinc-800"
               title="Reset View"
             >
-              <span className="material-symbols-outlined text-[20px]">fit_screen</span>
+              <Maximize2 className="w-4 h-4" />
             </button>
             <button
               onClick={() => setPhysicsActive(!physicsActive)}
-              className={`p-1.5 transition-all rounded-lg hover:bg-[#27272A] ${
-                physicsActive ? 'text-primary' : 'text-on-surface-variant'
+              className={`p-1.5 transition rounded-lg hover:bg-zinc-800 ${
+                physicsActive ? 'text-white' : 'text-zinc-500'
               }`}
-              title="Graph Physics Toggle"
+              title="Graph Dynamics Toggle"
             >
-              <span className="material-symbols-outlined text-[20px]">animation</span>
+              <Activity className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -321,96 +336,85 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
         {selectedNode && (
           <div className="w-full sm:w-[420px] max-w-full bg-[#18181B] border-l border-[#27272A] flex flex-col h-full z-30 absolute right-0 top-0 shadow-2xl animate-in slide-in-from-right duration-200">
             {/* Drawer Header */}
-            <div className="flex items-center justify-between px-space-lg py-space-md border-b border-[#27272A]">
-              <div className="flex items-center gap-space-sm">
-                <span className="px-space-sm py-0.5 rounded bg-[#27272A] text-on-surface text-label-sm font-mono text-[11px]">
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#27272A]">
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 font-mono text-[10px]">
                   {selectedNode.category}
                 </span>
-                <span className="text-emerald-400 text-label-sm font-mono text-xs">
+                <span className="text-emerald-400 font-mono text-xs">
                   {selectedNode.relevance}
                 </span>
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="p-1 text-on-surface-variant hover:text-primary rounded-lg hover:bg-[#27272A] transition-all"
+                className="p-1 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition"
               >
-                <span className="material-symbols-outlined text-[20px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Drawer Content Scrollable */}
-            <div className="flex-1 overflow-y-auto p-space-lg flex flex-col gap-space-lg">
-              {/* Title & Metadata */}
-              <div className="flex flex-col gap-space-xs">
-                <h2 className="text-headline-md font-bold text-primary">{selectedNode.title}</h2>
-                <div className="flex items-center gap-space-md text-xs text-on-surface-variant font-mono">
+            <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4">
+              <div className="flex flex-col gap-1">
+                <h2 className="text-base font-bold text-white">{selectedNode.title}</h2>
+                <div className="flex items-center gap-3 text-xs text-zinc-400 font-mono">
                   <span className="flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[14px]">calendar_today</span>
+                    <Calendar className="w-3.5 h-3.5 text-zinc-500" />
                     {selectedNode.updatedAt}
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[14px]">person</span>
+                    <User className="w-3.5 h-3.5 text-zinc-500" />
                     {selectedNode.author}
                   </span>
                 </div>
               </div>
 
               {/* Structured AI Summary Card */}
-              <div className="flex flex-col bg-[#201f22] p-space-lg rounded-2xl border border-[#27272A] gap-space-md">
+              <div className="flex flex-col bg-[#101014] p-4 rounded-xl border border-[#27272A] gap-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-label-md font-semibold text-primary flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[18px] text-primary">
-                      auto_awesome
-                    </span>
-                    Structured AI Summary
+                  <span className="text-xs font-semibold text-white flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                    Autonomous Knowledge Summary
                   </span>
-                  <span className="text-xs font-mono text-on-surface-variant">OmniMind v4.2</span>
+                  <span className="text-[10px] font-mono text-zinc-500">Track 2 Verified</span>
                 </div>
-                <p className="text-body-md text-on-surface font-body-md leading-relaxed">
+                <p className="text-xs text-zinc-300 leading-relaxed font-sans">
                   {selectedNode.summary}
                 </p>
               </div>
 
               {/* Linked Files & Communications */}
-              <div className="flex flex-col gap-space-md">
-                <span className="text-xs font-mono text-on-surface-variant uppercase tracking-wider">
-                  Connected Entities &amp; Files ({selectedNode.connectedFiles.length})
+              <div className="flex flex-col gap-2">
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider font-medium">
+                  Connected Tool Files ({selectedNode.connectedFiles.length})
                 </span>
-                <div className="flex flex-col gap-space-xs">
+                <div className="flex flex-col gap-1.5">
                   {selectedNode.connectedFiles.map((file, i) => (
                     <div
                       key={i}
                       onClick={() => onNavigate('summarizer')}
-                      className="flex items-center justify-between p-space-md bg-[#201f22] hover:bg-[#2a2a2c] rounded-xl transition-all cursor-pointer border border-[#27272A]"
+                      className="flex items-center justify-between p-2.5 bg-[#101014] hover:bg-zinc-800/60 rounded-lg transition cursor-pointer border border-[#27272A]"
                     >
-                      <div className="flex items-center gap-space-md">
-                        <span className="material-symbols-outlined text-primary text-[20px]">
-                          {file.endsWith('.pdf')
-                            ? 'picture_as_pdf'
-                            : file.endsWith('.xlsx')
-                            ? 'table_chart'
-                            : 'description'}
-                        </span>
-                        <span className="text-body-sm text-primary font-mono truncate">{file}</span>
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-zinc-400" />
+                        <span className="text-xs text-zinc-200 font-mono truncate">{file}</span>
                       </div>
-                      <span className="material-symbols-outlined text-on-surface-variant text-[18px]">
-                        chevron_right
-                      </span>
+                      <ChevronRight className="w-3.5 h-3.5 text-zinc-500" />
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Knowledge Graph Context / Neighbors */}
-              <div className="flex flex-col gap-space-md">
-                <span className="text-xs font-mono text-on-surface-variant uppercase tracking-wider">
-                  Vector Cluster Neighbors
+              {/* Vector Cluster Neighbors */}
+              <div className="flex flex-col gap-2">
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider font-medium">
+                  Vector Cluster Tags
                 </span>
-                <div className="flex flex-wrap gap-space-xs">
+                <div className="flex flex-wrap gap-1.5">
                   {selectedNode.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-space-md py-1 rounded-lg bg-[#201f22] border border-[#27272A] text-xs font-mono text-primary"
+                      className="px-2 py-0.5 rounded bg-[#101014] border border-[#27272A] text-xs font-mono text-zinc-300"
                     >
                       {tag}
                     </span>
@@ -420,23 +424,23 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
             </div>
 
             {/* Drawer Footer Actions */}
-            <div className="p-space-lg border-t border-[#27272A] flex items-center gap-space-md bg-[#18181B]">
+            <div className="p-4 border-t border-[#27272A] flex items-center gap-2 bg-[#18181B]">
               <button
                 onClick={() => onNavigate('summarizer')}
-                className="flex-1 py-space-md bg-primary text-[#131315] font-bold rounded-xl text-xs hover:bg-primary-fixed-dim transition-all text-center shadow-md cursor-pointer"
+                className="flex-1 py-2 bg-white text-zinc-950 font-medium rounded-lg text-xs hover:bg-zinc-200 transition text-center"
               >
-                Open Full Document
+                Inspect in Doc Summarizer
               </button>
               <button
                 onClick={() => togglePin(selectedNode.id)}
-                className={`p-space-md rounded-xl border transition-all cursor-pointer ${
+                className={`p-2 rounded-lg border transition ${
                   pinnedNodes.includes(selectedNode.id)
                     ? 'bg-amber-400/20 text-amber-400 border-amber-400/40'
-                    : 'bg-[#201f22] hover:bg-[#27272A] border-[#27272A] text-primary'
+                    : 'bg-[#101014] hover:bg-zinc-800 border-[#27272A] text-zinc-300'
                 }`}
                 title="Pin Node"
               >
-                <span className="material-symbols-outlined text-[20px]">push_pin</span>
+                <Pin className="w-4 h-4" />
               </button>
             </div>
           </div>

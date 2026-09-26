@@ -23,74 +23,22 @@ export async function executeOmniMindQuery(
     return PRECOMPILED_TRACK2_PAYLOADS['globex corp sla'];
   }
 
-  // Attempt live execution with Gemini REST API if an API key is available
-  const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || (window as any).__GEMINI_KEY__;
-  if (apiKey && apiKey !== 'MY_GEMINI_API_KEY') {
-    try {
-      const prompt = `You are OmniMind AI, an autonomous enterprise knowledge worker and intelligent assistant designed specifically for Track 2.
-Your core mission is to search, understand, organize, summarize, and manage knowledge across five connected workplace platforms: Gmail, Google Drive, Notion, Box, and Slack.
+  // Attempt live execution via server-side OmniMind API
+  try {
+    const res = await fetch('/api/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: rawQuery, tone: userTone }),
+    });
 
-Operational Persona:
-- Tone: ${userTone === 'formal' ? 'Formal Executive (structured, professional, authoritative)' : userTone === 'concise' ? 'Concise & Direct (zero fluff, bullet-heavy)' : 'Deep Technical (precise, schemas, exact systems)'}
-- Precision: Never hallucinate data. Always rely strictly on workplace platforms: Gmail, Google Drive, Notion, Box, Slack. If information is missing, state it was not found in the connected apps.
-
-Strict Output Schema:
-Return ONLY a raw valid JSON object with NO markdown code block wrappers (no \`\`\`json or \`\`\`) adhering strictly to:
-{
-  "status": "success",
-  "queryProcessed": "${rawQuery.replace(/"/g, '\\"')}",
-  "summary": "Professional, executive-level unified summary answering the user's request.",
-  "sources": [
-    {
-      "app": "Slack | Gmail | Google Drive | Notion | Box",
-      "identifier": "Channel name, filename, or email subject",
-      "snippet": "Short excerpt showing relevance"
-    }
-  ],
-  "actionItems": [
-    {
-      "task": "Extracted task description",
-      "sourceApp": "Originating app",
-      "priority": "High | Medium | Low"
-    }
-  ],
-  "knowledgeLinks": [
-    {
-      "nodeA": "First document or chat title",
-      "nodeB": "Second document or chat title",
-      "relationship": "Reason for cross-app connection"
-    }
-  ]
-}
-
-User query: ${rawQuery}`;
-
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-              responseMimeType: 'application/json',
-            },
-          }),
-        }
-      );
-
-      if (res.ok) {
-        const data = await res.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-        const cleaned = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '').trim();
-        const parsed = JSON.parse(cleaned);
-        if (parsed.status && parsed.summary && Array.isArray(parsed.sources)) {
-          return parsed as OmniMindResponseSchema;
-        }
+    if (res.ok) {
+      const parsed = await res.json();
+      if (parsed.status && parsed.summary && Array.isArray(parsed.sources)) {
+        return parsed as OmniMindResponseSchema;
       }
-    } catch (err) {
-      console.warn('Live Gemini API call fell back to deterministic workspace engine:', err);
     }
+  } catch (err) {
+    console.warn('Live OmniMind server API call fell back to deterministic workspace engine:', err);
   }
 
   // Fallback Deterministic Engine that synthesizes from workspace payload

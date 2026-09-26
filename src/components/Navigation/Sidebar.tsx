@@ -1,4 +1,29 @@
 import React from 'react';
+import {
+  LayoutDashboard,
+  Sun,
+  Search,
+  Share2,
+  FileText,
+  CheckSquare,
+  Zap,
+  History,
+  FolderGit2,
+  BarChart3,
+  Terminal,
+  Sliders,
+  Download,
+  Settings,
+  X,
+  ExternalLink,
+  Layers,
+  ChevronRight,
+  ShieldCheck,
+  Radio,
+  Cpu,
+  Activity,
+  CheckCircle2,
+} from 'lucide-react';
 
 export type ActiveView =
   | 'landing'
@@ -7,6 +32,7 @@ export type ActiveView =
   | 'dashboard'
   | 'briefing'
   | 'search'
+  | 'workflow'
   | 'graph'
   | 'summarizer'
   | 'action-board'
@@ -24,6 +50,19 @@ interface SidebarProps {
   onNavigate: (view: ActiveView) => void;
   isMobileOpen?: boolean;
   onCloseMobile?: () => void;
+  isCliOffline?: boolean;
+}
+
+interface NavItem {
+  id: ActiveView;
+  label: string;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
+  badge?: string;
+}
+
+interface NavGroup {
+  groupName: string;
+  items: NavItem[];
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -31,22 +70,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onNavigate,
   isMobileOpen = false,
   onCloseMobile,
+  isCliOffline = false,
 }) => {
-  const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
-    { id: 'briefing', label: 'Morning Briefing', icon: 'wb_sunny' },
-    { id: 'search', label: 'Search', icon: 'search' },
-    { id: 'graph', label: 'Knowledge Graph', icon: 'hub' },
-    { id: 'summarizer', label: 'Document Summarizer', icon: 'summarize' },
-    { id: 'action-board', label: 'Action Board', icon: 'view_kanban' },
-    { id: 'triggers', label: 'Trigger Studio', icon: 'bolt' },
-    { id: 'logs', label: 'Execution Logs', icon: 'history' },
-    { id: 'vault', label: 'File Vault', icon: 'folder_managed' },
-    { id: 'analytics', label: 'Workspace Analytics', icon: 'analytics' },
-    { id: 'integrations', label: 'Integrations', icon: 'integration_instructions' },
-    { id: 'ai-settings', label: 'AI Settings', icon: 'smart_toy' },
-    { id: 'export-hub', label: 'Export Hub', icon: 'export_notes' },
-    { id: 'settings', label: 'Settings', icon: 'settings' },
+  const navGroups: NavGroup[] = [
+    {
+      groupName: 'Workspace Core',
+      items: [
+        { id: 'search', label: 'Command Center', icon: Search, badge: 'Unified' },
+        { id: 'workflow', label: 'Agentic Workflow', icon: Cpu, badge: 'Pipeline' },
+        { id: 'dashboard', label: 'Overview Dashboard', icon: LayoutDashboard },
+        { id: 'briefing', label: 'Executive Briefing', icon: Sun, badge: 'Live' },
+      ],
+    },
+    {
+      groupName: 'Autonomous Agent',
+      items: [
+        { id: 'action-board', label: 'Action Board', icon: CheckSquare, badge: '7' },
+        { id: 'graph', label: 'Knowledge Graph', icon: Share2 },
+        { id: 'summarizer', label: 'Doc Summarizer', icon: FileText },
+        { id: 'vault', label: 'Vault Explorer', icon: FolderGit2 },
+      ],
+    },
+    {
+      groupName: 'Swytchcode & APIs',
+      items: [
+        { id: 'integrations', label: 'Integration Hub', icon: Terminal, badge: '5 Tools' },
+        { id: 'logs', label: 'Execution & SOC2', icon: History },
+        { id: 'analytics', label: 'Agent Analytics', icon: BarChart3 },
+      ],
+    },
+    {
+      groupName: 'System & Governance',
+      items: [
+        { id: 'ai-settings', label: 'AI Governance', icon: Sliders },
+        { id: 'settings', label: 'Settings & Orgs', icon: Settings },
+      ],
+    },
   ];
 
   const handleItemClick = (id: ActiveView) => {
@@ -57,72 +116,123 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const sidebarContent = (
-    <div className="w-64 h-full bg-surface-container-low flex flex-col pt-space-md pb-space-lg border-r border-[#27272A]/40 overflow-y-auto select-none">
-      {/* Brand Zone */}
-      <div className="px-space-lg mb-space-lg flex items-center justify-between">
+    <div className="w-[260px] h-full bg-[#101014] flex flex-col border-r border-[#27272A] overflow-hidden select-none">
+      {/* Brand Header */}
+      <div className="p-4 border-b border-[#27272A] flex items-center justify-between">
         <div
-          className="flex items-center gap-space-md cursor-pointer select-none"
-          onClick={() => handleItemClick('dashboard')}
+          className="flex items-center gap-3 cursor-pointer group"
+          onClick={() => handleItemClick('search')}
         >
-          <div className="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center border border-[#27272A]">
-            <span className="material-symbols-outlined text-primary text-[20px]">hub</span>
+          <div className="w-8 h-8 rounded-lg bg-[#18181B] border border-[#27272A] flex items-center justify-center text-white shadow-sm group-hover:border-zinc-500 transition-colors">
+            <Layers className="w-4 h-4 text-white" />
           </div>
-          <span className="text-headline-sm font-bold text-primary tracking-tight">OmniMind</span>
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold tracking-tight text-white flex items-center gap-1.5">
+              OmniMind AI
+            </span>
+            <span className="text-[11px] text-zinc-500 font-mono">Swytchcode Track 2</span>
+          </div>
         </div>
+
         {onCloseMobile && (
           <button
             onClick={onCloseMobile}
-            className="lg:hidden p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition"
+            className="lg:hidden p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-[#18181B] transition"
             aria-label="Close menu"
           >
-            <span className="material-symbols-outlined text-[20px]">close</span>
+            <X className="w-4 h-4" />
           </button>
         )}
       </div>
 
-      {/* Navigation List */}
-      <nav className="flex-1 px-space-md flex flex-col gap-1">
-        {navItems.map((item) => {
-          const isActive = currentView === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => handleItemClick(item.id as ActiveView)}
-              className={`w-full flex items-center px-space-md py-2 rounded-xl text-body-md transition-all text-left ${
-                isActive
-                  ? 'bg-surface-container-high text-on-surface font-semibold shadow-sm'
-                  : 'text-on-surface-variant hover:bg-surface-container-high/60 hover:text-on-surface'
-              }`}
-            >
-              <span
-                className={`material-symbols-outlined mr-space-md text-[20px] transition-colors ${
-                  isActive ? 'text-primary' : 'text-on-surface-variant'
-                }`}
-              >
-                {item.icon}
-              </span>
-              <span className="truncate">{item.label}</span>
-            </button>
-          );
-        })}
+      {/* Navigation Sections */}
+      <nav className="flex-1 px-3 py-3 overflow-y-auto space-y-4">
+        {navGroups.map((group) => (
+          <div key={group.groupName} className="space-y-1">
+            <div className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-zinc-500 font-medium">
+              {group.groupName}
+            </div>
+            {group.items.map((item) => {
+              const isActive = currentView === item.id;
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleItemClick(item.id)}
+                  className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors text-left ${
+                    isActive
+                      ? 'bg-[#18181B] text-white font-medium border border-[#27272A] shadow-sm'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#18181B]/50'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Icon
+                      className={`w-4 h-4 shrink-0 transition-colors ${
+                        isActive ? 'text-white' : 'text-zinc-500'
+                      }`}
+                    />
+                    <span className="truncate">{item.label}</span>
+                  </div>
+                  {item.badge && (
+                    <span
+                      className={`px-1.5 py-0.5 rounded text-[10px] font-mono ${
+                        isActive
+                          ? 'bg-zinc-800 text-zinc-200'
+                          : 'bg-[#18181B] text-zinc-500 border border-[#27272A]'
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
-      {/* Bottom status / Org Indicator */}
-      <div className="px-space-md pt-space-md border-t border-[#27272A]/30">
-        <div className="p-space-sm rounded-xl bg-surface-container flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+      {/* Bottom Swytchcode Daemon Status Indicator */}
+      <div className="p-3 border-t border-[#27272A] bg-[#101014] space-y-2">
+        <div
+          onClick={() => handleItemClick('integrations')}
+          title="Swytchcode CLI Daemon Status (PID 4108) - Click to manage"
+          className="p-2.5 rounded-lg bg-[#18181B] border border-[#27272A] hover:border-zinc-700 transition cursor-pointer flex items-center justify-between group"
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span
+                className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                  isCliOffline ? 'bg-amber-400' : 'bg-emerald-400'
+                }`}
+              ></span>
+              <span
+                className={`relative inline-flex rounded-full h-2 w-2 ${
+                  isCliOffline ? 'bg-amber-500' : 'bg-emerald-500'
+                }`}
+              ></span>
+            </span>
             <div className="flex flex-col">
-              <span className="text-xs font-medium text-primary">Track 2 Engine</span>
-              <span className="text-[10px] text-on-surface-variant font-code">v4.2 Enterprise</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] font-mono text-zinc-200 font-semibold">
+                  {isCliOffline ? 'swy daemon: paused' : 'swy login: active'}
+                </span>
+              </div>
+              <span className="text-[10px] font-mono text-zinc-500">
+                {isCliOffline ? 'PID 4108 unreachable' : 'PID 4108 verified (5 tools)'}
+              </span>
             </div>
           </div>
+          <ChevronRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-zinc-300 transition-transform group-hover:translate-x-0.5" />
+        </div>
+
+        <div className="flex items-center justify-between text-[11px] text-zinc-500 px-1 pt-1">
+          <span className="font-mono text-[10px]">v1.4.2 [Track 2]</span>
           <button
             onClick={() => handleItemClick('landing')}
-            title="View Public Landing Page"
-            className="text-on-surface-variant hover:text-primary p-1 rounded hover:bg-surface-container-high transition"
+            className="flex items-center gap-1 hover:text-zinc-300 transition-colors text-[11px]"
           >
-            <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+            <span>Overview</span>
+            <ExternalLink className="w-3 h-3" />
           </button>
         </div>
       </div>
@@ -131,20 +241,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
-      <aside className="hidden lg:flex shrink-0 h-full">
-        {sidebarContent}
-      </aside>
+      {/* Desktop Persistent Sidebar (Fixed 260px) */}
+      <aside className="hidden lg:flex shrink-0 h-full w-[260px]">{sidebarContent}</aside>
 
       {/* Mobile Drawer Overlay */}
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
-          {/* Backdrop blur */}
           <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
             onClick={onCloseMobile}
           />
-          {/* Slide-out Panel */}
           <div className="relative z-10 h-full shadow-2xl flex flex-col max-w-[85vw] animate-in slide-in-from-left duration-200">
             {sidebarContent}
           </div>

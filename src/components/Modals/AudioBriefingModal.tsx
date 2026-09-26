@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Volume2, X, RotateCcw, Play, Pause, RotateCw, RefreshCw } from 'lucide-react';
 
 interface AudioBriefingModalProps {
   isOpen: boolean;
@@ -32,27 +33,27 @@ export const AudioBriefingModal: React.FC<AudioBriefingModalProps> = ({ isOpen, 
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150"
     >
       <div
-        className="w-full max-w-lg bg-surface-container-low border border-[#27272A] rounded-2xl shadow-2xl p-space-lg flex flex-col gap-space-lg animate-in zoom-in-95 duration-150"
+        className="w-full max-w-lg bg-[#18181B] border border-[#27272A] rounded-2xl shadow-2xl p-6 flex flex-col gap-5 animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between pb-space-sm border-b border-[#27272A]">
+        <div className="flex items-center justify-between pb-3 border-b border-[#27272A]">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary text-[20px]">volume_up</span>
-            <span className="text-headline-sm font-semibold text-primary">Executive Audio Briefing</span>
+            <Volume2 className="w-5 h-5 text-white" />
+            <span className="text-base font-semibold text-white">Executive Audio Briefing</span>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-on-surface-variant hover:text-primary transition"
+            className="p-1 rounded-lg text-zinc-400 hover:text-white transition"
           >
-            <span className="material-symbols-outlined text-[20px]">close</span>
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Audio Visualizer Waveform Simulation */}
-        <div className="flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border border-[#27272A] gap-4">
+        <div className="flex flex-col items-center justify-center p-6 bg-[#101014] rounded-xl border border-[#27272A] gap-4">
           <div className="flex items-center gap-1.5 h-16 w-full justify-center">
             {[40, 65, 30, 80, 95, 50, 70, 35, 90, 60, 85, 45, 100, 75, 40, 85, 55, 65, 30, 95, 45, 70].map(
               (height, i) => (
@@ -60,8 +61,8 @@ export const AudioBriefingModal: React.FC<AudioBriefingModalProps> = ({ isOpen, 
                   key={i}
                   className={`w-1.5 rounded-full transition-all duration-300 ${
                     i <= (progress / 100) * 22
-                      ? 'bg-primary'
-                      : 'bg-surface-container-highest'
+                      ? 'bg-zinc-200'
+                      : 'bg-zinc-700'
                   } ${isPlaying ? 'animate-pulse' : ''}`}
                   style={{ height: isPlaying ? `${Math.max(15, (height * (i % 2 === 0 ? 1 : 0.7)))}%` : '20%' }}
                 />
@@ -69,7 +70,7 @@ export const AudioBriefingModal: React.FC<AudioBriefingModalProps> = ({ isOpen, 
             )}
           </div>
 
-          <div className="w-full flex items-center justify-between text-xs font-code text-on-surface-variant">
+          <div className="w-full flex items-center justify-between text-xs font-mono text-zinc-400">
             <span>{formatTime(currentSeconds)}</span>
             <span>03:00</span>
           </div>
@@ -81,7 +82,7 @@ export const AudioBriefingModal: React.FC<AudioBriefingModalProps> = ({ isOpen, 
             max="100"
             value={progress}
             onChange={(e) => setProgress(Number(e.target.value))}
-            className="w-full accent-primary cursor-pointer"
+            className="w-full accent-zinc-200 cursor-pointer"
           />
         </div>
 
@@ -92,10 +93,10 @@ export const AudioBriefingModal: React.FC<AudioBriefingModalProps> = ({ isOpen, 
               <button
                 key={rate}
                 onClick={() => setPlaybackRate(rate)}
-                className={`px-2 py-1 rounded text-xs font-code transition ${
+                className={`px-2 py-1 rounded text-xs font-mono transition ${
                   playbackRate === rate
-                    ? 'bg-primary text-on-primary font-bold'
-                    : 'bg-surface-container text-on-surface-variant hover:text-on-surface'
+                    ? 'bg-zinc-100 text-black font-semibold'
+                    : 'bg-[#101014] text-zinc-400 hover:text-zinc-200 border border-[#27272A]'
                 }`}
               >
                 {rate}x
@@ -106,25 +107,23 @@ export const AudioBriefingModal: React.FC<AudioBriefingModalProps> = ({ isOpen, 
           <div className="flex items-center gap-3">
             <button
               onClick={() => setProgress(Math.max(0, progress - 10))}
-              className="p-2 rounded-full hover:bg-surface-container text-on-surface-variant hover:text-primary transition"
-              title="Back 15s"
+              className="p-2 rounded-full hover:bg-[#101014] text-zinc-400 hover:text-white transition"
+              title="Back 10s"
             >
-              <span className="material-symbols-outlined text-[20px]">replay_10</span>
+              <RotateCcw className="w-4 h-4" />
             </button>
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center hover:bg-primary-fixed-dim transition shadow-lg"
+              className="w-11 h-11 rounded-full bg-white text-black flex items-center justify-center hover:bg-zinc-200 transition shadow-lg"
             >
-              <span className="material-symbols-outlined text-[24px]">
-                {isPlaying ? 'pause' : 'play_arrow'}
-              </span>
+              {isPlaying ? <Pause className="w-5 h-5 text-black" /> : <Play className="w-5 h-5 text-black ml-0.5" />}
             </button>
             <button
               onClick={() => setProgress(Math.min(100, progress + 10))}
-              className="p-2 rounded-full hover:bg-surface-container text-on-surface-variant hover:text-primary transition"
+              className="p-2 rounded-full hover:bg-[#101014] text-zinc-400 hover:text-white transition"
               title="Forward 10s"
             >
-              <span className="material-symbols-outlined text-[20px]">forward_10</span>
+              <RotateCw className="w-4 h-4" />
             </button>
           </div>
 
@@ -133,16 +132,16 @@ export const AudioBriefingModal: React.FC<AudioBriefingModalProps> = ({ isOpen, 
               setIsPlaying(false);
               setProgress(0);
             }}
-            className="p-2 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary transition"
+            className="p-2 rounded hover:bg-[#101014] text-zinc-400 hover:text-white transition"
             title="Restart"
           >
-            <span className="material-symbols-outlined text-[18px]">restart_alt</span>
+            <RefreshCw className="w-4 h-4" />
           </button>
         </div>
 
         {/* Live Audio Transcript */}
-        <div className="p-3 bg-surface-container rounded-xl text-xs text-on-surface-variant leading-relaxed">
-          <span className="text-primary font-medium">Transcript Preview: </span>
+        <div className="p-3 bg-[#101014] rounded-xl text-xs text-zinc-400 leading-relaxed border border-[#27272A]">
+          <span className="text-zinc-200 font-medium">Transcript Preview: </span>
           "Good morning. Overnight engineering activity closed 14 blockers on the Q3 infrastructure migration. Alex Rivera and Sarah Jenkins reached consensus on Redis zero-downtime replication..."
         </div>
       </div>
