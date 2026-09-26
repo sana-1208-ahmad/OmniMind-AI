@@ -1,0 +1,6 @@
+{
+  "name": "OmniMind AI - Autonomous Enterprise Knowledge Worker",
+  "description": "Autonomous enterprise knowledge worker for Gmail, Google Drive, Notion, Box, and Slack. Universal search, citations, intelligent summarization, action item extraction, and knowledge graph mapping.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
