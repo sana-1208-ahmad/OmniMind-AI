@@ -176,25 +176,25 @@ export const MorningBriefingView: React.FC<MorningBriefingViewProps> = ({
               {/* Gmail Item 1 */}
               <div
                 onClick={() => onOpenSearchWithQuery('Summarize Globex Corp SLA requirements')}
-                className="p-3.5 rounded-lg bg-[#101014] hover:bg-[#141418] transition flex flex-col gap-1.5 cursor-pointer border border-[#27272A] group"
+                className="p-3.5 rounded-lg bg-[#101014] hover:bg-[#141418] hover-card-motion transition flex flex-col gap-1.5 cursor-pointer border border-[#27272A] group animate-fade-in"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-rose-950/50 text-rose-400 border border-rose-800/40">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 min-w-0">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-rose-950/50 text-rose-400 border border-rose-800/40 shrink-0">
                       [Swytchcode/Gmail]
                     </span>
-                    <span className="text-xs font-semibold text-zinc-200 group-hover:text-white">
+                    <span className="text-xs font-semibold text-zinc-200 group-hover:text-white truncate">
                       Sarah Jenkins (VP Sales) — Enterprise SLA Escalation: Globex Corp
                     </span>
                   </div>
-                  <span className="text-[10px] text-zinc-500 font-mono">
+                  <span className="text-[10px] text-zinc-500 font-mono shrink-0">
                     07:15 AM
                   </span>
                 </div>
-                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed break-words">
                   "We are at risk of losing the renewal if the custom API rate limits aren't approved by noon. They have escalated directly to their CTO..."
                 </p>
-                <div className="flex items-center gap-2 pt-1 text-[11px] font-mono text-zinc-500">
+                <div className="flex items-center gap-2 pt-1 text-[11px] font-mono text-zinc-500 flex-wrap">
                   <span className="text-rose-400 font-medium">Priority: Critical</span>
                   <span>•</span>
                   <span>Suggested action: Review attached API waiver</span>
@@ -204,25 +204,25 @@ export const MorningBriefingView: React.FC<MorningBriefingViewProps> = ({
               {/* Gmail Item 2 */}
               <div
                 onClick={() => onOpenSearchWithQuery('Board Deck Final Review Q3 Numbers')}
-                className="p-3.5 rounded-lg bg-[#101014] hover:bg-[#141418] transition flex flex-col gap-1.5 cursor-pointer border border-[#27272A] group"
+                className="p-3.5 rounded-lg bg-[#101014] hover:bg-[#141418] hover-card-motion transition flex flex-col gap-1.5 cursor-pointer border border-[#27272A] group animate-fade-in"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-zinc-800 text-zinc-300 border border-[#27272A]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 min-w-0">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-zinc-800 text-zinc-300 border border-[#27272A] shrink-0">
                       [Swytchcode/Gmail]
                     </span>
-                    <span className="text-xs font-semibold text-zinc-200 group-hover:text-white">
+                    <span className="text-xs font-semibold text-zinc-200 group-hover:text-white truncate">
                       Marcus Vance — Board Deck Final Review Q3 Numbers
                     </span>
                   </div>
-                  <span className="text-[10px] text-zinc-500 font-mono">
+                  <span className="text-[10px] text-zinc-500 font-mono shrink-0">
                     04:30 AM
                   </span>
                 </div>
-                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed break-words">
                   "Please check slide 14 regarding ARR projections. I adjusted the churn rate down based on the latest cohort analysis..."
                 </p>
-                <div className="flex items-center gap-2 pt-1 text-[11px] font-mono text-zinc-500">
+                <div className="flex items-center gap-2 pt-1 text-[11px] font-mono text-zinc-500 flex-wrap">
                   <span className="text-amber-400 font-medium">Priority: High</span>
                   <span>•</span>
                   <span>Suggested action: Quick sign-off on slide 14</span>

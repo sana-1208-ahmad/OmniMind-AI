@@ -34,7 +34,7 @@ function getAiClient() {
 // Server-side AI Query endpoint for OmniMind autonomous synthesis
 app.post('/api/query', async (req, res) => {
   try {
-    const { query, tone = 'formal' } = req.body;
+    const { query, tone = 'formal', mode = 'sandbox', userEmail = 'ishukhan8661@gmail.com' } = req.body;
     if (!query || typeof query !== 'string') {
       return res.status(400).json({ error: 'Query parameter is required' });
     }
@@ -50,6 +50,8 @@ app.post('/api/query', async (req, res) => {
     const prompt = `You are OmniMind AI, an autonomous enterprise knowledge worker and intelligent assistant designed specifically for Track 2.
 Your core mission is to search, understand, organize, summarize, and manage knowledge across five connected workplace platforms: Gmail, Google Drive, Notion, Box, and Slack.
 
+Execution Environment: ${mode === 'live' ? `Live Personal Account Mode (Authenticated Google Workspace OAuth session for ${userEmail})` : 'Sandbox Mode (Enterprise Track 2 Benchmark Fixtures)'}
+
 Operational Persona:
 - Tone: ${
       tone === 'formal'
@@ -58,7 +60,7 @@ Operational Persona:
         ? 'Concise & Direct (zero fluff, bullet-heavy)'
         : 'Deep Technical (precise, schemas, exact systems)'
     }
-- Precision: Never hallucinate data. Always rely strictly on workplace platforms: Gmail, Google Drive, Notion, Box, Slack. If information is missing, state it was not found in the connected apps.
+- Precision: Never hallucinate data. Always rely strictly on workplace platforms: Gmail, Google Drive, Notion, Box, Slack. If information is missing, state it was not found in the connected apps. ${mode === 'live' ? `When citing Google Drive or Gmail in Live Mode, acknowledge live personal account ${userEmail} with session token verification.` : ''}
 
 Strict Output Schema:
 Return ONLY a raw valid JSON object with NO markdown code block wrappers (no \`\`\`json or \`\`\`) adhering strictly to:
@@ -86,8 +88,24 @@ Return ONLY a raw valid JSON object with NO markdown code block wrappers (no \`\
       "nodeB": "Second document or chat title",
       "relationship": "Reason for cross-app connection"
     }
+  ],
+  "meetings": [
+    {
+      "id": "meet-1",
+      "title": "Meeting Title",
+      "timeAndDate": "e.g. Today, 3:00 PM - 4:00 PM",
+      "agenda": "Detailed meeting agenda extracted from email thread or calendar invite",
+      "meetingLink": "https://meet.google.com/... or https://zoom.us/...",
+      "platform": "Google Meet | Zoom | Slack Huddle",
+      "organizer": "Organizer Name",
+      "attendees": ["Attendee 1", "Attendee 2"],
+      "sourceTag": "[Source: Swytchcode/Gmail Thread: ...]",
+      "status": "confirmed | tentative | urgent"
+    }
   ]
 }
+
+Note: If the user query is about schedules, meetings, timings, or calendar invites, make sure to populate the "meetings" array with structured timeline items parsed from emails or chats. Otherwise omit "meetings" or leave it as an empty array.
 
 User query: ${query}`;
 

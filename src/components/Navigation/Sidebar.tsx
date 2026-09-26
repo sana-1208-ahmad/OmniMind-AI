@@ -23,9 +23,11 @@ import {
   Cpu,
   Activity,
   CheckCircle2,
+  Bot,
 } from 'lucide-react';
 
 export type ActiveView =
+  | 'chat'
   | 'landing'
   | 'onboarding'
   | 'auth'
@@ -76,6 +78,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       groupName: 'Workspace Core',
       items: [
+        { id: 'chat', label: 'Agent Workspace', icon: Bot, badge: 'ChatGPT UI' },
         { id: 'search', label: 'Command Center', icon: Search, badge: 'Unified' },
         { id: 'workflow', label: 'Agentic Workflow', icon: Cpu, badge: 'Pipeline' },
         { id: 'dashboard', label: 'Overview Dashboard', icon: LayoutDashboard },
@@ -175,7 +178,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                   {item.badge && (
                     <span
-                      className={`px-1.5 py-0.5 rounded text-[10px] font-mono ${
+                      className={`px-1.5 py-0.5 rounded text-[10px] font-mono shrink-0 ml-1.5 ${
                         isActive
                           ? 'bg-zinc-800 text-zinc-200'
                           : 'bg-[#18181B] text-zinc-500 border border-[#27272A]'
@@ -196,10 +199,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div
           onClick={() => handleItemClick('integrations')}
           title="Swytchcode CLI Daemon Status (PID 4108) - Click to manage"
-          className="p-2.5 rounded-lg bg-[#18181B] border border-[#27272A] hover:border-zinc-700 transition cursor-pointer flex items-center justify-between group"
+          className="p-2.5 rounded-lg bg-[#18181B] border border-[#27272A] hover:border-zinc-700 transition-colors cursor-pointer flex items-center justify-between group"
         >
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="relative flex h-2 w-2 shrink-0">
               <span
                 className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
                   isCliOffline ? 'bg-amber-400' : 'bg-emerald-400'
@@ -211,18 +214,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }`}
               ></span>
             </span>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="text-[11px] font-mono text-zinc-200 font-semibold">
+            <div className="flex flex-col min-w-0">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="text-[11px] font-mono text-zinc-200 font-semibold truncate">
                   {isCliOffline ? 'swy daemon: paused' : 'swy login: active'}
                 </span>
               </div>
-              <span className="text-[10px] font-mono text-zinc-500">
+              <span className="text-[10px] font-mono text-zinc-500 truncate">
                 {isCliOffline ? 'PID 4108 unreachable' : 'PID 4108 verified (5 tools)'}
               </span>
             </div>
           </div>
-          <ChevronRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-zinc-300 transition-transform group-hover:translate-x-0.5" />
+          <ChevronRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-zinc-300 transition-transform group-hover:translate-x-0.5 shrink-0 ml-1" />
         </div>
 
         <div className="flex items-center justify-between text-[11px] text-zinc-500 px-1 pt-1">

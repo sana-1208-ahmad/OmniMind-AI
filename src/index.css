@@ -63,6 +63,26 @@
     background-color: #09090b;
     color: #ededed;
     font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Smooth 150ms ease-out transitions on buttons, tabs, links, and cards */
+  button, a, [role="button"] {
+    transition: background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Safe text wrapping globally to eliminate clipping and awkward overflows */
+  p, h1, h2, h3, h4, h5, h6, span {
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 }
 
@@ -75,13 +95,14 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2a2c;
-  border-radius: 3px;
+  background: #27272a;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #444748;
+  background: #3f3f46;
 }
 
+/* Hardware-accelerated Keyframe Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -93,6 +114,92 @@
   }
 }
 
+@keyframes bubbleIn {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
 .animate-fade-in {
-  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.animate-bubble-in {
+  animation: bubbleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.animate-dropdown-in {
+  animation: dropdownIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.animate-modal-in {
+  animation: modalIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* Card hover physics for Linear/Notion matte style */
+.hover-card-motion {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-card-motion:hover {
+  transform: translateY(-1px);
+}
+
+/* Zero overlap helpers */
+.clamp-title {
+  max-width: clamp(240px, 80vw, 860px);
+}
+
+.clamp-summary {
+  max-width: clamp(280px, 90vw, 760px);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

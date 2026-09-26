@@ -116,15 +116,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           {/* Card 1: Knowledge Graph */}
           <div
             onClick={() => onNavigate('graph')}
-            className="group relative overflow-hidden bg-[#18181B] hover:bg-[#1C1C20] border border-[#27272A] hover:border-blue-500/50 rounded-xl p-5 transition-all duration-200 cursor-pointer shadow-lg flex flex-col justify-between"
+            className="group relative overflow-hidden bg-[#18181B] hover:bg-[#1C1C20] hover-card-motion border border-[#27272A] hover:border-blue-500/50 rounded-xl p-5 cursor-pointer shadow-lg flex flex-col justify-between"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-blue-500/10 transition"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-blue-500/10 transition-colors"></div>
             <div>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 rounded-xl bg-blue-950/60 border border-blue-800/50 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-transform">
                   <Share2 className="w-5 h-5" />
                 </div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap justify-end">
                   <span className="text-[10px] font-mono text-blue-400 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-800/40 font-medium">
                     18 Active Nodes
                   </span>
@@ -135,7 +135,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </div>
 
               <div className="mt-4">
-                <h3 className="text-base font-bold text-white group-hover:text-blue-300 transition flex items-center gap-2">
+                <h3 className="text-base font-bold text-white group-hover:text-blue-300 transition-colors flex items-center gap-2">
                   <span>Interactive Knowledge Graph</span>
                   <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-blue-300 group-hover:translate-x-1 transition-all" />
                 </h3>
@@ -170,15 +170,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           {/* Card 2: Action Board */}
           <div
             onClick={() => onNavigate('action-board')}
-            className="group relative overflow-hidden bg-[#18181B] hover:bg-[#1C1C20] border border-[#27272A] hover:border-emerald-500/50 rounded-xl p-5 transition-all duration-200 cursor-pointer shadow-lg flex flex-col justify-between"
+            className="group relative overflow-hidden bg-[#18181B] hover:bg-[#1C1C20] hover-card-motion border border-[#27272A] hover:border-emerald-500/50 rounded-xl p-5 cursor-pointer shadow-lg flex flex-col justify-between"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-emerald-500/10 transition"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-emerald-500/10 transition-colors"></div>
             <div>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 rounded-xl bg-emerald-950/60 border border-emerald-800/50 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
                   <CheckSquare className="w-5 h-5" />
                 </div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap justify-end">
                   <span className="text-[10px] font-mono text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800/40 font-medium">
                     3 High Priority
                   </span>
@@ -189,7 +189,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </div>
 
               <div className="mt-4">
-                <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition flex items-center gap-2">
+                <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors flex items-center gap-2">
                   <span>Cross-Platform Action Board</span>
                   <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-emerald-300 group-hover:translate-x-1 transition-all" />
                 </h3>

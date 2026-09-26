@@ -23,6 +23,20 @@ export interface KnowledgeLink {
   relationship: string;
 }
 
+export interface CalendarMeetingItem {
+  id: string;
+  title: string;
+  timeAndDate: string; // e.g. "Today, 10:30 AM - 11:30 AM (PDT)"
+  agenda: string;
+  meetingLink?: string; // e.g. "https://meet.google.com/vpx-trno-kmn"
+  platform: 'Google Meet' | 'Zoom' | 'Slack Huddle' | 'In-Person';
+  organizer: string;
+  attendees: string[];
+  sourceTag: string; // e.g. "[Source: Swytchcode/Gmail Thread: Q3 Sync]"
+  status: 'confirmed' | 'tentative' | 'urgent';
+  relatedDocs?: string[];
+}
+
 /**
  * Strict Output Schema required by Track 2
  */
@@ -33,6 +47,7 @@ export interface OmniMindResponseSchema {
   sources: SourceCitation[];
   actionItems: ActionItem[];
   knowledgeLinks: KnowledgeLink[];
+  meetings?: CalendarMeetingItem[];
 }
 
 export interface KnowledgeNode {

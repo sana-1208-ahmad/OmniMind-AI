@@ -22,9 +22,11 @@ import { IntegrationsView } from './views/IntegrationsView';
 import { AISettingsView } from './views/AISettingsView';
 import { ExportHubView } from './views/ExportHubView';
 import { SettingsView } from './views/SettingsView';
+import { WorkflowVisualizer } from './components/WorkflowVisualizer';
+import { AgentChatWorkspaceView } from './views/AgentChatWorkspaceView';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<ActiveView>('dashboard');
+  const [currentView, setCurrentView] = useState<ActiveView>('chat');
   const [currentWorkspace, setCurrentWorkspace] = useState('Acme Corp Workspace');
   const [userEmail, setUserEmail] = useState('sabiyaahmad8661@gmail.com');
 
@@ -117,6 +119,10 @@ export default function App() {
 
             {/* View Container */}
             <main className="flex-1 overflow-y-auto bg-surface overflow-x-hidden min-h-0">
+              {currentView === 'chat' && (
+                <AgentChatWorkspaceView onNavigate={setCurrentView} />
+              )}
+
               {currentView === 'dashboard' && (
                 <DashboardView
                   onNavigate={setCurrentView}
@@ -137,6 +143,10 @@ export default function App() {
                   onNavigate={setCurrentView}
                   initialQuery={universalSearchQuery}
                 />
+              )}
+
+              {currentView === 'workflow' && (
+                <WorkflowVisualizer onNavigate={setCurrentView} />
               )}
 
               {currentView === 'graph' && (

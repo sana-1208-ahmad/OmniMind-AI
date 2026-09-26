@@ -236,11 +236,11 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
                     <div className="w-9 h-9 rounded-lg bg-zinc-900 flex items-center justify-center text-white">
                       <Layers className="w-5 h-5" />
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold text-zinc-950">
+                    <div className="flex flex-col min-w-0 max-w-[280px]">
+                      <span className="text-sm font-bold text-zinc-950 truncate">
                         {node.title}
                       </span>
-                      <span className="text-[11px] font-mono text-zinc-600">
+                      <span className="text-[11px] font-mono text-zinc-600 truncate">
                         {node.code} • {node.linksCount} links • Master Node
                       </span>
                     </div>
@@ -261,7 +261,7 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
                     isSelected ? 'border-white ring-2 ring-white/30' : 'border-[#27272A]'
                   }`}
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[#27272A] flex items-center justify-center text-zinc-200">
+                  <div className="w-8 h-8 rounded-lg bg-[#27272A] flex items-center justify-center text-zinc-200 shrink-0">
                     {node.type === 'slack' ? (
                       <MessageSquare className="w-4 h-4 text-blue-400" />
                     ) : node.type === 'financial' ? (
@@ -272,9 +272,9 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
                       <BarChart2 className="w-4 h-4 text-amber-400" />
                     )}
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-white">{node.title}</span>
-                    <span className="text-[10px] text-zinc-500 font-mono">
+                  <div className="flex flex-col min-w-0 max-w-[220px]">
+                    <span className="text-xs font-semibold text-white truncate">{node.title}</span>
+                    <span className="text-[10px] text-zinc-500 font-mono truncate">
                       {node.code} • {node.linksCount} links
                     </span>
                   </div>
@@ -300,14 +300,14 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
           <div className="absolute bottom-5 left-5 flex items-center gap-1 bg-[#18181B] border border-[#27272A] p-1 rounded-xl shadow-xl z-20">
             <button
               onClick={() => setZoomScale((z) => Math.min(1.6, z + 0.15))}
-              className="p-1.5 text-zinc-400 hover:text-white transition rounded-lg hover:bg-zinc-800"
+              className="p-1.5 text-zinc-400 hover:text-white transition-colors rounded-lg hover:bg-zinc-800"
               title="Zoom In"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
             <button
               onClick={() => setZoomScale((z) => Math.max(0.6, z - 0.15))}
-              className="p-1.5 text-zinc-400 hover:text-white transition rounded-lg hover:bg-zinc-800"
+              className="p-1.5 text-zinc-400 hover:text-white transition-colors rounded-lg hover:bg-zinc-800"
               title="Zoom Out"
             >
               <ZoomOut className="w-4 h-4" />
@@ -315,14 +315,14 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
             <div className="w-[1px] h-4 bg-[#27272A] mx-0.5"></div>
             <button
               onClick={() => setZoomScale(1)}
-              className="p-1.5 text-zinc-400 hover:text-white transition rounded-lg hover:bg-zinc-800"
+              className="p-1.5 text-zinc-400 hover:text-white transition-colors rounded-lg hover:bg-zinc-800"
               title="Reset View"
             >
               <Maximize2 className="w-4 h-4" />
             </button>
             <button
               onClick={() => setPhysicsActive(!physicsActive)}
-              className={`p-1.5 transition rounded-lg hover:bg-zinc-800 ${
+              className={`p-1.5 transition-colors rounded-lg hover:bg-zinc-800 ${
                 physicsActive ? 'text-white' : 'text-zinc-500'
               }`}
               title="Graph Dynamics Toggle"
@@ -334,7 +334,7 @@ export const KnowledgeGraphView: React.FC<KnowledgeGraphViewProps> = ({ onNaviga
 
         {/* Preview Drawer (Slide-out when node selected) */}
         {selectedNode && (
-          <div className="w-full sm:w-[420px] max-w-full bg-[#18181B] border-l border-[#27272A] flex flex-col h-full z-30 absolute right-0 top-0 shadow-2xl animate-in slide-in-from-right duration-200">
+          <div className="w-full sm:w-[380px] md:w-[420px] max-w-full bg-[#18181B] border-l border-[#27272A] flex flex-col h-full z-30 sm:relative fixed inset-y-0 right-0 shadow-2xl animate-in slide-in-from-right duration-200 shrink-0">
             {/* Drawer Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#27272A]">
               <div className="flex items-center gap-2">

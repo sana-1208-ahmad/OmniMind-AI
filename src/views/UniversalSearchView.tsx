@@ -442,18 +442,18 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
 
           {/* Result Card 1: Slack */}
           {(activeTab === 'all' || activeTab === 'slack') && (
-            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
-              <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+            <div className="bg-[#18181B] hover-card-motion hover:border-zinc-700 rounded-xl p-5 flex flex-col gap-3 border border-[#27272A] animate-fade-in">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A] shrink-0 mt-0.5">
                     <Hash className="w-4 h-4 text-blue-400" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-white text-sm">
+                      <h3 className="font-semibold text-white text-sm break-words">
                         Infrastructure Migration Timeline &amp; Q3 Milestones
                       </h3>
-                      <span className="px-2 py-0.5 bg-[#101014] text-blue-400 font-mono text-xs rounded border border-[#27272A]">
+                      <span className="px-2 py-0.5 bg-[#101014] text-blue-400 font-mono text-xs rounded border border-[#27272A] shrink-0">
                         [Source: Swytchcode/Slack #engineering]
                       </span>
                     </div>
@@ -475,14 +475,14 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                         '...We need to lock in the final instances for the q3 roadmap infrastructure migration by Friday. The database replication lag test passed successfully under heavy load simulation...',
                     })
                   }
-                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 border border-[#27272A] shrink-0 self-start"
                 >
                   <Eye className="w-3.5 h-3.5 text-zinc-400" />
                   <span>View Thread</span>
                 </button>
               </div>
 
-              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
+              <p className="text-xs text-zinc-300 sm:pl-12 pl-0 leading-relaxed break-words">
                 "...We need to lock in the final instances for the{' '}
                 <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
@@ -490,7 +490,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                 by Friday. The database replication lag test passed successfully under heavy load simulation..."
               </p>
 
-              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+              <div className="flex items-center gap-4 sm:pl-12 pl-0 pt-1 text-xs text-zinc-500 font-mono flex-wrap">
                 <span className="flex items-center gap-1">
                   <MessageSquare className="w-3.5 h-3.5" /> 14 replies
                 </span>
@@ -503,18 +503,18 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
 
           {/* Result Card 2: Gmail */}
           {(activeTab === 'all' || activeTab === 'gmail') && (
-            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
-              <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+            <div className="bg-[#18181B] hover-card-motion hover:border-zinc-700 rounded-xl p-5 flex flex-col gap-3 border border-[#27272A] animate-fade-in">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A] shrink-0 mt-0.5">
                     <Mail className="w-4 h-4 text-emerald-400" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-white text-sm">
+                      <h3 className="font-semibold text-white text-sm break-words">
                         RE: Executive Briefing: Q3 Roadmap &amp; Cloud Migration Budget
                       </h3>
-                      <span className="px-2 py-0.5 bg-[#101014] text-emerald-400 font-mono text-xs rounded border border-[#27272A]">
+                      <span className="px-2 py-0.5 bg-[#101014] text-emerald-400 font-mono text-xs rounded border border-[#27272A] shrink-0">
                         [Source: Swytchcode/Gmail Thread: Sarah Jenkins]
                       </span>
                     </div>
@@ -536,14 +536,14 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                         'Attached is the revised financial projection for the upcoming q3 roadmap infrastructure migration. Please review the multi-region failover provisions before the board meeting next Tuesday...',
                     })
                   }
-                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 border border-[#27272A] shrink-0 self-start"
                 >
                   <Eye className="w-3.5 h-3.5 text-zinc-400" />
                   <span>View Thread</span>
                 </button>
               </div>
 
-              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
+              <p className="text-xs text-zinc-300 sm:pl-12 pl-0 leading-relaxed break-words">
                 "Attached is the revised financial projection for the upcoming{' '}
                 <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
@@ -551,7 +551,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                 . Please review the multi-region failover provisions before the board meeting next Tuesday..."
               </p>
 
-              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+              <div className="flex items-center gap-4 sm:pl-12 pl-0 pt-1 text-xs text-zinc-500 font-mono flex-wrap">
                 <span>Executive Thread</span>
                 <span>·</span>
                 <span>Direct Sign-off</span>
@@ -561,18 +561,18 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
 
           {/* Result Card 3: Notion */}
           {(activeTab === 'all' || activeTab === 'notion') && (
-            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
-              <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+            <div className="bg-[#18181B] hover-card-motion hover:border-zinc-700 rounded-xl p-5 flex flex-col gap-3 border border-[#27272A] animate-fade-in">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A] shrink-0 mt-0.5">
                     <FileText className="w-4 h-4 text-purple-400" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-white text-sm">
+                      <h3 className="font-semibold text-white text-sm break-words">
                         Technical Architecture Spec: Q3 Migration Plan
                       </h3>
-                      <span className="px-2 py-0.5 bg-[#101014] text-purple-400 font-mono text-xs rounded border border-[#27272A]">
+                      <span className="px-2 py-0.5 bg-[#101014] text-purple-400 font-mono text-xs rounded border border-[#27272A] shrink-0">
                         [Source: Swytchcode/Notion Architecture Spec]
                       </span>
                     </div>
@@ -594,14 +594,14 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                         '...This document outlines the zero-downtime strategy for the core database clusters as part of the broader q3 roadmap infrastructure migration. Kubernetes node pools will auto-scale...',
                     })
                   }
-                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 border border-[#27272A] shrink-0 self-start"
                 >
                   <Eye className="w-3.5 h-3.5 text-zinc-400" />
                   <span>View Doc</span>
                 </button>
               </div>
 
-              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
+              <p className="text-xs text-zinc-300 sm:pl-12 pl-0 leading-relaxed break-words">
                 "...This document outlines the zero-downtime strategy for the core database clusters as part of the broader{' '}
                 <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
@@ -609,7 +609,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                 . Kubernetes node pools will auto-scale..."
               </p>
 
-              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+              <div className="flex items-center gap-4 sm:pl-12 pl-0 pt-1 text-xs text-zinc-500 font-mono flex-wrap">
                 <span>Version 4.2</span>
                 <span>·</span>
                 <span>Engineering Spec</span>
@@ -619,18 +619,18 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
 
           {/* Result Card 4: Google Drive */}
           {(activeTab === 'all' || activeTab === 'drive') && (
-            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
-              <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+            <div className="bg-[#18181B] hover-card-motion hover:border-zinc-700 rounded-xl p-5 flex flex-col gap-3 border border-[#27272A] animate-fade-in">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A] shrink-0 mt-0.5">
                     <HardDrive className="w-4 h-4 text-blue-400" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-white text-sm">
+                      <h3 className="font-semibold text-white text-sm break-words">
                         Q3_Migration_Architecture_Draft_v4.pdf
                       </h3>
-                      <span className="px-2 py-0.5 bg-[#101014] text-blue-400 font-mono text-xs rounded border border-[#27272A]">
+                      <span className="px-2 py-0.5 bg-[#101014] text-blue-400 font-mono text-xs rounded border border-[#27272A] shrink-0">
                         [Source: Swytchcode/Google Drive / Roadmap.docx]
                       </span>
                     </div>
@@ -652,14 +652,14 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                         '...Diagrams and network topologies highlighting data flow during the q3 roadmap infrastructure migration phase 2. Includes security compliance checklists...',
                     })
                   }
-                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 border border-[#27272A] shrink-0 self-start"
                 >
                   <Eye className="w-3.5 h-3.5 text-zinc-400" />
                   <span>View Doc</span>
                 </button>
               </div>
 
-              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
+              <p className="text-xs text-zinc-300 sm:pl-12 pl-0 leading-relaxed break-words">
                 "...Diagrams and network topologies highlighting data flow during the{' '}
                 <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
@@ -667,7 +667,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                 phase 2. Includes security compliance checklists..."
               </p>
 
-              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+              <div className="flex items-center gap-4 sm:pl-12 pl-0 pt-1 text-xs text-zinc-500 font-mono flex-wrap">
                 <span>PDF Document</span>
                 <span>·</span>
                 <span>Shared with 12 engineers</span>
@@ -677,18 +677,18 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
 
           {/* Result Card 5: Box */}
           {(activeTab === 'all' || activeTab === 'box') && (
-            <div className="bg-[#18181B] hover:border-zinc-700 transition rounded-xl p-5 flex flex-col gap-3 border border-[#27272A]">
-              <div className="flex items-start justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A]">
+            <div className="bg-[#18181B] hover-card-motion hover:border-zinc-700 rounded-xl p-5 flex flex-col gap-3 border border-[#27272A] animate-fade-in">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-lg bg-[#101014] flex items-center justify-center text-zinc-200 border border-[#27272A] shrink-0 mt-0.5">
                     <BoxIcon className="w-4 h-4 text-amber-400" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-white text-sm">
+                      <h3 className="font-semibold text-white text-sm break-words">
                         Enterprise_Architecture_Security_Review.xlsx
                       </h3>
-                      <span className="px-2 py-0.5 bg-[#101014] text-amber-400 font-mono text-xs rounded border border-[#27272A]">
+                      <span className="px-2 py-0.5 bg-[#101014] text-amber-400 font-mono text-xs rounded border border-[#27272A] shrink-0">
                         [Source: Swytchcode/Box Vault]
                       </span>
                     </div>
@@ -710,14 +710,14 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                         '...Security audit matrix confirming all storage buckets and Box sync pipelines adhere to SOC2 Type II compliance standards. Cross-tool encryption validated for Gmail, Drive, Notion, Box, and Slack...',
                     })
                   }
-                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition flex items-center gap-1.5 border border-[#27272A]"
+                  className="px-3 py-1.5 bg-[#101014] hover:bg-zinc-800 text-zinc-200 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 border border-[#27272A] shrink-0 self-start"
                 >
                   <Eye className="w-3.5 h-3.5 text-zinc-400" />
                   <span>View Doc</span>
                 </button>
               </div>
 
-              <p className="text-xs text-zinc-300 pl-12 leading-relaxed">
+              <p className="text-xs text-zinc-300 sm:pl-12 pl-0 leading-relaxed break-words">
                 "...Security audit matrix confirming all storage buckets and Box sync pipelines adhere to SOC2 Type II compliance standards. Cross-tool encryption validated for{' '}
                 <span className="bg-zinc-800 text-white px-1 py-0.5 rounded font-mono font-medium">
                   q3 roadmap infrastructure migration
@@ -725,7 +725,7 @@ export const UniversalSearchView: React.FC<UniversalSearchViewProps> = ({
                 and automated disaster recovery runs..."
               </p>
 
-              <div className="flex items-center gap-4 pl-12 pt-1 text-xs text-zinc-500 font-mono">
+              <div className="flex items-center gap-4 sm:pl-12 pl-0 pt-1 text-xs text-zinc-500 font-mono flex-wrap">
                 <span className="flex items-center gap-1 text-emerald-400">
                   <Shield className="w-3.5 h-3.5" /> SOC2 Verified
                 </span>

@@ -769,15 +769,15 @@ export const WorkflowVisualizer: React.FC<WorkflowVisualizerProps> = ({ onNaviga
                   key={cIdx}
                   className="p-3 rounded-lg bg-[#101014] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
                 >
-                  <div className="space-y-1">
-                    <span className="inline-block font-mono font-semibold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40 text-[11px]">
+                  <div className="space-y-1 min-w-0">
+                    <span className="inline-block font-mono font-semibold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40 text-[11px] shrink-0">
                       {cite.sourceTag}
                     </span>
-                    <p className="text-zinc-300 font-sans italic">{cite.detail}</p>
+                    <p className="text-zinc-300 font-sans italic break-words">{cite.detail}</p>
                   </div>
                   <button
                     onClick={() => handleCopyCitation(cite.sourceTag, cite.detail)}
-                    className="self-start sm:self-center px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-mono transition flex items-center gap-1 shrink-0"
+                    className="self-start sm:self-center px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-mono transition-colors flex items-center gap-1 shrink-0"
                   >
                     {copiedCitation === cite.sourceTag ? (
                       <Check className="w-3 h-3 text-emerald-400" />
@@ -800,12 +800,12 @@ export const WorkflowVisualizer: React.FC<WorkflowVisualizerProps> = ({ onNaviga
                   {activePreset.analyzedResult.extractedActionItems.map((act, aIdx) => (
                     <div
                       key={aIdx}
-                      className="p-2.5 rounded-lg bg-blue-950/20 border border-blue-800/30 text-xs flex flex-col justify-between space-y-1.5"
+                      className="p-2.5 rounded-lg bg-blue-950/20 border border-blue-800/30 text-xs flex flex-col justify-between space-y-1.5 hover-card-motion"
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <span className="font-medium text-white">{act.task}</span>
+                      <div className="flex items-start justify-between gap-2 min-w-0">
+                        <span className="font-medium text-white break-words">{act.task}</span>
                         <span
-                          className={`text-[10px] font-mono px-1.5 py-0.2 rounded border ${
+                          className={`text-[10px] font-mono px-1.5 py-0.5 rounded border shrink-0 ${
                             act.priority === 'Critical'
                               ? 'bg-rose-950/60 text-rose-300 border-rose-800/40'
                               : act.priority === 'High'

@@ -96,10 +96,10 @@ export const OmniMindSearchModal: React.FC<OmniMindSearchModalProps> = ({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-20 px-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150 select-none"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-20 px-4 bg-black/80 backdrop-blur-md animate-fade-in select-none"
     >
       <div
-        className="w-full max-w-3xl bg-[#101014] border border-[#27272A] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150 text-zinc-100"
+        className="w-full max-w-3xl bg-[#101014] border border-[#27272A] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-modal-in text-zinc-100"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}

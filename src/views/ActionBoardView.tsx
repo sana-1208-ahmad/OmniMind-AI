@@ -186,15 +186,15 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
             {todoTasks.map((t) => (
               <div
                 key={t.id}
-                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] hover:border-zinc-700 transition space-y-2 group"
+                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] hover:border-zinc-700 hover-card-motion space-y-2 group animate-fade-in"
               >
                 <div className="flex items-center justify-between text-[11px] font-mono">
-                  <span className="flex items-center gap-1.5 text-zinc-400">
+                  <span className="flex items-center gap-1.5 text-zinc-400 min-w-0">
                     {getSourceIcon(t.sourceApp)}
-                    <span className="truncate max-w-[140px]">{t.sourceApp}</span>
+                    <span className="truncate max-w-[130px]">{t.sourceApp}</span>
                   </span>
                   <span
-                    className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase shrink-0 ${
                       t.priority === 'High'
                         ? 'bg-rose-950/60 text-rose-400 border border-rose-800/40'
                         : 'bg-zinc-800 text-zinc-400'
@@ -204,17 +204,17 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
                   </span>
                 </div>
 
-                <h3 className="text-xs font-medium text-zinc-100 group-hover:text-white">
+                <h3 className="text-xs font-medium text-zinc-100 group-hover:text-white leading-relaxed break-words">
                   {t.task}
                 </h3>
 
                 <div className="pt-2 border-t border-[#27272A] flex items-center justify-between text-xs">
-                  <span className="text-[11px] font-mono text-zinc-500">
+                  <span className="text-[11px] font-mono text-zinc-500 truncate max-w-[120px]">
                     {t.assignee || 'Unassigned'}
                   </span>
                   <button
                     onClick={() => moveTask(t.id || '', 'in_progress')}
-                    className="text-[11px] font-mono text-blue-400 hover:text-blue-300 transition flex items-center gap-1"
+                    className="text-[11px] font-mono text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 shrink-0"
                   >
                     <span>Start</span>
                     <ArrowRight className="w-3 h-3" />
@@ -236,7 +236,7 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
             </div>
             <button
               onClick={() => openCreateTaskModal('in_progress')}
-              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
+              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
               title="Add task"
             >
               <Plus className="w-4 h-4" />
@@ -247,15 +247,15 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
             {inProgressTasks.map((t) => (
               <div
                 key={t.id}
-                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] hover:border-zinc-700 transition space-y-2 group"
+                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] hover:border-zinc-700 hover-card-motion space-y-2 group animate-fade-in"
               >
                 <div className="flex items-center justify-between text-[11px] font-mono">
-                  <span className="flex items-center gap-1.5 text-zinc-400">
+                  <span className="flex items-center gap-1.5 text-zinc-400 min-w-0">
                     {getSourceIcon(t.sourceApp)}
-                    <span className="truncate max-w-[140px]">{t.sourceApp}</span>
+                    <span className="truncate max-w-[130px]">{t.sourceApp}</span>
                   </span>
                   <span
-                    className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase shrink-0 ${
                       t.priority === 'High'
                         ? 'bg-rose-950/60 text-rose-400 border border-rose-800/40'
                         : 'bg-zinc-800 text-zinc-400'
@@ -265,17 +265,17 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
                   </span>
                 </div>
 
-                <h3 className="text-xs font-medium text-zinc-100 group-hover:text-white">
+                <h3 className="text-xs font-medium text-zinc-100 group-hover:text-white leading-relaxed break-words">
                   {t.task}
                 </h3>
 
                 <div className="pt-2 border-t border-[#27272A] flex items-center justify-between text-xs">
-                  <span className="text-[11px] font-mono text-zinc-500">
+                  <span className="text-[11px] font-mono text-zinc-500 truncate max-w-[120px]">
                     {t.assignee || 'Unassigned'}
                   </span>
                   <button
                     onClick={() => moveTask(t.id || '', 'completed')}
-                    className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1"
+                    className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1 shrink-0"
                   >
                     <span>Complete</span>
                     <ArrowRight className="w-3 h-3" />
@@ -297,7 +297,7 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
             </div>
             <button
               onClick={() => openCreateTaskModal('completed')}
-              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
+              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
               title="Add task"
             >
               <Plus className="w-4 h-4" />
@@ -308,24 +308,24 @@ export const ActionBoardView: React.FC<ActionBoardViewProps> = () => {
             {completedTasks.map((t) => (
               <div
                 key={t.id}
-                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] space-y-2 opacity-80 hover:opacity-100 transition"
+                className="p-4 rounded-xl bg-[#18181B] border border-[#27272A] hover-card-motion space-y-2 opacity-85 hover:opacity-100 animate-fade-in"
               >
                 <div className="flex items-center justify-between text-[11px] font-mono">
-                  <span className="flex items-center gap-1.5 text-zinc-400">
+                  <span className="flex items-center gap-1.5 text-zinc-400 min-w-0">
                     {getSourceIcon(t.sourceApp)}
-                    <span className="truncate max-w-[140px]">{t.sourceApp}</span>
+                    <span className="truncate max-w-[130px]">{t.sourceApp}</span>
                   </span>
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40">
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 shrink-0">
                     Done
                   </span>
                 </div>
 
-                <h3 className="text-xs font-medium text-zinc-300 line-through">
+                <h3 className="text-xs font-medium text-zinc-300 line-through leading-relaxed break-words">
                   {t.task}
                 </h3>
 
                 <div className="pt-2 border-t border-[#27272A] flex items-center justify-between text-xs">
-                  <span className="text-[11px] font-mono text-zinc-500">
+                  <span className="text-[11px] font-mono text-zinc-500 truncate max-w-[120px]">
                     {t.assignee || 'Unassigned'}
                   </span>
                   <button
